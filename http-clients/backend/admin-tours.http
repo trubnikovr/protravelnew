@@ -1,0 +1,81 @@
+### List tours
+GET {{baseUrl}}/admin/tours?page=1&limit=20&sortBy=createdAt&sortDirection=desc
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+### Create a three-language tour
+POST {{baseUrl}}/admin/tours
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "slug": "dubai-family-week",
+  "status": "draft",
+  "departureCityCode": "TAS",
+  "destinationCountryCode": "AE",
+  "durationDays": 8,
+  "durationNights": 7,
+  "price": {
+    "amount": "12500000",
+    "currency": "UZS"
+  },
+  "coverImage": {
+    "url": "https://cdn.protravel.uz/tours/dubai-family-week.jpg"
+  },
+  "galleryImages": [
+    { "url": "https://cdn.protravel.uz/tours/dubai-family-week-1.jpg" },
+    { "url": "https://cdn.protravel.uz/tours/dubai-family-week-2.jpg" }
+  ],
+  "activeFrom": "2026-09-01",
+  "activeTo": "2027-03-31",
+  "departureDates": ["2026-09-12", "2026-09-26", "2026-10-10"],
+  "isFeatured": true,
+  "sortOrder": 10,
+  "translations": {
+    "ru": {
+      "title": "Семейная неделя в Дубае",
+      "shortDescription": "Перелёт из Ташкента и семь ночей в Дубае",
+      "description": "Семейный тур с размещением и трансфером.",
+      "inclusions": ["Отель", "Трансфер"],
+      "exclusions": ["Страховка"]
+    },
+    "uz": {
+      "title": "Dubayda oilaviy hafta",
+      "shortDescription": "Toshkentdan parvoz va Dubayda yetti kecha",
+      "description": "Mehmonxona va transfer bilan oilaviy tur.",
+      "inclusions": ["Mehmonxona", "Transfer"],
+      "exclusions": ["Sug'urta"]
+    },
+    "en": {
+      "title": "Dubai family week",
+      "shortDescription": "Flight from Tashkent and seven nights in Dubai",
+      "description": "A family tour with accommodation and transfer.",
+      "inclusions": ["Hotel", "Transfer"],
+      "exclusions": ["Insurance"]
+    }
+  }
+}
+
+> {%
+  client.global.set("tourId", response.body.data.id);
+%}
+
+### Get a tour
+GET {{baseUrl}}/admin/tours/{{tourId}}
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+### Publish a tour
+PATCH {{baseUrl}}/admin/tours/{{tourId}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "status": "published"
+}
+
+### Delete a tour
+DELETE {{baseUrl}}/admin/tours/{{tourId}}
+Authorization: Bearer {{adminAccessToken}}

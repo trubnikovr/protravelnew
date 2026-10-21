@@ -1,0 +1,48 @@
+### Start a flight search (mock provider by default)
+POST {{baseUrl}}/flights/searches
+Content-Type: application/json
+Accept: application/json
+
+{
+  "routes": [
+    {
+      "origin": "TAS",
+      "destination": "IST",
+      "departureDate": "2026-09-15"
+    }
+  ],
+  "passengers": [
+    {
+      "type": "adult",
+      "count": 1
+    }
+  ],
+  "cabinClass": "economy",
+  "directOnly": false,
+  "baggageRequired": true,
+  "preferredAirlines": []
+}
+
+> {% client.global.set("flightSearchId", response.body.data.id); %}
+
+### Poll flight search
+GET {{baseUrl}}/flights/searches/{{flightSearchId}}
+Accept: application/json
+
+### Get results
+GET {{baseUrl}}/flights/searches/{{flightSearchId}}/results?page=1&limit=20&sortBy=price&sortDirection=asc
+Accept: application/json
+
+> {% client.global.set("flightOfferId", response.body.data[0].id); %}
+
+### Get offer
+GET {{baseUrl}}/flights/offers/{{flightOfferId}}
+Accept: application/json
+
+### Revalidate offer
+POST {{baseUrl}}/flights/offers/{{flightOfferId}}/revalidate
+Accept: application/json
+
+### Get fare rules
+GET {{baseUrl}}/flights/offers/{{flightOfferId}}/fare-rules
+Accept: application/json

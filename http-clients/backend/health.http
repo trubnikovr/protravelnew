@@ -1,0 +1,21 @@
+### Liveness probe
+GET {{baseUrl}}/health/live
+Accept: application/json
+
+> {%
+  client.test("Backend is live", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(response.body.data.status === "up", "Backend is not up");
+  });
+%}
+
+### Dependency health score
+GET {{baseUrl}}/health
+Accept: application/json
+
+> {%
+  client.test("Health score is available", function () {
+    client.assert(response.status === 200 || response.status === 503, "Unexpected health status");
+    client.assert(typeof response.body.data.score === "number", "Health score is missing");
+  });
+%}

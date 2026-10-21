@@ -1,0 +1,46 @@
+### List localized citizenship countries
+GET {{baseUrl}}/reference/countries?page=1&limit=20&search=UZ
+Accept-Language: ru
+Accept: application/json
+
+### List current customer and family
+GET {{baseUrl}}/me/travelers?page=1&limit=20
+Authorization: Bearer {{customerAccessToken}}
+Accept: application/json
+
+### Add a family traveler
+POST {{baseUrl}}/me/travelers
+Authorization: Bearer {{customerAccessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "relationship": "spouse",
+  "firstName": "Malika",
+  "lastName": "Karimova",
+  "firstNameLatin": "MALIKA",
+  "lastNameLatin": "KARIMOVA",
+  "gender": "female",
+  "birthDate": "1993-06-15",
+  "citizenshipCountryCode": "UZ"
+}
+
+> {% client.global.set("travelerId", response.body.data.id); %}
+
+### Add an international passport
+POST {{baseUrl}}/me/travelers/{{travelerId}}/documents
+Authorization: Bearer {{customerAccessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "type": "international_passport",
+  "number": "AA1234567",
+  "issuingCountryCode": "UZ",
+  "issuedAt": "2024-01-10",
+  "expiresAt": "2034-01-09",
+  "firstNameLatin": "MALIKA",
+  "lastNameLatin": "KARIMOVA"
+}
+
+> {% client.global.set("travelerDocumentId", response.body.data.documents[0].id); %}

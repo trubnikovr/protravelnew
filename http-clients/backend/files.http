@@ -1,0 +1,24 @@
+### Upload an image
+# Run admin-auth.http first. This uses the repository compass PNG as a fixture.
+POST {{baseUrl}}/admin/files/images
+Authorization: Bearer {{adminAccessToken}}
+Accept: application/json
+Content-Type: multipart/form-data; boundary=ProTravelBoundary
+
+--ProTravelBoundary
+Content-Disposition: form-data; name="file"; filename="compass.png"
+Content-Type: image/png
+
+< ../../apps/mobile/compass.png
+--ProTravelBoundary--
+
+> {%
+  client.test("Image was uploaded", function () {
+    client.assert(response.status === 201, "Expected HTTP 201");
+  });
+  client.global.set("uploadedImageUrl", response.body.data.url);
+%}
+
+### Generate a cached home-card WebP cover
+GET {{baseUrl}}/files/image-transform?src={{uploadedImageUrl}}&preset=home-card
+Accept: image/webp

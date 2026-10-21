@@ -1,0 +1,23 @@
+### List published news and reader state
+GET {{baseUrl}}/news
+Accept: application/json
+
+> {%
+  client.test("Published news are available", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+  });
+  if (response.body.data.length > 0) {
+    client.global.set("newsId", response.body.data[0].id);
+  }
+%}
+
+### Mark the selected article as read
+POST {{baseUrl}}/news/{{newsId}}/read
+Accept: application/json
+
+> {%
+  client.test("News article is marked as read", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(Boolean(response.body.data.readAt), "Read timestamp is missing");
+  });
+%}

@@ -1,0 +1,45 @@
+### List all system messages
+GET {{baseUrl}}/admin/system-messages
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+### Create error message
+POST {{baseUrl}}/admin/system-messages
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "text": "Некоторые функции временно недоступны.",
+  "type": "error",
+  "isActive": true
+}
+
+> {%
+  client.global.set("systemMessageId", response.body.data.id);
+%}
+
+### Change message to info
+PATCH {{baseUrl}}/admin/system-messages/{{systemMessageId}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "type": "info",
+  "text": "Мы обновили приложение и добавили новые возможности."
+}
+
+### Disable message
+PATCH {{baseUrl}}/admin/system-messages/{{systemMessageId}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "isActive": false
+}
+
+### Delete message
+DELETE {{baseUrl}}/admin/system-messages/{{systemMessageId}}
+Authorization: Bearer {{adminAccessToken}}

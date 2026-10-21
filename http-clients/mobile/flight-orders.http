@@ -1,0 +1,50 @@
+### Prerequisites
+# Set customerAccessToken after /auth/login, then copy an offer id from
+# flights.http and traveler/document ids owned by the same customer.
+
+### Create an idempotent draft flight order
+POST {{baseUrl}}/flight-orders
+Authorization: Bearer {{customerAccessToken}}
+Idempotency-Key: {{$uuid}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "offerId": "{{flightOfferId}}",
+  "contact": {
+    "name": "Test Traveler",
+    "email": "traveler@example.com",
+    "countryCode": "998",
+    "areaCode": "90",
+    "phone": "1234567"
+  },
+  "travelers": [
+    {
+      "travelerId": "{{travelerId}}",
+      "documentId": "{{travelerDocumentId}}",
+      "passengerType": "adult"
+    }
+  ]
+}
+
+> {% client.global.set("flightOrderId", response.body.data.id); %}
+
+### Get flight order
+GET {{baseUrl}}/flight-orders/{{flightOrderId}}
+Authorization: Bearer {{customerAccessToken}}
+Accept: application/json
+
+### Book through the configured provider
+POST {{baseUrl}}/flight-orders/{{flightOrderId}}/book
+Authorization: Bearer {{customerAccessToken}}
+Accept: application/json
+
+### Refresh provider status
+POST {{baseUrl}}/flight-orders/{{flightOrderId}}/refresh
+Authorization: Bearer {{customerAccessToken}}
+Accept: application/json
+
+### Cancel booking
+POST {{baseUrl}}/flight-orders/{{flightOrderId}}/cancel
+Authorization: Bearer {{customerAccessToken}}
+Accept: application/json

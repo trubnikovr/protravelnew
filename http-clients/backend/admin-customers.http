@@ -1,0 +1,100 @@
+### List customers
+GET {{baseUrl}}/admin/customers?page=1&limit=20&sortBy=createdAt&sortDirection=desc
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+### Create customer
+POST {{baseUrl}}/admin/customers
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "phone": "+998901234567",
+  "email": "traveler@example.com",
+  "firstName": "Rustam",
+  "lastName": "Trubnikov",
+  "locale": "ru",
+  "currency": "UZS",
+  "timeZone": "Asia/Tashkent",
+  "status": "active"
+}
+
+> {%
+  client.global.set("customerId", response.body.data.id);
+%}
+
+### Update customer
+PATCH {{baseUrl}}/admin/customers/{{customerId}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "phone": "+998901234567",
+  "firstName": "Rustam",
+  "lastName": "Trubnikov",
+  "locale": "uz",
+  "currency": "USD",
+  "timeZone": "Asia/Tashkent"
+}
+
+### Add the customer's own traveler profile
+# Set customerId from the customer list response.
+POST {{baseUrl}}/admin/customers/{{customerId}}/travelers
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "relationship": "self",
+  "firstName": "Rustam",
+  "lastName": "Trubnikov",
+  "firstNameLatin": "RUSTAM",
+  "lastNameLatin": "TRUBNIKOV",
+  "gender": "male",
+  "birthDate": "1990-05-20",
+  "citizenshipCountryCode": "UZ"
+}
+
+> {%
+  client.global.set("travelerId", response.body.data.id);
+%}
+
+### Add an encrypted international passport
+POST {{baseUrl}}/admin/customers/{{customerId}}/travelers/{{travelerId}}/documents
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "type": "international_passport",
+  "number": "AA1234567",
+  "issuingCountryCode": "UZ",
+  "issuedAt": "2024-01-10",
+  "expiresAt": "2034-01-09",
+  "firstNameLatin": "RUSTAM",
+  "lastNameLatin": "TRUBNIKOV"
+}
+
+### List family and masked documents
+GET {{baseUrl}}/admin/customers/{{customerId}}/travelers?page=1&limit=20&sortBy=createdAt&sortDirection=desc
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+### Update document without changing its encrypted number
+PATCH {{baseUrl}}/admin/customers/{{customerId}}/travelers/{{travelerId}}/documents/{{documentId}}
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+{
+  "expiresAt": "2035-01-09",
+  "firstNameLatin": "RUSTAM",
+  "lastNameLatin": "TRUBNIKOV"
+}
+
+### Delete customer without order history
+DELETE {{baseUrl}}/admin/customers/{{customerId}}
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}

@@ -1,0 +1,4364 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/files/image-transform": {
+      "get": {
+        "operationId": "ImageTransform_transform",
+        "parameters": [
+          {
+            "name": "src",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "http://localhost:3000/api/v1/files/images/550e8400-e29b-41d4-a716-446655440000.jpg",
+              "type": "string"
+            }
+          },
+          {
+            "name": "preset",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "home-card",
+              "type": "string",
+              "enum": [
+                "home-card"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "description": "Source image was not found"
+          }
+        },
+        "summary": "Render a named uploaded-image preset and return cached WebP",
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "Health_score",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/HealthScoreResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/HealthScoreResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get the overall weighted system health score",
+        "tags": [
+          "system/health"
+        ]
+      }
+    },
+    "/api/v1/health/live": {
+      "get": {
+        "operationId": "Health_live",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LivenessResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Check whether the API process is alive",
+        "tags": [
+          "system/health"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "CustomerAuth_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerLoginRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerLoginChallengeResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Request a customer login SMS code",
+        "tags": [
+          "customer/auth"
+        ]
+      }
+    },
+    "/api/v1/auth/verify": {
+      "post": {
+        "operationId": "CustomerAuth_verify",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCustomerLoginRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerAuthSessionResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Verify customer login code and create a session",
+        "tags": [
+          "customer/auth"
+        ]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "CustomerAuth_refresh",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshCustomerTokenRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerAuthSessionResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Rotate customer access and refresh tokens",
+        "tags": [
+          "customer/auth"
+        ]
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "operationId": "CustomerProfile_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerProfileResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get current customer profile",
+        "tags": [
+          "customer/profile"
+        ]
+      },
+      "patch": {
+        "operationId": "CustomerProfile_update",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCustomerProfileRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerProfileResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update current customer profile",
+        "tags": [
+          "customer/profile"
+        ]
+      }
+    },
+    "/api/v1/flights/searches": {
+      "post": {
+        "operationId": "Flights_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFlightSearchRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightSearchResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Start an asynchronous flight search",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/flights/searches/{searchId}": {
+      "get": {
+        "operationId": "Flights_status",
+        "parameters": [
+          {
+            "name": "searchId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightSearchResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get flight search status",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/flights/searches/{searchId}/results": {
+      "get": {
+        "operationId": "Flights_results",
+        "parameters": [
+          {
+            "name": "searchId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "price",
+              "type": "string",
+              "enum": [
+                "createdAt",
+                "price",
+                "duration",
+                "departure"
+              ]
+            }
+          },
+          {
+            "name": "sortDirection",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FlightOfferResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get normalized flight search results",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/flights/offers/{offerId}": {
+      "get": {
+        "operationId": "Flights_offer",
+        "parameters": [
+          {
+            "name": "offerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOfferResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a normalized flight offer",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/flights/offers/{offerId}/revalidate": {
+      "post": {
+        "operationId": "Flights_revalidate",
+        "parameters": [
+          {
+            "name": "offerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOfferResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Revalidate availability and price before booking",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/flights/offers/{offerId}/fare-rules": {
+      "get": {
+        "operationId": "Flights_fareRules",
+        "parameters": [
+          {
+            "name": "offerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightFareRulesResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get provider fare rules for a flight offer",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/home": {
+      "get": {
+        "operationId": "Home_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/HomeResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get curated content for the mobile home screen",
+        "tags": [
+          "home"
+        ]
+      }
+    },
+    "/api/v1/news": {
+      "get": {
+        "operationId": "News_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/NewsArticleResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List published news for the mobile application",
+        "tags": [
+          "news"
+        ]
+      }
+    },
+    "/api/v1/news/unread-status": {
+      "get": {
+        "operationId": "News_unreadStatus",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/NewsUnreadStatusResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get unread news status for this reader",
+        "tags": [
+          "news"
+        ]
+      }
+    },
+    "/api/v1/news/{newsId}/read": {
+      "post": {
+        "operationId": "News_markRead",
+        "parameters": [
+          {
+            "name": "newsId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/NewsReadResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Mark a news article as read for this reader",
+        "tags": [
+          "news"
+        ]
+      }
+    },
+    "/api/v1/flight-orders": {
+      "post": {
+        "operationId": "FlightOrders_create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFlightOrderRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOrderResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create draft flight order from validated offer",
+        "tags": [
+          "flight-orders"
+        ]
+      }
+    },
+    "/api/v1/flight-orders/{id}": {
+      "get": {
+        "operationId": "FlightOrders_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOrderResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get current customer flight order",
+        "tags": [
+          "flight-orders"
+        ]
+      }
+    },
+    "/api/v1/flight-orders/{id}/book": {
+      "post": {
+        "operationId": "FlightOrders_book",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOrderResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create provider booking for a draft flight order",
+        "tags": [
+          "flight-orders"
+        ]
+      }
+    },
+    "/api/v1/flight-orders/{id}/refresh": {
+      "post": {
+        "operationId": "FlightOrders_refresh",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOrderResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Refresh provider booking status",
+        "tags": [
+          "flight-orders"
+        ]
+      }
+    },
+    "/api/v1/flight-orders/{id}/cancel": {
+      "post": {
+        "operationId": "FlightOrders_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOrderResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Cancel a booked flight order",
+        "tags": [
+          "flight-orders"
+        ]
+      }
+    },
+    "/api/v1/me/travelers": {
+      "get": {
+        "operationId": "CustomerTravelers_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "createdAt",
+              "type": "string",
+              "enum": [
+                "createdAt",
+                "updatedAt",
+                "firstName",
+                "lastName"
+              ]
+            }
+          },
+          {
+            "name": "sortDirection",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TravelerResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List current customer and family travelers",
+        "tags": [
+          "me/travelers"
+        ]
+      },
+      "post": {
+        "operationId": "CustomerTravelers_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTravelerRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TravelerResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Add current customer or a family traveler",
+        "tags": [
+          "me/travelers"
+        ]
+      }
+    },
+    "/api/v1/me/travelers/{travelerId}": {
+      "patch": {
+        "operationId": "CustomerTravelers_update",
+        "parameters": [
+          {
+            "name": "travelerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTravelerRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TravelerResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update own traveler",
+        "tags": [
+          "me/travelers"
+        ]
+      },
+      "delete": {
+        "operationId": "CustomerTravelers_delete",
+        "parameters": [
+          {
+            "name": "travelerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete own traveler and documents",
+        "tags": [
+          "me/travelers"
+        ]
+      }
+    },
+    "/api/v1/me/travelers/{travelerId}/documents": {
+      "post": {
+        "operationId": "CustomerTravelers_addDocument",
+        "parameters": [
+          {
+            "name": "travelerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTravelerDocumentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TravelerResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Add encrypted document to own traveler",
+        "tags": [
+          "me/travelers"
+        ]
+      }
+    },
+    "/api/v1/me/travelers/{travelerId}/documents/{documentId}": {
+      "patch": {
+        "operationId": "CustomerTravelers_updateDocument",
+        "parameters": [
+          {
+            "name": "travelerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTravelerDocumentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TravelerResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update encrypted own traveler document",
+        "tags": [
+          "me/travelers"
+        ]
+      },
+      "delete": {
+        "operationId": "CustomerTravelers_deleteDocument",
+        "parameters": [
+          {
+            "name": "travelerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete own traveler document",
+        "tags": [
+          "me/travelers"
+        ]
+      }
+    },
+    "/api/v1/me/tour-bookings": {
+      "get": {
+        "operationId": "CustomerTourBookings_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortDirection",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CustomerTourBookingResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List current customer tour bookings",
+        "tags": [
+          "me/tour-bookings"
+        ]
+      },
+      "post": {
+        "operationId": "CustomerTourBookings_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerTourBookingRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerTourBookingResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a tour booking request",
+        "tags": [
+          "me/tour-bookings"
+        ]
+      }
+    },
+    "/api/v1/me/tour-bookings/{id}": {
+      "get": {
+        "operationId": "CustomerTourBookings_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CustomerTourBookingResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get own tour booking",
+        "tags": [
+          "me/tour-bookings"
+        ]
+      }
+    },
+    "/api/v1/me/payments": {
+      "post": {
+        "operationId": "CustomerPayments_create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PaymentResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create hosted payment for an owned order",
+        "tags": [
+          "me/payments"
+        ]
+      }
+    },
+    "/api/v1/me/payments/{id}": {
+      "get": {
+        "operationId": "CustomerPayments_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PaymentResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get owned payment status",
+        "tags": [
+          "me/payments"
+        ]
+      }
+    },
+    "/api/v1/reference/suggest": {
+      "get": {
+        "operationId": "Reference_suggest",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "name": "types",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": [
+                "country",
+                "city",
+                "airport"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "country",
+                  "city",
+                  "airport"
+                ]
+              }
+            }
+          },
+          {
+            "name": "countryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ReferenceSuggestionResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Suggest countries, cities and airports",
+        "tags": [
+          "reference"
+        ]
+      }
+    },
+    "/api/v1/reference/countries": {
+      "get": {
+        "operationId": "Reference_countries",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "name",
+              "type": "string",
+              "enum": [
+                "name",
+                "code"
+              ]
+            }
+          },
+          {
+            "name": "sortDirection",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ReferenceCountryResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List localized countries for citizenship selection",
+        "tags": [
+          "reference"
+        ]
+      }
+    },
+    "/api/v1/system-messages": {
+      "get": {
+        "operationId": "SystemMessages_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SystemMessageResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List active messages displayed by mobile clients",
+        "tags": [
+          "system-messages"
+        ]
+      }
+    },
+    "/api/v1/tours": {
+      "get": {
+        "operationId": "Tours_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "destination",
+            "required": false,
+            "in": "query",
+            "description": "Country or city name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "recommended",
+              "type": "string",
+              "enum": [
+                "recommended",
+                "price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PublicTourListItemResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List published tours for mobile catalog",
+        "tags": [
+          "tours"
+        ]
+      }
+    },
+    "/api/v1/tours/{id}": {
+      "get": {
+        "operationId": "Tours_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PublicTourResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a published tour with full customer content",
+        "tags": [
+          "tours"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "ProTravel API",
+    "description": "REST API for ProTravel mobile and admin applications",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "idempotency-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Idempotency-Key"
+      }
+    },
+    "schemas": {
+      "HealthComponentResponseDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "application",
+              "database",
+              "redis",
+              "memory",
+              "eventLoop"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "disabled"
+            ]
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether failure reduces the overall score"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "latencyMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "key",
+          "status",
+          "required",
+          "weight",
+          "latencyMs"
+        ]
+      },
+      "HealthScoreResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "healthy",
+              "degraded",
+              "unhealthy"
+            ]
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "example": 100
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uptimeSeconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HealthComponentResponseDto"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "score",
+          "checkedAt",
+          "uptimeSeconds",
+          "components"
+        ]
+      },
+      "ApiResponseMetaDto": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "path": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "number"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "timestamp",
+          "path",
+          "statusCode",
+          "requestId"
+        ]
+      },
+      "LivenessResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "up"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "CustomerLoginChallengeResponseDto": {
+        "type": "object",
+        "properties": {
+          "verificationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expiresIn": {
+            "type": "number",
+            "example": 300
+          },
+          "developmentCode": {
+            "type": "string",
+            "description": "Present only when the mock SMS adapter is enabled",
+            "example": "4322"
+          }
+        },
+        "required": [
+          "verificationId",
+          "expiresIn"
+        ]
+      },
+      "CustomerLoginRequestDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "example": "+79991234567"
+          }
+        },
+        "required": [
+          "phone"
+        ]
+      },
+      "CustomerAuthSessionResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string",
+            "example": "Bearer"
+          },
+          "expiresIn": {
+            "type": "number",
+            "example": 900
+          }
+        },
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "tokenType",
+          "expiresIn"
+        ]
+      },
+      "VerifyCustomerLoginRequestDto": {
+        "type": "object",
+        "properties": {
+          "verificationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "example": "4322"
+          }
+        },
+        "required": [
+          "verificationId",
+          "code"
+        ]
+      },
+      "RefreshCustomerTokenRequestDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "CustomerProfileResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "ru"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "USD",
+              "EUR"
+            ]
+          },
+          "timeZone": {
+            "type": "string",
+            "example": "Asia/Tashkent"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "blocked"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "firstName",
+          "locale",
+          "currency",
+          "timeZone",
+          "status"
+        ]
+      },
+      "UpdateCustomerProfileRequestDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "Rustam"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Trubnikov"
+          },
+          "middleName": {
+            "type": "string",
+            "example": "Рустамович",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "example": "rustam@example.com",
+            "nullable": true
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "ru"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "USD",
+              "EUR"
+            ]
+          },
+          "timeZone": {
+            "type": "string",
+            "example": "Europe/Moscow"
+          }
+        }
+      },
+      "FlightSearchResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "created",
+              "running",
+              "completed",
+              "partial",
+              "failed",
+              "expired"
+            ]
+          },
+          "progress": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nextPollAfterMs": {
+            "type": "number",
+            "example": 1000
+          },
+          "errorCode": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "status",
+          "progress",
+          "expiresAt",
+          "nextPollAfterMs"
+        ]
+      },
+      "FlightRouteRequestDto": {
+        "type": "object",
+        "properties": {
+          "origin": {
+            "type": "string",
+            "example": "MOW"
+          },
+          "destination": {
+            "type": "string",
+            "example": "IST"
+          },
+          "departureDate": {
+            "type": "string",
+            "example": "2026-09-15",
+            "format": "date"
+          }
+        },
+        "required": [
+          "origin",
+          "destination",
+          "departureDate"
+        ]
+      },
+      "FlightPassengerRequestDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "adult",
+              "child",
+              "infant"
+            ]
+          },
+          "count": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 9
+          }
+        },
+        "required": [
+          "type",
+          "count"
+        ]
+      },
+      "CreateFlightSearchRequestDto": {
+        "type": "object",
+        "properties": {
+          "routes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightRouteRequestDto"
+            }
+          },
+          "passengers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightPassengerRequestDto"
+            }
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "economy",
+              "premium_economy",
+              "business",
+              "first"
+            ]
+          },
+          "directOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "baggageRequired": {
+            "type": "boolean",
+            "default": false
+          },
+          "preferredAirlines": {
+            "example": [
+              "HY"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "routes",
+          "passengers",
+          "cabinClass"
+        ]
+      },
+      "FlightLocationResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "terminal": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code",
+          "name"
+        ]
+      },
+      "FlightSegmentResponseDto": {
+        "type": "object",
+        "properties": {
+          "carrierCode": {
+            "type": "string"
+          },
+          "carrierName": {
+            "type": "string"
+          },
+          "flightNumber": {
+            "type": "string"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/FlightLocationResponseDto"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/FlightLocationResponseDto"
+          },
+          "departureLocal": {
+            "type": "string",
+            "example": "2026-09-15T08:00:00"
+          },
+          "arrivalLocal": {
+            "type": "string",
+            "example": "2026-09-15T11:00:00"
+          },
+          "durationMinutes": {
+            "type": "number"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "economy",
+              "premium_economy",
+              "business",
+              "first"
+            ]
+          },
+          "bookingClass": {
+            "type": "object",
+            "nullable": true
+          },
+          "baggage": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "carrierCode",
+          "carrierName",
+          "flightNumber",
+          "origin",
+          "destination",
+          "departureLocal",
+          "arrivalLocal",
+          "durationMinutes",
+          "cabinClass"
+        ]
+      },
+      "FlightItineraryResponseDto": {
+        "type": "object",
+        "properties": {
+          "durationMinutes": {
+            "type": "number"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightSegmentResponseDto"
+            }
+          }
+        },
+        "required": [
+          "durationMinutes",
+          "segments"
+        ]
+      },
+      "FlightOfferResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "validatingCarrierCode": {
+            "type": "string"
+          },
+          "validatingCarrierName": {
+            "type": "string"
+          },
+          "itineraries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightItineraryResponseDto"
+            }
+          },
+          "totalAmount": {
+            "type": "string",
+            "example": "2500000"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "USD",
+              "EUR"
+            ]
+          },
+          "electronicTicket": {
+            "type": "boolean"
+          },
+          "requiresLatinNames": {
+            "type": "boolean"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "provider",
+          "validatingCarrierCode",
+          "validatingCarrierName",
+          "itineraries",
+          "totalAmount",
+          "currency",
+          "electronicTicket",
+          "requiresLatinNames",
+          "expiresAt"
+        ]
+      },
+      "PaginationMetaResponseDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "minimum": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "example": 20
+          },
+          "total": {
+            "type": "number",
+            "minimum": 0,
+            "example": 125
+          },
+          "totalPages": {
+            "type": "number",
+            "minimum": 0,
+            "example": 7
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "totalPages"
+        ]
+      },
+      "FlightFareRuleSectionResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "title",
+          "content"
+        ]
+      },
+      "FlightFareRulesResponseDto": {
+        "type": "object",
+        "properties": {
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightFareRuleSectionResponseDto"
+            }
+          }
+        },
+        "required": [
+          "sections"
+        ]
+      },
+      "MoneyResponseDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "example": "12500000"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "USD",
+              "EUR"
+            ]
+          },
+          "formatted": {
+            "type": "string",
+            "example": "125 000,00 RUB"
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "formatted"
+        ]
+      },
+      "HomeTourResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "price": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "imageUrl": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "location",
+          "duration",
+          "price"
+        ]
+      },
+      "HomeDestinationResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "fromPrice": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "imageUrl": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "subtitle",
+          "fromPrice"
+        ]
+      },
+      "HomeResponseDto": {
+        "type": "object",
+        "properties": {
+          "recommended": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeTourResponseDto"
+            }
+          },
+          "popularDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeDestinationResponseDto"
+            }
+          },
+          "hotTours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeTourResponseDto"
+            }
+          }
+        },
+        "required": [
+          "recommended",
+          "popularDestinations",
+          "hotTours"
+        ]
+      },
+      "NewsArticleResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string",
+            "example": "Дешёвые авиабилеты"
+          },
+          "summary": {
+            "type": "string",
+            "example": "Цены на выбранное направление снизились."
+          },
+          "content": {
+            "type": "string",
+            "example": "Рассказываем, на какие даты доступны билеты и как оформить поездку."
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "promotion",
+              "security",
+              "general"
+            ]
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "readAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "title",
+          "summary",
+          "content",
+          "category",
+          "publishedAt",
+          "isRead"
+        ]
+      },
+      "NewsUnreadStatusResponseDto": {
+        "type": "object",
+        "properties": {
+          "hasUnread": {
+            "type": "boolean"
+          },
+          "unreadCount": {
+            "type": "number",
+            "example": 2,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "hasUnread",
+          "unreadCount"
+        ]
+      },
+      "NewsReadResponseDto": {
+        "type": "object",
+        "properties": {
+          "newsId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "readAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "newsId",
+          "readAt"
+        ]
+      },
+      "FlightOrderOfferSnapshotResponseDto": {
+        "type": "object",
+        "properties": {
+          "carrierCode": {
+            "type": "string"
+          },
+          "carrierName": {
+            "type": "string"
+          },
+          "itineraries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "totalAmount": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "RUB",
+              "USD",
+              "EUR"
+            ]
+          },
+          "offerExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "carrierCode",
+          "carrierName",
+          "itineraries",
+          "totalAmount",
+          "currency",
+          "offerExpiresAt"
+        ]
+      },
+      "FlightOrderResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "booking",
+              "booked",
+              "payment_pending",
+              "paid",
+              "failed",
+              "cancelled",
+              "expired"
+            ]
+          },
+          "provider": {
+            "type": "string"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/FlightOrderOfferSnapshotResponseDto"
+          },
+          "recordLocator": {
+            "type": "object",
+            "nullable": true
+          },
+          "bookingExpiresAt": {
+            "type": "object",
+            "nullable": true,
+            "format": "date-time"
+          },
+          "providerStatus": {
+            "type": "object",
+            "nullable": true
+          },
+          "failureCode": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "status",
+          "provider",
+          "offer"
+        ]
+      },
+      "FlightOrderContactRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "998"
+          },
+          "areaCode": {
+            "type": "string",
+            "example": "90"
+          },
+          "phone": {
+            "type": "string",
+            "example": "1234567"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "countryCode",
+          "areaCode",
+          "phone"
+        ]
+      },
+      "FlightOrderTravelerRequestDto": {
+        "type": "object",
+        "properties": {
+          "travelerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "passengerType": {
+            "type": "string",
+            "enum": [
+              "adult",
+              "child",
+              "infant"
+            ]
+          }
+        },
+        "required": [
+          "travelerId",
+          "documentId",
+          "passengerType"
+        ]
+      },
+      "CreateFlightOrderRequestDto": {
+        "type": "object",
+        "properties": {
+          "offerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/FlightOrderContactRequestDto"
+          },
+          "travelers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightOrderTravelerRequestDto"
+            }
+          }
+        },
+        "required": [
+          "offerId",
+          "contact",
+          "travelers"
+        ]
+      },
+      "TravelerDocumentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "national_passport",
+              "international_passport",
+              "id_card",
+              "birth_certificate"
+            ]
+          },
+          "maskedNumber": {
+            "type": "string",
+            "example": "•••• 4567"
+          },
+          "issuingCountryCode": {
+            "type": "string"
+          },
+          "issuedAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "expiresAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "firstNameLatin": {
+            "type": "string"
+          },
+          "lastNameLatin": {
+            "type": "string"
+          },
+          "fileId": {
+            "type": "string",
+            "nullable": true,
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "type",
+          "maskedNumber",
+          "issuingCountryCode",
+          "firstNameLatin",
+          "lastNameLatin"
+        ]
+      },
+      "TravelerResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": [
+              "self",
+              "spouse",
+              "child",
+              "parent",
+              "sibling",
+              "other"
+            ]
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstNameLatin": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastNameLatin": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "unspecified"
+            ]
+          },
+          "birthDate": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "citizenshipCountryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TravelerDocumentResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "customerId",
+          "relationship",
+          "firstName",
+          "lastName",
+          "gender",
+          "documents"
+        ]
+      },
+      "CreateTravelerRequestDto": {
+        "type": "object",
+        "properties": {
+          "relationship": {
+            "type": "string",
+            "enum": [
+              "self",
+              "spouse",
+              "child",
+              "parent",
+              "sibling",
+              "other"
+            ]
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstNameLatin": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastNameLatin": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "unspecified"
+            ]
+          },
+          "birthDate": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "citizenshipCountryCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "UZ"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "relationship",
+          "firstName",
+          "lastName",
+          "gender"
+        ]
+      },
+      "UpdateTravelerRequestDto": {
+        "type": "object",
+        "properties": {
+          "relationship": {
+            "type": "string",
+            "enum": [
+              "self",
+              "spouse",
+              "child",
+              "parent",
+              "sibling",
+              "other"
+            ]
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstNameLatin": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastNameLatin": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "unspecified"
+            ]
+          },
+          "birthDate": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "citizenshipCountryCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "UZ"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateTravelerDocumentRequestDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "national_passport",
+              "international_passport",
+              "id_card",
+              "birth_certificate"
+            ]
+          },
+          "number": {
+            "type": "string",
+            "example": "AA1234567",
+            "writeOnly": true
+          },
+          "issuingCountryCode": {
+            "type": "string",
+            "example": "UZ"
+          },
+          "issuedAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "expiresAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "firstNameLatin": {
+            "type": "string"
+          },
+          "lastNameLatin": {
+            "type": "string"
+          },
+          "fileId": {
+            "type": "string",
+            "nullable": true,
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "type",
+          "number",
+          "issuingCountryCode",
+          "firstNameLatin",
+          "lastNameLatin"
+        ]
+      },
+      "UpdateTravelerDocumentRequestDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "national_passport",
+              "international_passport",
+              "id_card",
+              "birth_certificate"
+            ]
+          },
+          "number": {
+            "type": "string",
+            "example": "AA1234567",
+            "writeOnly": true
+          },
+          "issuingCountryCode": {
+            "type": "string",
+            "example": "UZ"
+          },
+          "issuedAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "expiresAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "firstNameLatin": {
+            "type": "string"
+          },
+          "lastNameLatin": {
+            "type": "string"
+          },
+          "fileId": {
+            "type": "string",
+            "nullable": true,
+            "format": "uuid"
+          }
+        }
+      },
+      "CustomerTourBookingTravelerResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "travelerId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "unspecified"
+            ]
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "citizenshipCountryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "lastName",
+          "gender"
+        ]
+      },
+      "CustomerTourBookingResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "bookingNumber": {
+            "type": "string"
+          },
+          "tourId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tourTitle": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "confirmed",
+              "awaiting_payment",
+              "paid",
+              "completed",
+              "cancelled"
+            ]
+          },
+          "travelersCount": {
+            "type": "number",
+            "minimum": 1
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "totalPrice": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "travelers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerTourBookingTravelerResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "bookingNumber",
+          "tourId",
+          "tourTitle",
+          "status",
+          "travelersCount",
+          "totalPrice",
+          "travelers"
+        ]
+      },
+      "CreateCustomerTourBookingRequestDto": {
+        "type": "object",
+        "properties": {
+          "tourId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "travelerIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "tourId",
+          "travelerIds"
+        ]
+      },
+      "PaymentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "payableType": {
+            "type": "string",
+            "enum": [
+              "tour_booking",
+              "flight_order"
+            ]
+          },
+          "payableId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "creating",
+              "pending",
+              "processing",
+              "succeeded",
+              "failed",
+              "expired",
+              "refund_pending",
+              "partially_refunded",
+              "refunded"
+            ]
+          },
+          "amount": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "provider": {
+            "type": "string",
+            "example": "raiffeisen"
+          },
+          "paymentUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "SBP",
+              "ACQUIRING"
+            ],
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paidAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "payableType",
+          "payableId",
+          "status",
+          "amount",
+          "provider",
+          "expiresAt"
+        ]
+      },
+      "CreatePaymentRequestDto": {
+        "type": "object",
+        "properties": {
+          "payableType": {
+            "type": "string",
+            "enum": [
+              "tour_booking",
+              "flight_order"
+            ]
+          },
+          "payableId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "payableType",
+          "payableId"
+        ]
+      },
+      "ReferenceSuggestionResponseDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "country",
+              "city",
+              "airport"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "countryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string"
+          },
+          "cityId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "name",
+          "countryId",
+          "countryName"
+        ]
+      },
+      "ReferenceCountryResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "code": {
+            "type": "string",
+            "example": "UZ"
+          },
+          "name": {
+            "type": "string",
+            "example": "Россия"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "code",
+          "name"
+        ]
+      },
+      "SystemMessageResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string",
+            "example": "Некоторые функции временно недоступны."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "info",
+              "error"
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "text",
+          "type",
+          "isActive"
+        ]
+      },
+      "PublicTourDestinationResponseDto": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "number"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "countryName": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string",
+            "nullable": true
+          },
+          "nights": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": [
+          "position",
+          "countryCode",
+          "countryName"
+        ]
+      },
+      "ImageResponseDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "PublicTourContentResponseDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "shortDescription": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "inclusions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exclusions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "shortDescription",
+          "description",
+          "inclusions",
+          "exclusions"
+        ]
+      },
+      "PublicTourListItemResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "package",
+              "excursion"
+            ]
+          },
+          "durationDays": {
+            "type": "number"
+          },
+          "durationNights": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "destinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicTourDestinationResponseDto"
+            }
+          },
+          "coverImage": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ImageResponseDto"
+              }
+            ]
+          },
+          "isFeatured": {
+            "type": "boolean"
+          },
+          "content": {
+            "$ref": "#/components/schemas/PublicTourContentResponseDto"
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "type",
+          "durationDays",
+          "durationNights",
+          "price",
+          "destinations",
+          "isFeatured",
+          "content"
+        ]
+      },
+      "PublicTourDepartureResponseDto": {
+        "type": "object",
+        "properties": {
+          "departureDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "returnDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "price": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "seatsTotal": {
+            "type": "number",
+            "nullable": true
+          },
+          "seatsAvailable": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": [
+          "departureDate",
+          "price"
+        ]
+      },
+      "PublicTourPackageDetailsResponseDto": {
+        "type": "object",
+        "properties": {
+          "hotelName": {
+            "type": "string"
+          },
+          "hotelCategory": {
+            "type": "number",
+            "nullable": true
+          },
+          "mealType": {
+            "type": "string",
+            "enum": [
+              "room_only",
+              "breakfast",
+              "half_board",
+              "full_board",
+              "all_inclusive"
+            ]
+          },
+          "transferIncluded": {
+            "type": "boolean"
+          },
+          "insuranceIncluded": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "hotelName",
+          "mealType",
+          "transferIncluded",
+          "insuranceIncluded"
+        ]
+      },
+      "PublicTourExcursionDetailsResponseDto": {
+        "type": "object",
+        "properties": {
+          "guideLanguage": {
+            "type": "string"
+          },
+          "groupSizeMax": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": [
+          "guideLanguage"
+        ]
+      },
+      "PublicTourProgramDayResponseDto": {
+        "type": "object",
+        "properties": {
+          "dayNumber": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "dayNumber",
+          "title",
+          "description"
+        ]
+      },
+      "PublicTourResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "package",
+              "excursion"
+            ]
+          },
+          "durationDays": {
+            "type": "number"
+          },
+          "durationNights": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "#/components/schemas/MoneyResponseDto"
+          },
+          "destinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicTourDestinationResponseDto"
+            }
+          },
+          "coverImage": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ImageResponseDto"
+              }
+            ]
+          },
+          "isFeatured": {
+            "type": "boolean"
+          },
+          "content": {
+            "$ref": "#/components/schemas/PublicTourContentResponseDto"
+          },
+          "departures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicTourDepartureResponseDto"
+            }
+          },
+          "packageDetails": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PublicTourPackageDetailsResponseDto"
+              }
+            ]
+          },
+          "excursionDetails": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PublicTourExcursionDetailsResponseDto"
+              }
+            ]
+          },
+          "programDays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicTourProgramDayResponseDto"
+            }
+          },
+          "galleryImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageResponseDto"
+            }
+          },
+          "activeFrom": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "activeTo": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "type",
+          "durationDays",
+          "durationNights",
+          "price",
+          "destinations",
+          "isFeatured",
+          "content",
+          "departures",
+          "programDays",
+          "galleryImages"
+        ]
+      }
+    }
+  }
+}

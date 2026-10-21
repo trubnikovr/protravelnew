@@ -1,0 +1,43 @@
+### Admin login
+POST {{baseUrl}}/admin/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "login": "{{adminLogin}}",
+  "password": "{{adminPassword}}"
+}
+
+> {%
+  client.test("Admin login succeeded", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(Boolean(response.body.data.accessToken), "Access token is missing");
+  });
+  client.global.set("adminAccessToken", response.body.data.accessToken);
+%}
+
+### Current admin profile
+GET {{baseUrl}}/admin/me
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+> {%
+  client.test("Admin profile is available", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(response.body.data.email === "admin@protravel.uz", "Unexpected admin");
+  });
+%}
+
+### Revoke all tokens for the current admin
+# WARNING: run this only when you intentionally want to invalidate this token.
+POST {{baseUrl}}/admin/auth/revoke-all
+Accept: application/json
+Authorization: Bearer {{adminAccessToken}}
+
+> {%
+  client.test("All admin tokens were revoked", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(response.body.data.revoked === true, "Revocation was not confirmed");
+  });
+  client.global.clear("adminAccessToken");
+%}

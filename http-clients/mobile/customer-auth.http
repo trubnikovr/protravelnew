@@ -1,0 +1,34 @@
+### Request customer login code
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "phone": "+998901234567"
+}
+
+> {% client.global.set("customerVerificationId", response.body.data.verificationId); %}
+
+### Verify temporary customer login code
+POST {{baseUrl}}/auth/verify
+Content-Type: application/json
+Accept: application/json
+
+{
+  "verificationId": "{{customerVerificationId}}",
+  "code": "4322"
+}
+
+> {%
+  client.global.set("customerAccessToken", response.body.data.accessToken);
+  client.global.set("customerRefreshToken", response.body.data.refreshToken);
+%}
+
+### Refresh customer tokens
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+Accept: application/json
+
+{
+  "refreshToken": "{{customerRefreshToken}}"
+}

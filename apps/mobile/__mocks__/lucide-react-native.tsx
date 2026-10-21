@@ -1,0 +1,28 @@
+const Icon = () => null;
+
+export const ArrowLeft = Icon;
+export const ArrowRight = Icon;
+export const Bell = Icon;
+export const BriefcaseBusiness = Icon;
+export const CalendarCheck = Icon;
+export const CalendarDays = Icon;
+export const ChevronDown = Icon;
+export const ChevronRight = Icon;
+export const CircleUserRound = Icon;
+export const FileText = Icon;
+export const Flame = Icon;
+export const Home = Icon;
+export const LogOut = Icon;
+export const MapPin = Icon;
+export const Minus = Icon;
+export const Pencil = Icon;
+export const Plane = Icon;
+export const Plus = Icon;
+export const Repeat2 = Icon;
+export const Search = Icon;
+export const Settings = Icon;
+export const ShieldCheck = Icon;
+export const SlidersHorizontal = Icon;
+export const Star = Icon;
+export const UserRound = Icon;
+export const UserRoundPen = Icon;

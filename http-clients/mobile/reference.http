@@ -1,0 +1,21 @@
+### Suggest cities and countries
+GET {{baseUrl}}/reference/suggest?q=Ант&types=city,country&limit=10
+Accept: application/json
+Accept-Language: ru
+
+> {%
+  client.test("Reference suggestions are available", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(response.body.data.length > 0, "Suggestions are empty");
+  });
+%}
+
+### Suggest airports by IATA code or name
+GET {{baseUrl}}/reference/suggest?q=TAS&types=airport&limit=10
+Accept: application/json
+Accept-Language: ru
+
+### List countries
+GET {{baseUrl}}/reference/countries?page=1&limit=20&search=UZ
+Accept: application/json
+Accept-Language: ru

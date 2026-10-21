@@ -1,0 +1,18 @@
+### Published tour catalog
+GET {{baseUrl}}/tours?limit=20&sort=recommended
+Accept: application/json
+
+> {%
+  client.test("Published tours are available", function () {
+    client.assert(response.status === 200, "Expected HTTP 200");
+    client.assert(Array.isArray(response.body.data), "Expected a tour array");
+  });
+%}
+
+### Catalog filtered by destination
+GET {{baseUrl}}/tours?destination=Анталья&sort=price
+Accept: application/json
+
+### Full customer-facing tour
+GET {{baseUrl}}/tours/{{tourId}}
+Accept: application/json
