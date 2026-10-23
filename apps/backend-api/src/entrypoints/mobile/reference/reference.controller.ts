@@ -15,11 +15,19 @@ import {
   ReferenceSuggestionTypeDto,
 } from './dto/request/reference-suggest.request.dto';
 import { ReferenceSuggestionResponseDto } from './dto/response/reference-suggestion.response.dto';
+import { FeaturedFlightLocationResponseDto } from '@entrypoints/common/reference/featured-flight-location.dto';
 
 @ApiTags('reference')
 @Controller('reference')
 export class ReferenceController {
   constructor(private readonly reference: ReferenceService) {}
+
+  @Get('featured-flight-locations')
+  @ApiOperation({ summary: 'List featured flight locations' })
+  @ApiArrayEnvelope(FeaturedFlightLocationResponseDto)
+  featuredFlightLocations(): Promise<FeaturedFlightLocationResponseDto[]> {
+    return this.reference.listFeaturedFlightLocations();
+  }
 
   @Get('suggest')
   @ApiOperation({ summary: 'Suggest countries, cities and airports' })

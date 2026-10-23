@@ -1,6 +1,8 @@
 import {
+  boolean,
   bigint,
   index,
+  integer,
   numeric,
   pgTable,
   timestamp,
@@ -86,6 +88,26 @@ export const airports = pgTable(
   ],
 );
 
+export const featuredFlightLocations = pgTable(
+  'featured_flight_locations',
+  {
+    code: varchar('code', { length: 3 }).primaryKey(),
+    name: varchar('name', { length: 255 }).notNull(),
+    countryName: varchar('country_name', { length: 180 }).notNull(),
+    sortOrder: integer('sort_order').notNull().default(0),
+    isActive: boolean('is_active').notNull().default(true),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [index('featured_flight_locations_order_idx').on(table.sortOrder)],
+);
+
 export type CountryRecord = typeof countries.$inferSelect;
 export type CityRecord = typeof cities.$inferSelect;
 export type AirportRecord = typeof airports.$inferSelect;
+export type FeaturedFlightLocationRecord =
+  typeof featuredFlightLocations.$inferSelect;

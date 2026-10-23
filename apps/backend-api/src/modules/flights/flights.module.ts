@@ -1,57 +1,52 @@
-import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FLIGHT_PROVIDER } from './application/ports/flight-provider.port';
-import { FLIGHT_SEARCH_QUEUE } from './application/ports/flight-search-queue.port';
-import { FLIGHT_SEARCH_REPOSITORY } from './application/ports/flight-search.repository';
-import { CreateFlightSearchUseCase } from './application/use-cases/create-flight-search.use-case';
+import { FLIGHT_OFFER_REPOSITORY } from './application/ports/flight-offer.repository';
+import { SearchFlightsUseCase } from './application/use-cases/search-flights.use-case';
 import { GetFlightFareRulesUseCase } from './application/use-cases/get-flight-fare-rules.use-case';
 import { GetFlightOfferUseCase } from './application/use-cases/get-flight-offer.use-case';
-import { GetFlightSearchResultsUseCase } from './application/use-cases/get-flight-search-results.use-case';
-import { GetFlightSearchUseCase } from './application/use-cases/get-flight-search.use-case';
-import { ProcessFlightSearchUseCase } from './application/use-cases/process-flight-search.use-case';
 import { RevalidateFlightOfferUseCase } from './application/use-cases/revalidate-flight-offer.use-case';
-import { InMemoryFlightSearchRepository } from './infrastructure/persistence/in-memory-flight-search.repository';
-import { CbsFlightProvider } from './infrastructure/providers/cbs/cbs-flight.provider';
+import { InMemoryFlightOfferRepository } from './infrastructure/persistence/in-memory-flight-offer.repository';
+import { TtbookingFlightProvider } from './infrastructure/providers/ttbooking/ttbooking-flight.provider';
 import { MockFlightProvider } from './infrastructure/providers/mock/mock-flight.provider';
-import {
-  BullFlightSearchQueue,
-  FLIGHT_SEARCH_QUEUE_NAME,
-  FlightSearchProcessor,
-} from './infrastructure/queue/bull-flight-search.queue';
+import { TtbookingErrorMapper } from '@app/integrations/ttbooking/ttbooking-error.mapper';
+import { FLIGHT_SEARCH_CACHE } from './application/ports/flight-search-cache.port';
+import { RedisFlightSearchCache } from './infrastructure/cache/redis-flight-search-cache';
 
 const useCases = [
-  CreateFlightSearchUseCase,
-  ProcessFlightSearchUseCase,
-  GetFlightSearchUseCase,
-  GetFlightSearchResultsUseCase,
+  SearchFlightsUseCase,
   GetFlightOfferUseCase,
   RevalidateFlightOfferUseCase,
   GetFlightFareRulesUseCase,
 ];
 
 @Module({
-  imports: [BullModule.registerQueue({ name: FLIGHT_SEARCH_QUEUE_NAME })],
   providers: [
     ...useCases,
-    InMemoryFlightSearchRepository,
+    InMemoryFlightOfferRepository,
     MockFlightProvider,
-    CbsFlightProvider,
-    BullFlightSearchQueue,
-    FlightSearchProcessor,
+    TtbookingFlightProvider,
+    TtbookingErrorMapper,
+    RedisFlightSearchCache,
     {
-      provide: FLIGHT_SEARCH_REPOSITORY,
-      useExisting: InMemoryFlightSearchRepository,
+      provide: FLIGHT_OFFER_REPOSITORY,
+      useExisting: InMemoryFlightOfferRepository,
     },
-    { provide: FLIGHT_SEARCH_QUEUE, useExisting: BullFlightSearchQueue },
+    {
+      provide: FLIGHT_SEARCH_CACHE,
+      useExisting: RedisFlightSearchCache,
+    },
     {
       provide: FLIGHT_PROVIDER,
-      inject: [ConfigService, MockFlightProvider, CbsFlightProvider],
+      inject: [ConfigService, MockFlightProvider, TtbookingFlightProvider],
       useFactory: (
         config: ConfigService,
         mock: MockFlightProvider,
-        cbs: CbsFlightProvider,
-      ) => (config.get<string>('FLIGHT_PROVIDER') === 'cbs' ? cbs : mock),
+        ttbooking: TtbookingFlightProvider,
+      ) =>
+        config.get<string>('FLIGHT_PROVIDER') === 'ttbooking'
+          ? ttbooking
+          : mock,
     },
   ],
   exports: useCases,

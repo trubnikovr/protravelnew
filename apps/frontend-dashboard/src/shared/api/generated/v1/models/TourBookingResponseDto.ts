@@ -158,6 +158,7 @@ export interface TourBookingResponseDto {
 export const TourBookingResponseDtoStatusEnum = {
     pending: 'pending',
     confirmed: 'confirmed',
+    awaiting_payment: 'awaiting_payment',
     paid: 'paid',
     completed: 'completed',
     cancelled: 'cancelled'

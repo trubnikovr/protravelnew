@@ -22,12 +22,22 @@ export type PassengerSelection = {
   seatInfants: number;
 };
 
+export type FlightPlaceSelection = { code: string; label: string };
+
+export type FlightSearchSelection = {
+  departure: FlightPlaceSelection;
+  destination: FlightPlaceSelection;
+  departureDate: string;
+  returnDate: string;
+  passengers: PassengerSelection;
+};
+
 export type SearchStackParamList = {
   SearchForm: { passengers?: PassengerSelection } | undefined;
   Passengers: {
     passengers: PassengerSelection;
   };
-  SearchResults: undefined;
+  SearchResults: FlightSearchSelection;
 };
 
 export type ToursStackParamList = {

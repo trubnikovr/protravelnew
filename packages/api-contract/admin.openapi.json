@@ -1,6 +1,43 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/api/v1/reference/featured-flight-locations": {
+      "get": {
+        "operationId": "Reference_featuredFlightLocations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FeaturedFlightLocationResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List featured flight locations",
+        "tags": [
+          "reference"
+        ]
+      }
+    },
     "/api/v1/reference/suggest": {
       "get": {
         "operationId": "Reference_suggest",
@@ -155,7 +192,9 @@
             "schema": {
               "type": "string",
               "enum": [
-                "ru"
+                "ru",
+                "uz",
+                "en"
               ]
             }
           }
@@ -2299,6 +2338,100 @@
           "admin/news"
         ]
       }
+    },
+    "/api/v1/admin/featured-flight-locations": {
+      "get": {
+        "operationId": "AdminFeaturedFlightLocations_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FeaturedFlightLocationResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin/featured-flight-locations"
+        ]
+      },
+      "put": {
+        "operationId": "AdminFeaturedFlightLocations_replace",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FeaturedFlightLocationRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FeaturedFlightLocationResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Replace mobile featured flight locations",
+        "tags": [
+          "admin/featured-flight-locations"
+        ]
+      }
     }
   },
   "info": {
@@ -2348,38 +2481,6 @@
           "path",
           "statusCode",
           "requestId"
-        ]
-      },
-      "PaginationMetaResponseDto": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "number",
-            "minimum": 1,
-            "example": 1
-          },
-          "limit": {
-            "type": "number",
-            "minimum": 1,
-            "maximum": 100,
-            "example": 20
-          },
-          "total": {
-            "type": "number",
-            "minimum": 0,
-            "example": 125
-          },
-          "totalPages": {
-            "type": "number",
-            "minimum": 0,
-            "example": 7
-          }
-        },
-        "required": [
-          "page",
-          "limit",
-          "total",
-          "totalPages"
         ]
       },
       "MoneyResponseDto": {
@@ -2562,6 +2663,38 @@
           "lastName",
           "gender",
           "documents"
+        ]
+      },
+      "PaginationMetaResponseDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "minimum": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "example": 20
+          },
+          "total": {
+            "type": "number",
+            "minimum": 0,
+            "example": 125
+          },
+          "totalPages": {
+            "type": "number",
+            "minimum": 0,
+            "example": 7
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "totalPages"
         ]
       },
       "CreateTravelerRequestDto": {
@@ -2784,6 +2917,36 @@
             "format": "uuid"
           }
         }
+      },
+      "FeaturedFlightLocationResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "TAS"
+          },
+          "name": {
+            "type": "string",
+            "example": "Ташкент"
+          },
+          "countryName": {
+            "type": "string",
+            "example": "Узбекистан"
+          },
+          "sortOrder": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "countryName",
+          "sortOrder",
+          "isActive"
+        ]
       },
       "ReferenceSuggestionResponseDto": {
         "type": "object",
@@ -3900,7 +4063,9 @@
           "locale": {
             "type": "string",
             "enum": [
-              "ru"
+              "ru",
+              "uz",
+              "en"
             ]
           },
           "currency": {
@@ -3955,7 +4120,9 @@
           "locale": {
             "type": "string",
             "enum": [
-              "ru"
+              "ru",
+              "uz",
+              "en"
             ]
           },
           "currency": {
@@ -4024,7 +4191,9 @@
           "locale": {
             "type": "string",
             "enum": [
-              "ru"
+              "ru",
+              "uz",
+              "en"
             ]
           },
           "currency": {
@@ -4454,6 +4623,34 @@
             "default": false
           }
         }
+      },
+      "FeaturedFlightLocationRequestDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "TAS"
+          },
+          "name": {
+            "type": "string"
+          },
+          "countryName": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "countryName",
+          "sortOrder",
+          "isActive"
+        ]
       }
     }
   }

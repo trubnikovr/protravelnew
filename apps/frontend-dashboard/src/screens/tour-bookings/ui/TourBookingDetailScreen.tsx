@@ -28,6 +28,7 @@ const transitions: Record<
 > = {
   pending: ["confirmed", "cancelled"],
   confirmed: ["paid", "cancelled"],
+  awaiting_payment: ["paid", "cancelled"],
   paid: ["completed", "cancelled"],
   completed: [],
   cancelled: [],

@@ -18,6 +18,8 @@ libraries.
   payments and private document uploads.
 - [News management](news.md) — mobile news drafts, categories and publishing.
 - [System messages](system-messages.md) — operational mobile banners.
+- [Featured flight locations](featured-flight-locations.md) — ordered popular
+  mobile flight destinations.
 
 Future dashboard-owned documents belong here:
 

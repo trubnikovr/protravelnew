@@ -169,6 +169,20 @@
       "when": 1787214533804,
       "tag": "0023_nebulous_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1792675492009,
+      "tag": "0024_peaceful_nehzno",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1792677372728,
+      "tag": "0025_seed_featured_flight_locations",
+      "breakpoints": true
     }
   ]
 }

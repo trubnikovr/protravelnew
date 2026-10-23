@@ -4,83 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**flightsCreate**](FlightsApi.md#flightscreate) | **POST** /api/v1/flights/searches | Start an asynchronous flight search |
 | [**flightsFareRules**](FlightsApi.md#flightsfarerules) | **GET** /api/v1/flights/offers/{offerId}/fare-rules | Get provider fare rules for a flight offer |
 | [**flightsOffer**](FlightsApi.md#flightsoffer) | **GET** /api/v1/flights/offers/{offerId} | Get a normalized flight offer |
-| [**flightsResults**](FlightsApi.md#flightsresults) | **GET** /api/v1/flights/searches/{searchId}/results | Get normalized flight search results |
 | [**flightsRevalidate**](FlightsApi.md#flightsrevalidate) | **POST** /api/v1/flights/offers/{offerId}/revalidate | Revalidate availability and price before booking |
-| [**flightsStatus**](FlightsApi.md#flightsstatus) | **GET** /api/v1/flights/searches/{searchId} | Get flight search status |
+| [**flightsSearch**](FlightsApi.md#flightssearch) | **POST** /api/v1/flights/searches | Search flights and return normalized offers |
 
-
-
-## flightsCreate
-
-> FlightsCreate201Response flightsCreate(createFlightSearchRequestDto)
-
-Start an asynchronous flight search
-
-### Example
-
-```ts
-import {
-  Configuration,
-  FlightsApi,
-} from '';
-import type { FlightsCreateRequest } from '';
-
-async function example() {
-  console.log("🚀 Testing  SDK...");
-  const api = new FlightsApi();
-
-  const body = {
-    // CreateFlightSearchRequestDto
-    createFlightSearchRequestDto: ...,
-  } satisfies FlightsCreateRequest;
-
-  try {
-    const data = await api.flightsCreate(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **createFlightSearchRequestDto** | [CreateFlightSearchRequestDto](CreateFlightSearchRequestDto.md) |  | |
-
-### Return type
-
-[**FlightsCreate201Response**](FlightsCreate201Response.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## flightsFareRules
 
-> FlightsFareRules200Response flightsFareRules(offerId)
+> FlightsFareRules200Response flightsFareRules(offerId, acceptLanguage)
 
 Get provider fare rules for a flight offer
 
@@ -100,6 +33,8 @@ async function example() {
   const body = {
     // string
     offerId: offerId_example,
+    // 'ru' | 'uz' | 'en' (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightsFareRulesRequest;
 
   try {
@@ -120,6 +55,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **offerId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -145,7 +81,7 @@ No authorization required
 
 ## flightsOffer
 
-> FlightsOffer200Response flightsOffer(offerId)
+> FlightsOffer200Response flightsOffer(offerId, acceptLanguage)
 
 Get a normalized flight offer
 
@@ -165,6 +101,8 @@ async function example() {
   const body = {
     // string
     offerId: offerId_example,
+    // 'ru' | 'uz' | 'en' (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightsOfferRequest;
 
   try {
@@ -185,87 +123,11 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **offerId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
 
 ### Return type
 
 [**FlightsOffer200Response**](FlightsOffer200Response.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## flightsResults
-
-> FlightsResults200Response flightsResults(searchId, page, limit, sortBy, sortDirection)
-
-Get normalized flight search results
-
-### Example
-
-```ts
-import {
-  Configuration,
-  FlightsApi,
-} from '';
-import type { FlightsResultsRequest } from '';
-
-async function example() {
-  console.log("🚀 Testing  SDK...");
-  const api = new FlightsApi();
-
-  const body = {
-    // string
-    searchId: searchId_example,
-    // number (optional)
-    page: 8.14,
-    // number (optional)
-    limit: 8.14,
-    // 'createdAt' | 'price' | 'duration' | 'departure' (optional)
-    sortBy: sortBy_example,
-    // 'asc' | 'desc' (optional)
-    sortDirection: sortDirection_example,
-  } satisfies FlightsResultsRequest;
-
-  try {
-    const data = await api.flightsResults(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **searchId** | `string` |  | [Defaults to `undefined`] |
-| **page** | `number` |  | [Optional] [Defaults to `1`] |
-| **limit** | `number` |  | [Optional] [Defaults to `20`] |
-| **sortBy** | `createdAt`, `price`, `duration`, `departure` |  | [Optional] [Defaults to `&#39;price&#39;`] [Enum: createdAt, price, duration, departure] |
-| **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
-
-### Return type
-
-[**FlightsResults200Response**](FlightsResults200Response.md)
 
 ### Authorization
 
@@ -287,7 +149,7 @@ No authorization required
 
 ## flightsRevalidate
 
-> FlightsOffer200Response flightsRevalidate(offerId)
+> FlightsOffer200Response flightsRevalidate(offerId, acceptLanguage)
 
 Revalidate availability and price before booking
 
@@ -307,6 +169,8 @@ async function example() {
   const body = {
     // string
     offerId: offerId_example,
+    // 'ru' | 'uz' | 'en' (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightsRevalidateRequest;
 
   try {
@@ -327,6 +191,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **offerId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -350,11 +215,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## flightsStatus
+## flightsSearch
 
-> FlightsCreate201Response flightsStatus(searchId)
+> FlightsSearch200Response flightsSearch(createFlightSearchRequestDto, acceptLanguage)
 
-Get flight search status
+Search flights and return normalized offers
 
 ### Example
 
@@ -363,19 +228,21 @@ import {
   Configuration,
   FlightsApi,
 } from '';
-import type { FlightsStatusRequest } from '';
+import type { FlightsSearchRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new FlightsApi();
 
   const body = {
-    // string
-    searchId: searchId_example,
-  } satisfies FlightsStatusRequest;
+    // CreateFlightSearchRequestDto
+    createFlightSearchRequestDto: ...,
+    // 'ru' | 'uz' | 'en' (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies FlightsSearchRequest;
 
   try {
-    const data = await api.flightsStatus(body);
+    const data = await api.flightsSearch(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -391,11 +258,12 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **searchId** | `string` |  | [Defaults to `undefined`] |
+| **createFlightSearchRequestDto** | [CreateFlightSearchRequestDto](CreateFlightSearchRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
 
 ### Return type
 
-[**FlightsCreate201Response**](FlightsCreate201Response.md)
+[**FlightsSearch200Response**](FlightsSearch200Response.md)
 
 ### Authorization
 
@@ -403,7 +271,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
 

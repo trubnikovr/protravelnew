@@ -7,7 +7,7 @@ Horizon design system.
 
 ```bash
 cp apps/frontend-dashboard/.env.example apps/frontend-dashboard/.env
-npm run admin:dev
+npm run dashboard:dev
 ```
 
 The dashboard is available at `http://localhost:3001`. Its default API URL is

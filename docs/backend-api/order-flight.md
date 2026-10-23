@@ -48,14 +48,14 @@ and `documentId`; ownership is checked against the authenticated customer.
 ## Provider boundary
 
 `FlightBookingProviderPort` exposes `book`, `refresh` and `cancel`. The local
-mock adapter supports the complete state flow. The CBS adapter maps:
+mock adapter supports the complete state flow. The TTBooking adapter maps:
 
 - `CREATEBR` — create the booking;
 - `LOADBOOKING` — refresh remote status;
 - `CANCELBOOKING` — cancel an unissued booking.
 
-CBS enums and domain mappings shared by search and booking live in
-`src/integrations/cbs`. `PAYDEPOSIT` and ticket issuance are intentionally not
+TTBooking enums and domain mappings shared by search and booking live in
+`src/integrations/ttbooking`. `PAYDEPOSIT` and ticket issuance are intentionally not
 part of this module yet. Hosted customer payment is now a separate workflow: a
 booked order can create a `flight_order` payment and the verified
 `payment.succeeded.v1` event moves it to `paid`. Airline ticket issuance after

@@ -14,7 +14,7 @@ Consumers do not maintain endpoint typings by hand:
 
 - `npm run mobile:api:generate` generates the React Native TypeScript Fetch
   client in `src/shared/api/generated/v1` from `v1/mobile.openapi.json`;
-- `npm run admin:api:generate` generates the admin TypeScript Fetch client from
+- `npm run dashboard:api:generate` generates the admin TypeScript Fetch client from
   `v1/admin.openapi.json` in `src/shared/api/generated/v1`.
 
 Version imports are always explicit (`generated/v1`, later `generated/v2`), so

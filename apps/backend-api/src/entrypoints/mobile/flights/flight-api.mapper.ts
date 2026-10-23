@@ -1,20 +1,7 @@
-import type { FlightOffer, FlightSearch } from '@modules/flights';
+import type { FlightOffer } from '@modules/flights';
 import { FlightOfferResponseDto } from './dto/response/flight-offer.response.dto';
-import { FlightSearchResponseDto } from './dto/response/flight-search.response.dto';
 
 export class FlightApiMapper {
-  static toSearchResponse(search: FlightSearch): FlightSearchResponseDto {
-    return {
-      id: search.id.toString(),
-      createdAt: search.createdAt.toISOString(),
-      updatedAt: search.updatedAt.toISOString(),
-      status: search.status,
-      progress: search.progress,
-      expiresAt: search.expiresAt.toISOString(),
-      nextPollAfterMs: search.progress === 100 ? 0 : 1_000,
-      errorCode: search.errorCode,
-    };
-  }
   static toOfferResponse(offer: FlightOffer): FlightOfferResponseDto {
     const data = offer.data;
     return {

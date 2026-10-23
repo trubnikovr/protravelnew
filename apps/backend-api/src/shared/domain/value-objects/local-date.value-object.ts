@@ -1,24 +1,21 @@
-const LOCAL_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+import { Temporal } from '@js-temporal/polyfill';
 
 export class LocalDateValueObject {
-  private constructor(private readonly value: string) {}
+  private constructor(private readonly value: Temporal.PlainDate) {}
 
   static create(value: string): LocalDateValueObject {
-    if (!LOCAL_DATE_PATTERN.test(value))
-      throw new Error('Local date is invalid');
-    const [year, month, day] = value.split('-').map(Number);
-    const date = new Date(Date.UTC(year, month - 1, day));
-    if (
-      date.getUTCFullYear() !== year ||
-      date.getUTCMonth() !== month - 1 ||
-      date.getUTCDate() !== day
-    ) {
+    try {
+      return new LocalDateValueObject(Temporal.PlainDate.from(value));
+    } catch {
       throw new Error('Local date is invalid');
     }
-    return new LocalDateValueObject(value);
+  }
+
+  isBefore(other: LocalDateValueObject): boolean {
+    return Temporal.PlainDate.compare(this.value, other.value) < 0;
   }
 
   toString(): string {
-    return this.value;
+    return this.value.toString();
   }
 }

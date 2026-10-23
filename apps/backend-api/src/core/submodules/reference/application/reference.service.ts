@@ -22,6 +22,7 @@ import {
   airports,
   cities,
   countries,
+  featuredFlightLocations,
 } from '../infrastructure/persistence/reference.schema';
 
 export interface ReferenceCountryListInput {
@@ -51,6 +52,14 @@ export interface ReferenceSuggestInput {
   types: ReferenceSuggestionType[];
   countryId?: string;
   limit: number;
+}
+
+export interface FeaturedFlightLocation {
+  code: string;
+  name: string;
+  countryName: string;
+  sortOrder: number;
+  isActive: boolean;
 }
 
 @Injectable()
@@ -110,17 +119,142 @@ export class ReferenceService {
 
   async suggest(input: ReferenceSuggestInput): Promise<ReferenceSuggestion[]> {
     const pattern = `%${input.query.trim()}%`;
-    const items: ReferenceSuggestion[] = [];
-    if (input.types.includes('country')) {
-      items.push(...(await this.suggestCountries(pattern, input.limit)));
+    const [featured, countryItems, cityItems, airportItems] = await Promise.all(
+      [
+        this.suggestFeaturedFlightLocations(pattern, input),
+        input.types.includes('country')
+          ? this.suggestCountries(pattern, input.limit)
+          : Promise.resolve([]),
+        input.types.includes('city')
+          ? this.suggestCities(pattern, input)
+          : Promise.resolve([]),
+        input.types.includes('airport')
+          ? this.suggestAirports(pattern, input)
+          : Promise.resolve([]),
+      ],
+    );
+
+    const featuredCodes = new Set(
+      featured.map((item) => item.code).filter((code) => code !== null),
+    );
+    const featuredCityIds = new Set(
+      featured.map((item) => item.cityId).filter((cityId) => cityId !== null),
+    );
+    const regular = [...countryItems, ...cityItems, ...airportItems].filter(
+      (item) =>
+        (item.code === null || !featuredCodes.has(item.code)) &&
+        (item.cityId === null || !featuredCityIds.has(item.cityId)),
+    );
+
+    return [...featured, ...regular].slice(0, input.limit);
+  }
+
+  private async suggestFeaturedFlightLocations(
+    pattern: string,
+    input: ReferenceSuggestInput,
+  ): Promise<ReferenceSuggestion[]> {
+    if (!input.types.includes('city') && !input.types.includes('airport')) {
+      return [];
     }
-    if (input.types.includes('city')) {
-      items.push(...(await this.suggestCities(pattern, input)));
-    }
-    if (input.types.includes('airport')) {
-      items.push(...(await this.suggestAirports(pattern, input)));
-    }
-    return items.slice(0, input.limit);
+
+    const rows = await this.database
+      .select({
+        featured: featuredFlightLocations,
+        city: cities,
+        airport: airports,
+        country: countries,
+      })
+      .from(featuredFlightLocations)
+      .innerJoin(
+        countries,
+        sql`lower(${countries.nameRu}) = lower(${featuredFlightLocations.countryName})`,
+      )
+      .leftJoin(
+        cities,
+        and(
+          eq(cities.countryId, countries.id),
+          sql`lower(${cities.nameRu}) = lower(${featuredFlightLocations.name})`,
+        ),
+      )
+      .leftJoin(airports, eq(airports.iataCode, featuredFlightLocations.code))
+      .where(
+        and(
+          eq(featuredFlightLocations.isActive, true),
+          input.countryId ? eq(countries.id, input.countryId) : undefined,
+          or(
+            ilike(featuredFlightLocations.code, pattern),
+            ilike(featuredFlightLocations.name, pattern),
+            ilike(featuredFlightLocations.countryName, pattern),
+          ),
+        ),
+      )
+      .orderBy(asc(featuredFlightLocations.sortOrder))
+      .limit(input.limit);
+
+    return rows.flatMap(
+      ({ featured, city, airport, country }): ReferenceSuggestion[] => {
+        if (city && input.types.includes('city')) {
+          return [
+            {
+              type: 'city',
+              id: city.id,
+              code: featured.code,
+              name: featured.name,
+              countryId: country.id,
+              countryCode: country.isoCode,
+              countryName: country.nameRu,
+              cityId: city.id,
+            },
+          ];
+        }
+        if (airport && input.types.includes('airport')) {
+          return [
+            {
+              type: 'airport',
+              id: airport.id,
+              code: featured.code,
+              name: featured.name,
+              countryId: country.id,
+              countryCode: country.isoCode,
+              countryName: country.nameRu,
+              cityId: airport.cityId,
+            },
+          ];
+        }
+        return [];
+      },
+    );
+  }
+
+  async listFeaturedFlightLocations(
+    includeInactive = false,
+  ): Promise<FeaturedFlightLocation[]> {
+    return this.database
+      .select({
+        code: featuredFlightLocations.code,
+        name: featuredFlightLocations.name,
+        countryName: featuredFlightLocations.countryName,
+        sortOrder: featuredFlightLocations.sortOrder,
+        isActive: featuredFlightLocations.isActive,
+      })
+      .from(featuredFlightLocations)
+      .where(
+        includeInactive
+          ? undefined
+          : eq(featuredFlightLocations.isActive, true),
+      )
+      .orderBy(asc(featuredFlightLocations.sortOrder));
+  }
+
+  async replaceFeaturedFlightLocations(
+    items: FeaturedFlightLocation[],
+  ): Promise<FeaturedFlightLocation[]> {
+    await this.database.transaction(async (transaction) => {
+      await transaction.delete(featuredFlightLocations);
+      if (items.length)
+        await transaction.insert(featuredFlightLocations).values(items);
+    });
+    return this.listFeaturedFlightLocations(true);
   }
 
   async destinationExists(
@@ -187,6 +321,9 @@ export class ReferenceService {
             ilike(cities.nameRu, pattern),
             ilike(cities.nameUz, pattern),
             ilike(cities.nameEn, pattern),
+            ilike(countries.nameRu, pattern),
+            ilike(countries.nameUz, pattern),
+            ilike(countries.nameEn, pattern),
           ),
         ),
       )
@@ -213,11 +350,13 @@ export class ReferenceService {
     const rows = await this.database
       .select({
         airport: airports,
+        city: cities,
         country: countries,
         name: sql<string>`coalesce(${airports.nameRu}, ${airports.nameEn}, ${airports.iataCode})`,
       })
       .from(airports)
       .innerJoin(countries, eq(airports.countryId, countries.id))
+      .leftJoin(cities, eq(airports.cityId, cities.id))
       .where(
         and(
           countryFilter,
@@ -225,17 +364,23 @@ export class ReferenceService {
             ilike(airports.iataCode, pattern),
             ilike(airports.nameRu, pattern),
             ilike(airports.nameEn, pattern),
+            ilike(cities.nameRu, pattern),
+            ilike(cities.nameUz, pattern),
+            ilike(cities.nameEn, pattern),
+            ilike(countries.nameRu, pattern),
+            ilike(countries.nameUz, pattern),
+            ilike(countries.nameEn, pattern),
           ),
         ),
       )
       .orderBy(asc(airports.iataCode))
       .limit(input.limit);
     return rows.map(
-      ({ airport, country, name }): ReferenceSuggestion => ({
+      ({ airport, city, country, name }): ReferenceSuggestion => ({
         type: 'airport',
         id: airport.id,
         code: airport.iataCode,
-        name,
+        name: city ? `${name}, ${city.nameRu}` : name,
         countryId: country.id,
         countryCode: country.isoCode,
         countryName: country.nameRu,

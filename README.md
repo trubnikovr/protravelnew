@@ -63,7 +63,7 @@ Email, пароль и имя берутся из переменных `ADMIN_SE
 После изменения admin API перегенерируйте TypeScript-клиент:
 
 ```sh
-npm run admin:api:generate
+npm run dashboard:api:generate
 ```
 
 Swagger UI:
@@ -80,7 +80,7 @@ Swagger UI:
 ## Admin dashboard
 
 ```sh
-npm run admin:dev
+npm run dashboard:dev
 ```
 
 Dashboard доступен по адресу `http://localhost:3001` и использует

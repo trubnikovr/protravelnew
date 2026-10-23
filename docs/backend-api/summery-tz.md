@@ -392,28 +392,13 @@ backend идентифицирует читателя долгоживущей H
 
 ```text
 POST /searches
-GET  /searches/{search_id}
-GET  /searches/{search_id}/results
-GET  /searches/{search_id}/filters
 POST /offers/{offer_id}/revalidate
 ```
 
-Для долгого поиска допустимы:
-
-- polling;
-- Server-Sent Events;
-- WebSocket.
-
-На MVP достаточно polling с полями `status`, `progress` и `next_poll_after_ms`.
-
-Статусы поиска:
-
-```text
-created -> running -> completed
-                   -> partial
-                   -> failed
-                   -> expired
-```
+На MVP поиск синхронный: `POST /searches` ожидает ответ поставщика и сразу
+возвращает нормализованные предложения. Polling, SSE, WebSocket и отдельная
+машина статусов поиска не используются. Таймаут HTTP gateway должен быть
+дольше настроенного таймаута поставщика.
 
 ### 5.7. Flights
 
@@ -924,8 +909,7 @@ POST /me/support/tickets/{ticket_id}/close
 
 ```text
 Mobile
-  -> create search
-  -> poll results
+  -> search and receive offers
   -> open offer
   -> revalidate offer
   -> create draft order

@@ -2,6 +2,8 @@ import { CurrencyCode, SupportedLocale } from '../enums';
 
 const LOCALE_MAP: Record<SupportedLocale, string> = {
   [SupportedLocale.RU]: 'ru-RU',
+  [SupportedLocale.UZ]: 'uz-UZ',
+  [SupportedLocale.EN]: 'en-US',
 };
 
 const CURRENCY_FRACTION_DIGITS: Record<CurrencyCode, number> = {

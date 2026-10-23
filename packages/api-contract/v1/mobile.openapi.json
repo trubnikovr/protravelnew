@@ -359,8 +359,22 @@
     },
     "/api/v1/flights/searches": {
       "post": {
-        "operationId": "Flights_create",
-        "parameters": [],
+        "operationId": "Flights_search",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ]
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -371,141 +385,6 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/FlightSearchResponseDto"
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/ApiResponseMetaDto"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "Start an asynchronous flight search",
-        "tags": [
-          "flights"
-        ]
-      }
-    },
-    "/api/v1/flights/searches/{searchId}": {
-      "get": {
-        "operationId": "Flights_status",
-        "parameters": [
-          {
-            "name": "searchId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "data",
-                    "meta"
-                  ],
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/FlightSearchResponseDto"
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/ApiResponseMetaDto"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "Get flight search status",
-        "tags": [
-          "flights"
-        ]
-      }
-    },
-    "/api/v1/flights/searches/{searchId}/results": {
-      "get": {
-        "operationId": "Flights_results",
-        "parameters": [
-          {
-            "name": "searchId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "minimum": 1,
-              "default": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20,
-              "type": "number"
-            }
-          },
-          {
-            "name": "sortBy",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "default": "price",
-              "type": "string",
-              "enum": [
-                "createdAt",
-                "price",
-                "duration",
-                "departure"
-              ]
-            }
-          },
-          {
-            "name": "sortDirection",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "default": "desc",
-              "type": "string",
-              "enum": [
-                "asc",
-                "desc"
-              ]
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "",
@@ -525,22 +404,7 @@
                       }
                     },
                     "meta": {
-                      "allOf": [
-                        {
-                          "$ref": "#/components/schemas/ApiResponseMetaDto"
-                        },
-                        {
-                          "type": "object",
-                          "required": [
-                            "pagination"
-                          ],
-                          "properties": {
-                            "pagination": {
-                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
-                            }
-                          }
-                        }
-                      ]
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
                     }
                   }
                 }
@@ -548,7 +412,7 @@
             }
           }
         },
-        "summary": "Get normalized flight search results",
+        "summary": "Search flights and return normalized offers",
         "tags": [
           "flights"
         ]
@@ -558,6 +422,19 @@
       "get": {
         "operationId": "Flights_offer",
         "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ]
+            }
+          },
           {
             "name": "offerId",
             "required": true,
@@ -602,6 +479,19 @@
         "operationId": "Flights_revalidate",
         "parameters": [
           {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ]
+            }
+          },
+          {
             "name": "offerId",
             "required": true,
             "in": "path",
@@ -644,6 +534,19 @@
       "get": {
         "operationId": "Flights_fareRules",
         "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ]
+            }
+          },
           {
             "name": "offerId",
             "required": true,
@@ -1781,6 +1684,43 @@
         ]
       }
     },
+    "/api/v1/reference/featured-flight-locations": {
+      "get": {
+        "operationId": "Reference_featuredFlightLocations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FeaturedFlightLocationResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List featured flight locations",
+        "tags": [
+          "reference"
+        ]
+      }
+    },
     "/api/v1/reference/suggest": {
       "get": {
         "operationId": "Reference_suggest",
@@ -1935,7 +1875,9 @@
             "schema": {
               "type": "string",
               "enum": [
-                "ru"
+                "ru",
+                "uz",
+                "en"
               ]
             }
           }
@@ -2437,7 +2379,9 @@
           "locale": {
             "type": "string",
             "enum": [
-              "ru"
+              "ru",
+              "uz",
+              "en"
             ]
           },
           "currency": {
@@ -2495,7 +2439,9 @@
           "locale": {
             "type": "string",
             "enum": [
-              "ru"
+              "ru",
+              "uz",
+              "en"
             ]
           },
           "currency": {
@@ -2511,153 +2457,6 @@
             "example": "Europe/Moscow"
           }
         }
-      },
-      "FlightSearchResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "created",
-              "running",
-              "completed",
-              "partial",
-              "failed",
-              "expired"
-            ]
-          },
-          "progress": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 100
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "nextPollAfterMs": {
-            "type": "number",
-            "example": 1000
-          },
-          "errorCode": {
-            "type": "object",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "createdAt",
-          "updatedAt",
-          "status",
-          "progress",
-          "expiresAt",
-          "nextPollAfterMs"
-        ]
-      },
-      "FlightRouteRequestDto": {
-        "type": "object",
-        "properties": {
-          "origin": {
-            "type": "string",
-            "example": "MOW"
-          },
-          "destination": {
-            "type": "string",
-            "example": "IST"
-          },
-          "departureDate": {
-            "type": "string",
-            "example": "2026-09-15",
-            "format": "date"
-          }
-        },
-        "required": [
-          "origin",
-          "destination",
-          "departureDate"
-        ]
-      },
-      "FlightPassengerRequestDto": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "adult",
-              "child",
-              "infant"
-            ]
-          },
-          "count": {
-            "type": "number",
-            "minimum": 1,
-            "maximum": 9
-          }
-        },
-        "required": [
-          "type",
-          "count"
-        ]
-      },
-      "CreateFlightSearchRequestDto": {
-        "type": "object",
-        "properties": {
-          "routes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FlightRouteRequestDto"
-            }
-          },
-          "passengers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FlightPassengerRequestDto"
-            }
-          },
-          "cabinClass": {
-            "type": "string",
-            "enum": [
-              "economy",
-              "premium_economy",
-              "business",
-              "first"
-            ]
-          },
-          "directOnly": {
-            "type": "boolean",
-            "default": false
-          },
-          "baggageRequired": {
-            "type": "boolean",
-            "default": false
-          },
-          "preferredAirlines": {
-            "example": [
-              "HY"
-            ],
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "routes",
-          "passengers",
-          "cabinClass"
-        ]
       },
       "FlightLocationResponseDto": {
         "type": "object",
@@ -2823,36 +2622,145 @@
           "expiresAt"
         ]
       },
-      "PaginationMetaResponseDto": {
+      "FlightRouteRequestDto": {
         "type": "object",
         "properties": {
-          "page": {
-            "type": "number",
-            "minimum": 1,
-            "example": 1
+          "origin": {
+            "type": "string",
+            "example": "MOW"
           },
-          "limit": {
-            "type": "number",
-            "minimum": 1,
-            "maximum": 100,
-            "example": 20
+          "destination": {
+            "type": "string",
+            "example": "IST"
           },
-          "total": {
-            "type": "number",
-            "minimum": 0,
-            "example": 125
-          },
-          "totalPages": {
-            "type": "number",
-            "minimum": 0,
-            "example": 7
+          "departureDate": {
+            "type": "string",
+            "example": "2026-09-15",
+            "format": "date"
           }
         },
         "required": [
-          "page",
-          "limit",
-          "total",
-          "totalPages"
+          "origin",
+          "destination",
+          "departureDate"
+        ]
+      },
+      "FlightPassengerRequestDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "adult",
+              "child",
+              "infant"
+            ]
+          },
+          "count": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 9
+          }
+        },
+        "required": [
+          "type",
+          "count"
+        ]
+      },
+      "CreateFlightSearchRequestDto": {
+        "type": "object",
+        "properties": {
+          "routes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightRouteRequestDto"
+            }
+          },
+          "passengers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightPassengerRequestDto"
+            }
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "economy",
+              "premium_economy",
+              "business",
+              "first"
+            ]
+          },
+          "directOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "baggageRequired": {
+            "type": "boolean",
+            "default": false
+          },
+          "preferredAirlines": {
+            "example": [
+              "HY"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "departureTimeFrom": {
+            "type": "string",
+            "example": "06:00",
+            "pattern": "^\\d{2}:\\d{2}$"
+          },
+          "departureTimeTo": {
+            "type": "string",
+            "example": "12:00",
+            "pattern": "^\\d{2}:\\d{2}$"
+          },
+          "arrivalTimeFrom": {
+            "type": "string",
+            "example": "06:00",
+            "pattern": "^\\d{2}:\\d{2}$"
+          },
+          "arrivalTimeTo": {
+            "type": "string",
+            "example": "23:00",
+            "pattern": "^\\d{2}:\\d{2}$"
+          },
+          "maxStops": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "maxDurationMinutes": {
+            "type": "number",
+            "minimum": 1,
+            "example": 720
+          },
+          "minPrice": {
+            "type": "string",
+            "example": "1000000"
+          },
+          "maxPrice": {
+            "type": "string",
+            "example": "5000000"
+          },
+          "sortBy": {
+            "type": "string",
+            "enum": [
+              "recommended",
+              "price",
+              "duration",
+              "departure"
+            ],
+            "default": "recommended"
+          }
+        },
+        "required": [
+          "routes",
+          "passengers",
+          "cabinClass"
         ]
       },
       "FlightFareRuleSectionResponseDto": {
@@ -3433,6 +3341,38 @@
           "documents"
         ]
       },
+      "PaginationMetaResponseDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "minimum": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "example": 20
+          },
+          "total": {
+            "type": "number",
+            "minimum": 0,
+            "example": 125
+          },
+          "totalPages": {
+            "type": "number",
+            "minimum": 0,
+            "example": 7
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "totalPages"
+        ]
+      },
       "CreateTravelerRequestDto": {
         "type": "object",
         "properties": {
@@ -3902,6 +3842,36 @@
         "required": [
           "payableType",
           "payableId"
+        ]
+      },
+      "FeaturedFlightLocationResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "TAS"
+          },
+          "name": {
+            "type": "string",
+            "example": "Ташкент"
+          },
+          "countryName": {
+            "type": "string",
+            "example": "Узбекистан"
+          },
+          "sortOrder": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "countryName",
+          "sortOrder",
+          "isActive"
         ]
       },
       "ReferenceSuggestionResponseDto": {

@@ -92,7 +92,9 @@ export interface CustomerResponseDto {
  * @export
  */
 export const CustomerResponseDtoLocaleEnum = {
-    ru: 'ru'
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
 export type CustomerResponseDtoLocaleEnum = typeof CustomerResponseDtoLocaleEnum[keyof typeof CustomerResponseDtoLocaleEnum];
 

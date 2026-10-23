@@ -3,5 +3,6 @@ export { ReferenceService } from './application/reference.service';
 export type {
   ReferenceSuggestion,
   ReferenceSuggestionType,
+  FeaturedFlightLocation,
 } from './application/reference.service';
 export { ReferenceCountry } from './domain/reference-country';

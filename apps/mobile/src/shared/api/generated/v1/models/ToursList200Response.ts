@@ -20,13 +20,13 @@ import {
     PublicTourListItemResponseDtoToJSON,
     PublicTourListItemResponseDtoToJSONTyped,
 } from './PublicTourListItemResponseDto';
-import type { FlightsResults200ResponseMeta } from './FlightsResults200ResponseMeta';
+import type { CustomerTravelersList200ResponseMeta } from './CustomerTravelersList200ResponseMeta';
 import {
-    FlightsResults200ResponseMetaFromJSON,
-    FlightsResults200ResponseMetaFromJSONTyped,
-    FlightsResults200ResponseMetaToJSON,
-    FlightsResults200ResponseMetaToJSONTyped,
-} from './FlightsResults200ResponseMeta';
+    CustomerTravelersList200ResponseMetaFromJSON,
+    CustomerTravelersList200ResponseMetaFromJSONTyped,
+    CustomerTravelersList200ResponseMetaToJSON,
+    CustomerTravelersList200ResponseMetaToJSONTyped,
+} from './CustomerTravelersList200ResponseMeta';
 
 /**
  * 
@@ -42,10 +42,10 @@ export interface ToursList200Response {
     data: Array<PublicTourListItemResponseDto>;
     /**
      * 
-     * @type {FlightsResults200ResponseMeta}
+     * @type {CustomerTravelersList200ResponseMeta}
      * @memberof ToursList200Response
      */
-    meta: FlightsResults200ResponseMeta;
+    meta: CustomerTravelersList200ResponseMeta;
 }
 
 /**
@@ -68,7 +68,7 @@ export function ToursList200ResponseFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'data': ((json['data'] as Array<any>).map(PublicTourListItemResponseDtoFromJSON)),
-        'meta': FlightsResults200ResponseMetaFromJSON(json['meta']),
+        'meta': CustomerTravelersList200ResponseMetaFromJSON(json['meta']),
     };
 }
 
@@ -84,7 +84,7 @@ export function ToursList200ResponseToJSONTyped(value?: ToursList200Response | n
     return {
         
         'data': ((value['data'] as Array<any>).map(PublicTourListItemResponseDtoToJSON)),
-        'meta': FlightsResults200ResponseMetaToJSON(value['meta']),
+        'meta': CustomerTravelersList200ResponseMetaToJSON(value['meta']),
     };
 }
 

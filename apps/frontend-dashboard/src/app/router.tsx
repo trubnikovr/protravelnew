@@ -18,6 +18,7 @@ import { TourBookingsScreen } from "@/screens/tour-bookings/ui/TourBookingsScree
 import { TourBookingDetailScreen } from "@/screens/tour-bookings/ui/TourBookingDetailScreen";
 import { NewsScreen } from "@/screens/news/ui/NewsScreen";
 import { SystemMessagesScreen } from "@/screens/system-messages/ui/SystemMessagesScreen";
+import { FeaturedFlightLocationsScreen } from "@/screens/featured-flight-locations/ui/FeaturedFlightLocationsScreen";
 import { AppShell } from "@/widgets/app-shell/AppShell";
 
 interface RouterContext {
@@ -127,12 +128,18 @@ const tourBookingsRoute = createRoute({
   validateSearch: (search: Record<string, unknown>) => ({
     page: Number(search.page) > 0 ? Number(search.page) : 1,
     search: typeof search.search === "string" ? search.search : undefined,
-    status: ["pending", "confirmed", "paid", "completed", "cancelled"].includes(
-      String(search.status)
-    )
+    status: [
+      "pending",
+      "confirmed",
+      "awaiting_payment",
+      "paid",
+      "completed",
+      "cancelled",
+    ].includes(String(search.status))
       ? (search.status as
           | "pending"
           | "confirmed"
+          | "awaiting_payment"
           | "paid"
           | "completed"
           | "cancelled")
@@ -173,6 +180,12 @@ const systemMessagesRoute = createRoute({
   component: SystemMessagesScreen,
 });
 
+const featuredFlightLocationsRoute = createRoute({
+  getParentRoute: () => authenticatedRoute,
+  path: "/featured-flight-locations",
+  component: FeaturedFlightLocationsScreen,
+});
+
 const routeTree = rootRoute.addChildren([
   loginRoute,
   authenticatedRoute.addChildren([
@@ -185,6 +198,7 @@ const routeTree = rootRoute.addChildren([
     customerDetailRoute,
     newsRoute,
     systemMessagesRoute,
+    featuredFlightLocationsRoute,
   ]),
 ]);
 

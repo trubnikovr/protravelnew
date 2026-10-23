@@ -8,13 +8,13 @@
     "apps/frontend-dashboard"
   ],
   "scripts": {
-    "admin:build": "npm run build --workspace @protravel/frontend-dashboard",
-    "admin:api:generate": "npm run api:generate --workspace @protravel/frontend-dashboard",
-    "admin:dev": "npm run dev --workspace @protravel/frontend-dashboard",
-    "a:d": "npm run dev --workspace @protravel/frontend-dashboard",
-    "admin:lint": "npm run lint --workspace @protravel/frontend-dashboard",
-    "admin:test": "npm run test --workspace @protravel/frontend-dashboard",
-    "admin:typecheck": "npm run typecheck --workspace @protravel/frontend-dashboard",
+    "dashboard:build": "npm run build --workspace @protravel/frontend-dashboard",
+    "dashboard:api:generate": "npm run api:generate --workspace @protravel/frontend-dashboard",
+    "dashboard:dev": "npm run dev --workspace @protravel/frontend-dashboard",
+    "d:d": "npm run dev --workspace @protravel/frontend-dashboard",
+    "dashboard:lint": "npm run lint --workspace @protravel/frontend-dashboard",
+    "dashboard:test": "npm run test --workspace @protravel/frontend-dashboard",
+    "dashboard:typecheck": "npm run typecheck --workspace @protravel/frontend-dashboard",
     "backend:build": "npm run build --workspace @protravel/backend-api",
     "backend:db:check": "drizzle-kit check --config apps/backend-api/drizzle.config.ts",
     "backend:db:generate": "drizzle-kit generate --config apps/backend-api/drizzle.config.ts",
@@ -29,6 +29,10 @@
     "backend:start": "npm run start --workspace @protravel/backend-api",
     "backend:test": "npm run test --workspace @protravel/backend-api",
     "backend:typecheck": "npm run typecheck --workspace @protravel/backend-api",
+    "infra:local:down": "docker compose -p backend-api -f infra/local/compose.yaml down",
+    "infra:local:logs": "docker compose -p backend-api -f infra/local/compose.yaml logs -f",
+    "infra:local:ps": "docker compose -p backend-api -f infra/local/compose.yaml ps",
+    "infra:local:up": "docker compose -p backend-api -f infra/local/compose.yaml up -d",
     "mobile:android": "npm run android --workspace @protravel/mobile --",
     "mobile:api:generate": "npm run api:generate --workspace @protravel/mobile",
     "mobile:ios": "npm run ios --workspace @protravel/mobile --",
@@ -37,9 +41,9 @@
     "m:s": "npm run start --workspace @protravel/mobile --",
     "mobile:test": "npm run test --workspace @protravel/mobile -- --runInBand --watchman=false",
     "mobile:typecheck": "npm run typecheck --workspace @protravel/mobile",
-    "lint": "npm run backend:lint && npm run mobile:lint && npm run admin:lint",
-    "test": "npm run backend:test && npm run mobile:test && npm run admin:test",
-    "typecheck": "npm run backend:typecheck && npm run mobile:typecheck && npm run admin:typecheck"
+    "lint": "npm run backend:lint && npm run mobile:lint && npm run dashboard:lint",
+    "test": "npm run backend:test && npm run mobile:test && npm run dashboard:test",
+    "typecheck": "npm run backend:typecheck && npm run mobile:typecheck && npm run dashboard:typecheck"
   },
   "engines": {
     "node": "^20.19.4 || ^22.13.0 || ^24.3.0 || >=25.0.0"

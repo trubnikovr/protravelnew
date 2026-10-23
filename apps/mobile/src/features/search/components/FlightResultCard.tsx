@@ -1,19 +1,24 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {ArrowRight, BriefcaseBusiness, Plane} from 'lucide-react-native';
-import {useTranslation} from 'react-i18next';
-import {theme, typography} from '../../../shared/theme/theme';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ArrowRight, BriefcaseBusiness, Plane } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import { theme, typography } from '../../../shared/theme/theme';
+import type { FlightOfferResponseDto } from '../../../shared/api/generated/v1/models';
 
-export function FlightResultCard({
-  price,
-  departure,
-  arrival,
-}: {
-  price: string;
-  departure: string;
-  arrival: string;
-}) {
-  const {t} = useTranslation();
+export function FlightResultCard({ offer }: { offer: FlightOfferResponseDto }) {
+  const { t } = useTranslation();
+  const itinerary = offer.itineraries[0];
+  const first = itinerary?.segments[0];
+  const last = itinerary?.segments[itinerary.segments.length - 1];
+  if (!itinerary || !first || !last) return null;
+  const time = (value: string) => value.slice(11, 16);
+  const price = new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: offer.currency,
+  }).format(Number(offer.totalAmount) / 100);
+  const duration = `${Math.floor(itinerary.durationMinutes / 60)} ч ${
+    itinerary.durationMinutes % 60
+  } мин`;
 
   return (
     <Pressable style={styles.card}>
@@ -23,9 +28,11 @@ export function FlightResultCard({
             <Plane color={theme.colors.white} size={19} />
           </View>
           <View>
-            <Text style={styles.airlineName}>{t('search.airline')}</Text>
+            <Text style={styles.airlineName}>
+              {offer.validatingCarrierName}
+            </Text>
             <Text style={styles.flightNumber}>
-              {t('search.flightNumber')}
+              {first.carrierCode}-{first.flightNumber}
             </Text>
           </View>
         </View>
@@ -34,29 +41,33 @@ export function FlightResultCard({
 
       <View style={styles.route}>
         <Time
-          value={departure}
-          code="MOW"
-          city={t('common.tashkent')}
+          value={time(first.departureLocal)}
+          code={first.origin.code}
+          city={first.origin.name}
         />
         <View style={styles.routeCenter}>
-          <Text style={styles.duration}>{t('search.duration')}</Text>
+          <Text style={styles.duration}>{duration}</Text>
           <View style={styles.routeLine}>
             <View style={styles.routeDot} />
             <ArrowRight color={theme.colors.primary} size={18} />
           </View>
-          <Text style={styles.direct}>{t('search.direct')}</Text>
+          <Text style={styles.direct}>
+            {itinerary.segments.length === 1
+              ? t('search.direct')
+              : t('search.stops', { count: itinerary.segments.length - 1 })}
+          </Text>
         </View>
         <Time
           alignRight
-          value={arrival}
-          code="PQC"
-          city={t('common.phuQuoc')}
+          value={time(last.arrivalLocal)}
+          code={last.destination.code}
+          city={last.destination.name}
         />
       </View>
 
       <View style={styles.footer}>
         <BriefcaseBusiness color={theme.colors.textSecondary} size={17} />
-        <Text style={styles.baggage}>{t('search.handBaggage')}</Text>
+        <Text style={styles.baggage}>{t('search.baggageDetails')}</Text>
       </View>
     </Pressable>
   );

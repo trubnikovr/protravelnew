@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { FlightsResults200ResponseMeta } from './FlightsResults200ResponseMeta';
-import {
-    FlightsResults200ResponseMetaFromJSON,
-    FlightsResults200ResponseMetaFromJSONTyped,
-    FlightsResults200ResponseMetaToJSON,
-    FlightsResults200ResponseMetaToJSONTyped,
-} from './FlightsResults200ResponseMeta';
 import type { CustomerTourBookingResponseDto } from './CustomerTourBookingResponseDto';
 import {
     CustomerTourBookingResponseDtoFromJSON,
@@ -27,6 +20,13 @@ import {
     CustomerTourBookingResponseDtoToJSON,
     CustomerTourBookingResponseDtoToJSONTyped,
 } from './CustomerTourBookingResponseDto';
+import type { CustomerTravelersList200ResponseMeta } from './CustomerTravelersList200ResponseMeta';
+import {
+    CustomerTravelersList200ResponseMetaFromJSON,
+    CustomerTravelersList200ResponseMetaFromJSONTyped,
+    CustomerTravelersList200ResponseMetaToJSON,
+    CustomerTravelersList200ResponseMetaToJSONTyped,
+} from './CustomerTravelersList200ResponseMeta';
 
 /**
  * 
@@ -42,10 +42,10 @@ export interface CustomerTourBookingsList200Response {
     data: Array<CustomerTourBookingResponseDto>;
     /**
      * 
-     * @type {FlightsResults200ResponseMeta}
+     * @type {CustomerTravelersList200ResponseMeta}
      * @memberof CustomerTourBookingsList200Response
      */
-    meta: FlightsResults200ResponseMeta;
+    meta: CustomerTravelersList200ResponseMeta;
 }
 
 /**
@@ -68,7 +68,7 @@ export function CustomerTourBookingsList200ResponseFromJSONTyped(json: any, igno
     return {
         
         'data': ((json['data'] as Array<any>).map(CustomerTourBookingResponseDtoFromJSON)),
-        'meta': FlightsResults200ResponseMetaFromJSON(json['meta']),
+        'meta': CustomerTravelersList200ResponseMetaFromJSON(json['meta']),
     };
 }
 
@@ -84,7 +84,7 @@ export function CustomerTourBookingsList200ResponseToJSONTyped(value?: CustomerT
     return {
         
         'data': ((value['data'] as Array<any>).map(CustomerTourBookingResponseDtoToJSON)),
-        'meta': FlightsResults200ResponseMetaToJSON(value['meta']),
+        'meta': CustomerTravelersList200ResponseMetaToJSON(value['meta']),
     };
 }
 

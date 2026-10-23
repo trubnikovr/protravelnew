@@ -68,7 +68,9 @@ export interface UpdateCustomerProfileRequestDto {
  * @export
  */
 export const UpdateCustomerProfileRequestDtoLocaleEnum = {
-    ru: 'ru'
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
 export type UpdateCustomerProfileRequestDtoLocaleEnum = typeof UpdateCustomerProfileRequestDtoLocaleEnum[keyof typeof UpdateCustomerProfileRequestDtoLocaleEnum];
 

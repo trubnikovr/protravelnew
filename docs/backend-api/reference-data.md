@@ -13,6 +13,23 @@ separated subset, while `countryId` limits city and airport results. Each city
 suggestion includes both its normalized country ID and display name so clients
 can persist an unambiguous country/city pair.
 
+Airport suggestions also match the linked city's localized names. This lets a
+flight selector turn a query such as `Москва` into selectable airport codes
+such as `DME`, `SVO` and `VKO`; city suggestions without an IATA code are not
+sent as flight-search locations.
+
+Flight-location autocomplete ranking is owned by this endpoint. Matching
+active featured locations are resolved and returned first in their configured
+order, followed by ordinary matches without duplicates. Featured matching
+uses the location code, name and country. Independent database reads for the
+featured, country, city and airport result sets run concurrently.
+
+`GET /api/v1/reference/featured-flight-locations` exposes the active ordered
+configuration when it is needed independently. Administrators with content
+permissions manage the complete list through
+`GET|PUT /api/v1/admin/featured-flight-locations`. The replacement operation
+supports up to 30 IATA or metropolitan location codes.
+
 The backend owns the source files under
 `apps/backend-api/seeds/reference`:
 

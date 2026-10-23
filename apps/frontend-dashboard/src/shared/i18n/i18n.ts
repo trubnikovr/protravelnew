@@ -32,6 +32,12 @@ const ru = {
   management: "Управление",
   overview: "Обзор",
   tours: "Туры",
+  featuredFlightLocations: "Популярные направления",
+  featuredFlightLocationsSubtitle:
+    "Города и направления, которые mobile показывает до ввода поискового запроса.",
+  locationName: "Название",
+  saveFeaturedFlightLocationsError:
+    "Не удалось сохранить популярные направления.",
   customers: "Клиенты",
   logout: "Выйти",
   theme: "Изменить тему",
@@ -102,6 +108,7 @@ const ru = {
   createBooking: "Создать бронь",
   booking_pending: "Ожидает подтверждения",
   booking_confirmed: "Подтверждена",
+  booking_awaiting_payment: "Ожидает оплаты",
   booking_paid: "Оплачена",
   booking_completed: "Завершена",
   booking_cancelled: "Отменена",
@@ -297,6 +304,11 @@ const ru = {
 type TranslationKey = keyof typeof ru;
 
 const uz: Record<TranslationKey, string> = {
+  featuredFlightLocations: "Mashhur aeroportlar",
+  featuredFlightLocationsSubtitle:
+    "Mobil ilovadagi parvoz yo‘nalishlarini boshqarish.",
+  locationName: "Nomi",
+  saveFeaturedFlightLocationsError: "Mashhur aeroportlarni saqlab bo‘lmadi.",
   customer: "Mijoz",
   customerList: "Mijozlar ro‘yxati",
   addCustomer: "Mijoz qo‘shish",
@@ -391,6 +403,7 @@ const uz: Record<TranslationKey, string> = {
   createBooking: "Bron yaratish",
   booking_pending: "Tasdiqlash kutilmoqda",
   booking_confirmed: "Tasdiqlangan",
+  booking_awaiting_payment: "To‘lov kutilmoqda",
   booking_paid: "To‘langan",
   booking_completed: "Yakunlangan",
   booking_cancelled: "Bekor qilingan",
@@ -584,6 +597,11 @@ const uz: Record<TranslationKey, string> = {
 };
 
 const en: Record<TranslationKey, string> = {
+  featuredFlightLocations: "Featured airports",
+  featuredFlightLocationsSubtitle:
+    "Manage flight shortcuts shown in the mobile app.",
+  locationName: "Name",
+  saveFeaturedFlightLocationsError: "Could not save featured airports.",
   customer: "Customer",
   customerList: "Customer list",
   addCustomer: "Add customer",
@@ -678,6 +696,7 @@ const en: Record<TranslationKey, string> = {
   createBooking: "Create booking",
   booking_pending: "Pending confirmation",
   booking_confirmed: "Confirmed",
+  booking_awaiting_payment: "Awaiting payment",
   booking_paid: "Paid",
   booking_completed: "Completed",
   booking_cancelled: "Cancelled",

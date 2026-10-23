@@ -1,11 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
+  ActivityIndicator,
   ImageBackground,
   Modal,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import {
@@ -32,6 +34,7 @@ import type {
   SearchStackParamList,
 } from '../../../app/navigation/types';
 import { theme, typography } from '../../../shared/theme/theme';
+import { useFlightPlaceSuggestions } from '../model/useFlightSearch';
 
 type SearchNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<SearchStackParamList, 'SearchForm'>,
@@ -65,19 +68,26 @@ function formatDate(date: Date): string {
   }).format(date);
 }
 
+function toLocalDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 export function SearchScreen() {
   const navigation = useNavigation<SearchNavigation>();
   const route = useRoute<RouteProp<SearchStackParamList, 'SearchForm'>>();
   const { t } = useTranslation();
   const [departure, setDeparture] = useState<Place>({
-    code: 'TAS',
-    label: t('common.tashkent'),
+    code: __DEV__ ? 'MOW' : 'TAS',
+    label: __DEV__ ? t('common.moscow') : t('common.tashkent'),
   });
   const [destination, setDestination] = useState<Place>({
-    code: 'PQC',
-    label: t('common.phuQuoc'),
+    code: __DEV__ ? 'LED' : 'PQC',
+    label: __DEV__ ? t('common.saintPetersburg') : t('common.phuQuoc'),
   });
-  const availableDates = useMemo(() => dateOptions([7, 14, 21, 28]), []);
+  const availableDates = useMemo(() => dateOptions([0, 7, 14, 21, 28]), []);
   const [departureDate, setDepartureDate] = useState(availableDates[0]);
   const [returnDate, setReturnDate] = useState(availableDates[1]);
   const [selector, setSelector] = useState<Selector | null>(null);
@@ -87,18 +97,6 @@ export function SearchScreen() {
     (total, count) => total + count,
     0,
   );
-  const departureOptions: Place[] = [
-    { code: 'TAS', label: t('common.tashkent') },
-    { code: 'MOW', label: t('common.moscow') },
-    { code: 'ALA', label: t('common.almaty') },
-  ];
-  const destinationOptions: Place[] = [
-    { code: 'PQC', label: t('common.phuQuoc') },
-    { code: 'AYT', label: t('common.antalya') },
-    { code: 'DXB', label: t('common.dubai') },
-    { code: 'BAK', label: t('common.baku') },
-    { code: 'TBS', label: t('common.tbilisi') },
-  ];
   const closeSearch = () => {
     if (navigation.canGoBack()) {
       navigation.goBack();
@@ -196,15 +194,21 @@ export function SearchScreen() {
           />
 
           <PrimaryButton
-            onPress={() => navigation.navigate('SearchResults')}
+            onPress={() =>
+              navigation.navigate('SearchResults', {
+                departure,
+                destination,
+                departureDate: toLocalDate(departureDate),
+                returnDate: toLocalDate(returnDate),
+                passengers,
+              })
+            }
             title={t('search.findFlights')}
           />
         </View>
       </ScrollView>
       <SelectionModal
         availableDates={availableDates}
-        departureOptions={departureOptions}
-        destinationOptions={destinationOptions}
         onClose={() => setSelector(null)}
         onSelectDate={date => {
           if (selector === 'departureDate') {
@@ -271,25 +275,38 @@ function FormRow({
 
 function SelectionModal({
   selector,
-  departureOptions,
-  destinationOptions,
   availableDates,
   onSelectPlace,
   onSelectDate,
   onClose,
 }: {
   selector: Selector | null;
-  departureOptions: Place[];
-  destinationOptions: Place[];
   availableDates: Date[];
   onSelectPlace: (place: Place) => void;
   onSelectDate: (date: Date) => void;
   onClose: () => void;
 }) {
   const { t } = useTranslation();
-  const places =
-    selector === 'departure' ? departureOptions : destinationOptions;
   const isDate = selector === 'departureDate' || selector === 'returnDate';
+  const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const suggestions = useFlightPlaceSuggestions(debouncedQuery);
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedQuery(query), 300);
+    return () => clearTimeout(timeout);
+  }, [query]);
+  useEffect(() => {
+    if (selector) {
+      setQuery('');
+      setDebouncedQuery('');
+    }
+  }, [selector]);
+  const normalizedQuery = debouncedQuery.trim();
+  const places = normalizedQuery
+    ? (suggestions.data ?? [])
+        .filter(item => item.code)
+        .map(item => ({ code: item.code!, label: item.name }))
+    : [];
   const title = isDate
     ? t('search.selectDate')
     : selector === 'departure'
@@ -307,6 +324,39 @@ function SelectionModal({
         <Pressable onPress={() => undefined} style={styles.modalSheet}>
           <View style={styles.modalHandle} />
           <Text style={styles.modalTitle}>{title}</Text>
+          {!isDate ? (
+            <TextInput
+              autoFocus
+              onChangeText={setQuery}
+              placeholder={t('search.placeSearchPlaceholder')}
+              placeholderTextColor={theme.colors.textSecondary}
+              style={styles.searchInput}
+              value={query}
+            />
+          ) : null}
+          {!isDate &&
+          normalizedQuery &&
+          suggestions.isFetching &&
+          !places.length ? (
+            <ActivityIndicator
+              color={theme.colors.primary}
+              style={styles.modalState}
+            />
+          ) : null}
+          {!isDate && suggestions.isError && !places.length ? (
+            <Text style={styles.modalStateText}>
+              {t('search.placeSearchError')}
+            </Text>
+          ) : null}
+          {!isDate &&
+          normalizedQuery &&
+          !suggestions.isFetching &&
+          !suggestions.isError &&
+          places.length === 0 ? (
+            <Text style={styles.modalStateText}>
+              {t('search.placeSearchEmpty')}
+            </Text>
+          ) : null}
           {(isDate ? availableDates : places).map(option => {
             const key =
               option instanceof Date ? option.toISOString() : option.code;
@@ -458,6 +508,24 @@ const styles = StyleSheet.create({
   modalTitle: {
     ...typography.titleSmall,
     marginBottom: theme.spacing.sm,
+  },
+  searchInput: {
+    ...typography.body,
+    backgroundColor: theme.colors.background,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radii.sm,
+    borderWidth: 1,
+    marginBottom: theme.spacing.sm,
+    minHeight: theme.sizes.inputHeight,
+    paddingHorizontal: theme.spacing.md,
+  },
+  modalState: {
+    marginVertical: theme.spacing.md,
+  },
+  modalStateText: {
+    ...typography.bodySmall,
+    marginVertical: theme.spacing.md,
+    textAlign: 'center',
   },
   modalOption: {
     alignItems: 'center',

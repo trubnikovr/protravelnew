@@ -7,7 +7,7 @@
 Name | Type
 ------------ | -------------
 `data` | [Array&lt;CustomerTourBookingResponseDto&gt;](CustomerTourBookingResponseDto.md)
-`meta` | [FlightsResults200ResponseMeta](FlightsResults200ResponseMeta.md)
+`meta` | [CustomerTravelersList200ResponseMeta](CustomerTravelersList200ResponseMeta.md)
 
 ## Example
 

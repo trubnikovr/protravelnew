@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**referenceCountries**](ReferenceApi.md#referencecountries) | **GET** /api/v1/reference/countries | List localized countries for citizenship selection |
+| [**referenceFeaturedFlightLocations**](ReferenceApi.md#referencefeaturedflightlocations) | **GET** /api/v1/reference/featured-flight-locations | List featured flight locations |
 | [**referenceSuggest**](ReferenceApi.md#referencesuggest) | **GET** /api/v1/reference/suggest | Suggest countries, cities and airports |
 
 
@@ -39,7 +40,7 @@ async function example() {
     sortDirection: sortDirection_example,
     // string (optional)
     search: search_example,
-    // 'ru' (optional)
+    // 'ru' | 'uz' | 'en' (optional)
     acceptLanguage: acceptLanguage_example,
   } satisfies ReferenceCountriesRequest;
 
@@ -65,11 +66,68 @@ example().catch(console.error);
 | **sortBy** | `name`, `code` |  | [Optional] [Defaults to `&#39;name&#39;`] [Enum: name, code] |
 | **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
 | **search** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **acceptLanguage** | `ru` |  | [Optional] [Defaults to `undefined`] [Enum: ru] |
+| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
 
 ### Return type
 
 [**ReferenceCountries200Response**](ReferenceCountries200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## referenceFeaturedFlightLocations
+
+> ReferenceFeaturedFlightLocations200Response referenceFeaturedFlightLocations()
+
+List featured flight locations
+
+### Example
+
+```ts
+import {
+  Configuration,
+  ReferenceApi,
+} from '';
+import type { ReferenceFeaturedFlightLocationsRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new ReferenceApi();
+
+  try {
+    const data = await api.referenceFeaturedFlightLocations();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ReferenceFeaturedFlightLocations200Response**](ReferenceFeaturedFlightLocations200Response.md)
 
 ### Authorization
 

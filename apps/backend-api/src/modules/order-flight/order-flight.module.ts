@@ -13,8 +13,9 @@ import { RefreshFlightOrderUseCase } from './application/use-cases/refresh-fligh
 import { GetFlightOrderForPaymentUseCase } from './application/use-cases/get-flight-order-for-payment.use-case';
 import { UpdateFlightOrderPaymentStatusUseCase } from './application/use-cases/update-flight-order-payment-status.use-case';
 import { DrizzleFlightOrderRepository } from './infrastructure/persistence/drizzle-flight-order.repository';
-import { CbsFlightBookingProvider } from './infrastructure/providers/cbs-flight-booking.provider';
+import { TtbookingFlightBookingProvider } from './infrastructure/providers/ttbooking-flight-booking.provider';
 import { MockFlightBookingProvider } from './infrastructure/providers/mock-flight-booking.provider';
+import { TtbookingErrorMapper } from '@app/integrations/ttbooking/ttbooking-error.mapper';
 
 const useCases = [
   CreateFlightOrderUseCase,
@@ -32,7 +33,8 @@ const useCases = [
     ...useCases,
     DrizzleFlightOrderRepository,
     MockFlightBookingProvider,
-    CbsFlightBookingProvider,
+    TtbookingFlightBookingProvider,
+    TtbookingErrorMapper,
     {
       provide: FLIGHT_ORDER_REPOSITORY,
       useExisting: DrizzleFlightOrderRepository,
@@ -42,13 +44,16 @@ const useCases = [
       inject: [
         ConfigService,
         MockFlightBookingProvider,
-        CbsFlightBookingProvider,
+        TtbookingFlightBookingProvider,
       ],
       useFactory: (
         config: ConfigService,
         mock: MockFlightBookingProvider,
-        cbs: CbsFlightBookingProvider,
-      ) => (config.get<string>('FLIGHT_PROVIDER') === 'cbs' ? cbs : mock),
+        ttbooking: TtbookingFlightBookingProvider,
+      ) =>
+        config.get<string>('FLIGHT_PROVIDER') === 'ttbooking'
+          ? ttbooking
+          : mock,
     },
   ],
   exports: useCases,

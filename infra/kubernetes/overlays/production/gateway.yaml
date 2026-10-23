@@ -1,0 +1,30 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: protravel-public
+spec:
+  listeners:
+    - name: https-api
+      protocol: HTTPS
+      port: 443
+      hostname: api.protravel.example
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: protravel-public-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https-admin
+      protocol: HTTPS
+      port: 443
+      hostname: admin.protravel.example
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: protravel-public-tls
+      allowedRoutes:
+        namespaces:
+          from: Same

@@ -14,6 +14,7 @@ import {
   Search,
   Sun,
   Map,
+  Plane,
   Files,
   UserRound,
   Users,
@@ -50,6 +51,11 @@ export function AppShell() {
             {[
               { to: "/", label: t("overview"), icon: LayoutDashboard },
               { to: "/tours", label: t("tours"), icon: Map },
+              {
+                to: "/featured-flight-locations",
+                label: t("featuredFlightLocations"),
+                icon: Plane,
+              },
               {
                 to: "/tour-bookings",
                 label: t("tourBookings"),

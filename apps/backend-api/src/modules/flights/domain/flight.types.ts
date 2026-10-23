@@ -1,14 +1,5 @@
 import type { CurrencyCode } from '@shared/domain/enums';
 
-export enum FlightSearchStatus {
-  CREATED = 'created',
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  PARTIAL = 'partial',
-  FAILED = 'failed',
-  EXPIRED = 'expired',
-}
-
 export enum FlightCabinClass {
   ECONOMY = 'economy',
   PREMIUM_ECONOMY = 'premium_economy',
@@ -20,6 +11,13 @@ export enum FlightPassengerType {
   ADULT = 'adult',
   CHILD = 'child',
   INFANT = 'infant',
+}
+
+export enum FlightSortBy {
+  RECOMMENDED = 'recommended',
+  PRICE = 'price',
+  DURATION = 'duration',
+  DEPARTURE = 'departure',
 }
 
 export interface FlightRouteLeg {
@@ -40,6 +38,15 @@ export interface FlightSearchCriteria {
   directOnly: boolean;
   baggageRequired: boolean;
   preferredAirlines: string[];
+  departureTimeFrom?: string;
+  departureTimeTo?: string;
+  arrivalTimeFrom?: string;
+  arrivalTimeTo?: string;
+  maxStops?: number;
+  maxDurationMinutes?: number;
+  minPrice?: string;
+  maxPrice?: string;
+  sortBy: FlightSortBy;
 }
 
 export interface FlightLocation {

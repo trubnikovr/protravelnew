@@ -44,6 +44,10 @@ PostgreSQL and Redis are expected to run as local services during the current
 architecture phase. Do not start Docker Compose unless it is requested
 explicitly.
 
+- `npm run infra:local:up` — start the local PostgreSQL and Redis Compose
+  services from `infra/local/compose.yaml`;
+- `npm run infra:local:down` — stop local infrastructure without deleting its
+  persistent volumes;
 - `npm run backend:dev` — start NestJS in watch mode;
 - `npm run backend:typecheck` — strict TypeScript check;
 - `npm run backend:lint` — ESLint;
@@ -163,9 +167,10 @@ supported variant set becomes dynamic.
 ## Flight providers
 
 Flight controllers call application use cases exported by `FlightsModule`.
-Provider-specific commands and tokens remain behind `FlightProviderPort`; CBS
+Provider-specific commands and tokens remain behind `FlightProviderPort`; TTBooking
 payloads must not enter entrypoint DTOs. See `docs/backend-api/flights.md` for
-the polling lifecycle, configuration and current local persistence constraint.
+the synchronous request lifecycle, configuration and current local persistence
+constraint.
 
 ## Размер методов
 

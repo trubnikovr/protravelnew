@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: protravel-prod
+resources:
+  - namespace.yaml
+  - backend-configmap.yaml
+  - dashboard-configmap.yaml
+  - storage.yaml
+  - postgres.yaml
+  - redis.yaml
+  - migration-job.yaml
+  - backend.yaml
+  - dashboard.yaml
+  - gateway.yaml
+  - network-policies.yaml
+commonLabels:
+  app.kubernetes.io/managed-by: kustomize
+  app.kubernetes.io/part-of: protravel

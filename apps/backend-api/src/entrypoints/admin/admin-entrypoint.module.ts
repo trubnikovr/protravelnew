@@ -21,6 +21,8 @@ import { AdminTourBookingsController } from './tour-bookings/admin-tour-bookings
 import { ContentModule } from '@modules/content';
 import { AdminSystemMessagesController } from './system-messages/admin-system-messages.controller';
 import { AdminNewsController } from './news/admin-news.controller';
+import { ReferenceModule } from '@core/submodules/reference';
+import { AdminFeaturedFlightLocationsController } from './reference/admin-featured-flight-locations.controller';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { AdminNewsController } from './news/admin-news.controller';
     FilesModule,
     OrderTourModule,
     ContentModule,
+    ReferenceModule,
     PassportModule,
     JwtModule.register({}),
   ],
@@ -44,6 +47,7 @@ import { AdminNewsController } from './news/admin-news.controller';
     AdminTourBookingsController,
     AdminSystemMessagesController,
     AdminNewsController,
+    AdminFeaturedFlightLocationsController,
   ],
   providers: [
     AdminAuthService,

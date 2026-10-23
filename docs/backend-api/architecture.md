@@ -225,30 +225,30 @@ module integration.
 
 ## Module map
 
-| Module                          | Responsibility                                                          | Status                         |
-| ------------------------------- | ----------------------------------------------------------------------- | ------------------------------ |
-| `health`                        | weighted overall system score and liveness                              | implemented                    |
-| `customer-auth`                 | phone login, SMS challenge use cases, refresh and isolated customer JWT | temporary code adapter         |
-| `customers`                     | profile, locale and currency; owns the `customer-travelers` submodule   | MVP implemented                |
-| `customer-travelers`            | family travelers and encrypted identity documents                       | nested admin/mobile CRUD       |
-| `core/submodules/reference`     | countries, cities, airports, CSV seed and suggest API                   | implemented                    |
-| `content`                       | mobile news, read state and operational system messages                    | news and system messages implemented |
-| `search`                        | normalized multi-provider search orchestration                          | scaffolded                     |
-| `flights`                       | async search, offers, revalidation, fare rules and CBS/mock adapters    | MVP implemented                |
-| `hotels`                        | hotel offers, rooms and booking adapter                                 | scaffolded                     |
-| `tours`                         | tour catalog, mobile home collections, availability and booking adapter  | admin CRUD and home API implemented |
-| `transfers`                     | transfer offers and booking adapter                                     | scaffolded                     |
-| `pricing`                       | currency, markup, commission and promo codes                            | scaffolded                     |
-| `order-flight`                  | flight order state machine, traveler snapshots and CBS booking          | MVP implemented                |
-| `order-tour`                    | tour booking lifecycle, paid state and private administrative documents | admin MVP implemented          |
-| `payments`                      | payment intents, webhooks and refunds                                   | scaffolded                     |
-| `core/submodules/notifications` | shared delivery queues and notification policies                        | flight-order email queue MVP   |
-| `favorites`                     | favorites, saved searches and price alerts                              | scaffolded                     |
-| `reviews`                       | reviews and moderation                                                  | scaffolded                     |
-| `core/submodules/files`         | public images and private booking documents; S3 adapter planned         | local adapters implemented     |
-| `support`                       | support requests and messages                                           | scaffolded                     |
-| `admin`                         | separate JWT auth, admin profile, domain model and RBAC foundation      | MVP implemented                |
-| `audit`                         | security events and immutable audit trail                               | scaffolded                     |
+| Module                          | Responsibility                                                          | Status                               |
+| ------------------------------- | ----------------------------------------------------------------------- | ------------------------------------ |
+| `health`                        | weighted overall system score and liveness                              | implemented                          |
+| `customer-auth`                 | phone login, SMS challenge use cases, refresh and isolated customer JWT | temporary code adapter               |
+| `customers`                     | profile, locale and currency; owns the `customer-travelers` submodule   | MVP implemented                      |
+| `customer-travelers`            | family travelers and encrypted identity documents                       | nested admin/mobile CRUD             |
+| `core/submodules/reference`     | countries, cities, airports, CSV seed and suggest API                   | implemented                          |
+| `content`                       | mobile news, read state and operational system messages                 | news and system messages implemented |
+| `search`                        | normalized multi-provider search orchestration                          | scaffolded                           |
+| `flights`                       | synchronous search, offers, fare rules and TTBooking/mock adapters      | MVP implemented                      |
+| `hotels`                        | hotel offers, rooms and booking adapter                                 | scaffolded                           |
+| `tours`                         | tour catalog, mobile home collections, availability and booking adapter | admin CRUD and home API implemented  |
+| `transfers`                     | transfer offers and booking adapter                                     | scaffolded                           |
+| `pricing`                       | currency, markup, commission and promo codes                            | scaffolded                           |
+| `order-flight`                  | flight order state machine, traveler snapshots and TTBooking booking    | MVP implemented                      |
+| `order-tour`                    | tour booking lifecycle, paid state and private administrative documents | admin MVP implemented                |
+| `payments`                      | payment intents, webhooks and refunds                                   | scaffolded                           |
+| `core/submodules/notifications` | shared delivery queues and notification policies                        | flight-order email queue MVP         |
+| `favorites`                     | favorites, saved searches and price alerts                              | scaffolded                           |
+| `reviews`                       | reviews and moderation                                                  | scaffolded                           |
+| `core/submodules/files`         | public images and private booking documents; S3 adapter planned         | local adapters implemented           |
+| `support`                       | support requests and messages                                           | scaffolded                           |
+| `admin`                         | separate JWT auth, admin profile, domain model and RBAC foundation      | MVP implemented                      |
+| `audit`                         | security events and immutable audit trail                               | scaffolded                           |
 
 “Scaffolded” means the Nest module boundary exists and is registered, but no
 public API contract is promised yet.

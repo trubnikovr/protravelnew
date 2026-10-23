@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: protravel-backend-config
+data:
+  CORS_ORIGINS: https://admin.protravel.example
+  PUBLIC_API_URL: https://api.protravel.example
+  TTBOOKING_BASE_URL: https://replace-with-ttbooking-endpoint.example
+  TTBOOKING_FARE_RULES_URL: https://replace-with-ttbooking-rules.example

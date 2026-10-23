@@ -402,7 +402,7 @@ async function example() {
     sortDirection: sortDirection_example,
     // string (optional)
     search: search_example,
-    // 'pending' | 'confirmed' | 'paid' | 'completed' | 'cancelled' (optional)
+    // 'pending' | 'confirmed' | 'awaiting_payment' | 'paid' | 'completed' | 'cancelled' (optional)
     status: status_example,
   } satisfies AdminTourBookingsListRequest;
 
@@ -428,7 +428,7 @@ example().catch(console.error);
 | **sortBy** | `string` |  | [Optional] [Defaults to `&#39;createdAt&#39;`] |
 | **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
 | **search** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **status** | `pending`, `confirmed`, `paid`, `completed`, `cancelled` |  | [Optional] [Defaults to `undefined`] [Enum: pending, confirmed, paid, completed, cancelled] |
+| **status** | `pending`, `confirmed`, `awaiting_payment`, `paid`, `completed`, `cancelled` |  | [Optional] [Defaults to `undefined`] [Enum: pending, confirmed, awaiting_payment, paid, completed, cancelled] |
 
 ### Return type
 

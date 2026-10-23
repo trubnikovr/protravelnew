@@ -1,0 +1,77 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: protravel-public-tls
+spec:
+  secretName: protravel-public-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-production
+  dnsNames:
+    - api.protravel.example
+    - admin.protravel.example
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: protravel-public
+spec:
+  gatewayClassName: eg
+  listeners:
+    - name: https-api
+      protocol: HTTPS
+      port: 443
+      hostname: api.protravel.example
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: protravel-public-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https-admin
+      protocol: HTTPS
+      port: 443
+      hostname: admin.protravel.example
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: protravel-public-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: protravel-api
+spec:
+  parentRefs:
+    - name: protravel-public
+      sectionName: https-api
+  hostnames:
+    - api.protravel.example
+  rules:
+    - backendRefs:
+        - name: protravel-backend
+          port: 3000
+      timeouts:
+        request: 120s
+        backendRequest: 115s
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: protravel-admin
+spec:
+  parentRefs:
+    - name: protravel-public
+      sectionName: https-admin
+  hostnames:
+    - admin.protravel.example
+  rules:
+    - backendRefs:
+        - name: protravel-dashboard
+          port: 8080

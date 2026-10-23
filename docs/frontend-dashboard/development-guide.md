@@ -30,7 +30,7 @@ Backend API is the only owner of HTTP contracts. Its Swagger decorators produce
 backend contract change, regenerate the dashboard client:
 
 ```bash
-npm run admin:api:generate
+npm run dashboard:api:generate
 ```
 
 OpenAPI Generator writes the TypeScript Fetch client to

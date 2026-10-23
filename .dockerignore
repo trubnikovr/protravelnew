@@ -1,0 +1,16 @@
+.git
+.github
+.idea
+.agents
+.codex
+**/node_modules
+**/dist
+**/coverage
+**/.env
+**/.env.*
+!**/.env.example
+apps/backend-api/uploads
+apps/mobile/android/.gradle
+apps/mobile/ios/Pods
+design
+San-Francisco-Pro-Fonts-master

@@ -74,7 +74,9 @@ export interface CreateCustomerRequestDto {
  * @export
  */
 export const CreateCustomerRequestDtoLocaleEnum = {
-    ru: 'ru'
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
 export type CreateCustomerRequestDtoLocaleEnum = typeof CreateCustomerRequestDtoLocaleEnum[keyof typeof CreateCustomerRequestDtoLocaleEnum];
 

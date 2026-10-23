@@ -3,6 +3,7 @@
 export * from './AdminAuthApi';
 export * from './AdminCustomersApi';
 export * from './AdminCustomersTravelersApi';
+export * from './AdminFeaturedFlightLocationsApi';
 export * from './AdminFilesApi';
 export * from './AdminNewsApi';
 export * from './AdminProfileApi';

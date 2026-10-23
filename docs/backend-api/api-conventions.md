@@ -86,6 +86,12 @@ Rules:
 - raw exception messages, credentials and provider payloads are never exposed;
 - unknown errors use `HTTP_500` and are logged with request/trace context.
 
+Known application errors are localized by the backend from
+`Accept-Language`. Supported values are `ru`, `uz` and `en`, including regional
+forms such as `ru-RU`. `error.code` and `details` do not depend on language;
+clients must branch on the stable code and display the backend-provided
+`message`. Unsupported or missing languages fall back to Russian.
+
 ## Exceptions
 
 - HTTP `204` responses have no body;

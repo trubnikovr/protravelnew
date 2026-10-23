@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: protravel-backend-config
+data:
+  NODE_ENV: production
+  PORT: "3000"
+  API_PREFIX: api
+  CORS_ORIGINS: https://admin.protravel.example
+  DATABASE_HOST: protravel-postgres-rw
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: protravel
+  DATABASE_USER: protravel
+  DATABASE_SSL: "false"
+  REDIS_HOST: protravel-redis
+  REDIS_PORT: "6379"
+  CUSTOMER_JWT_ACCESS_TTL_SECONDS: "900"
+  CUSTOMER_JWT_REFRESH_TTL_SECONDS: "2592000"
+  ADMIN_JWT_ACCESS_TTL_SECONDS: "900"
+  DEFAULT_LOCALE: ru
+  DEFAULT_CURRENCY: RUB
+  APP_TIME_ZONE: Asia/Tashkent
+  PAYMENT_PROVIDER: mock
+  PAYMENT_RETURN_URL: protravel://payments/result
+  FLIGHT_PROVIDER: ttbooking
+  TTBOOKING_BASE_URL: https://replace-with-ttbooking-endpoint.example
+  TTBOOKING_FARE_RULES_URL: https://replace-with-ttbooking-rules.example
+  TTBOOKING_LOCALE: ru
+  TTBOOKING_TIMEOUT_MS: "30000"
+  TTBOOKING_DEFAULT_CURRENCY: RUB
+  TTBOOKING_AMOUNT_MULTIPLIER: "1"
+  UPLOAD_DIRECTORY: /data/uploads
+  PUBLIC_API_URL: https://api.protravel.example
+  LOG_LEVEL: info
+  SENTRY_ENVIRONMENT: production
+  SENTRY_RELEASE: replace-with-git-sha
+  SENTRY_TRACES_SAMPLE_RATE: "0"
+  HEALTH_MAX_HEAP_PERCENT: "90"
+  OTEL_ENABLED: "true"
+  OTEL_SERVICE_NAME: protravel-backend-api
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector.observability.svc.cluster.local:4318
+  OTEL_EXPORT_INTERVAL_MS: "10000"
+  OBSERVABILITY_HEALTH_TIMEOUT_MS: "500"
+  GRAFANA_HEALTH_URL: http://grafana.observability.svc.cluster.local:3000/api/health
+  OTEL_COLLECTOR_HEALTH_URL: http://otel-collector.observability.svc.cluster.local:13133
+  TEMPO_HEALTH_URL: http://tempo.observability.svc.cluster.local:3200/ready
+  LOKI_HEALTH_URL: http://loki.observability.svc.cluster.local:3100/ready
+  PROMETHEUS_HEALTH_URL: http://prometheus.observability.svc.cluster.local:9090/-/ready

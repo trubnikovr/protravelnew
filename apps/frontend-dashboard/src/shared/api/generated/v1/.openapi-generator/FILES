@@ -2,6 +2,7 @@
 apis/AdminAuthApi.ts
 apis/AdminCustomersApi.ts
 apis/AdminCustomersTravelersApi.ts
+apis/AdminFeaturedFlightLocationsApi.ts
 apis/AdminFilesApi.ts
 apis/AdminNewsApi.ts
 apis/AdminProfileApi.ts
@@ -20,6 +21,7 @@ docs/AdminCustomersApi.md
 docs/AdminCustomersCreate201Response.md
 docs/AdminCustomersList200Response.md
 docs/AdminCustomersTravelersApi.md
+docs/AdminFeaturedFlightLocationsApi.md
 docs/AdminFilesApi.md
 docs/AdminFilesUploadImage201Response.md
 docs/AdminLoginRequestDto.md
@@ -50,6 +52,8 @@ docs/CreateTourRequestDto.md
 docs/CreateTravelerDocumentRequestDto.md
 docs/CreateTravelerRequestDto.md
 docs/CustomerResponseDto.md
+docs/FeaturedFlightLocationRequestDto.md
+docs/FeaturedFlightLocationResponseDto.md
 docs/ImageRequestDto.md
 docs/ImageResponseDto.md
 docs/MoneyRequestDto.md
@@ -59,6 +63,7 @@ docs/ReferenceApi.md
 docs/ReferenceCountries200Response.md
 docs/ReferenceCountries200ResponseMeta.md
 docs/ReferenceCountryResponseDto.md
+docs/ReferenceFeaturedFlightLocations200Response.md
 docs/ReferenceSuggest200Response.md
 docs/ReferenceSuggestionResponseDto.md
 docs/SystemMessageResponseDto.md
@@ -120,6 +125,8 @@ models/CreateTourRequestDto.ts
 models/CreateTravelerDocumentRequestDto.ts
 models/CreateTravelerRequestDto.ts
 models/CustomerResponseDto.ts
+models/FeaturedFlightLocationRequestDto.ts
+models/FeaturedFlightLocationResponseDto.ts
 models/ImageRequestDto.ts
 models/ImageResponseDto.ts
 models/MoneyRequestDto.ts
@@ -128,6 +135,7 @@ models/PaginationMetaResponseDto.ts
 models/ReferenceCountries200Response.ts
 models/ReferenceCountries200ResponseMeta.ts
 models/ReferenceCountryResponseDto.ts
+models/ReferenceFeaturedFlightLocations200Response.ts
 models/ReferenceSuggest200Response.ts
 models/ReferenceSuggestionResponseDto.ts
 models/SystemMessageResponseDto.ts

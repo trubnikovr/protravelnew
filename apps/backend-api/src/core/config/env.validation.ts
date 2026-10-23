@@ -40,6 +40,7 @@ export const envValidationSchema = Joi.object({
     }),
   DEFAULT_LOCALE: Joi.string().valid('ru', 'uz', 'en').default('ru'),
   DEFAULT_CURRENCY: Joi.string().valid('RUB', 'USD', 'EUR').default('RUB'),
+  APP_TIME_ZONE: Joi.string().default('Asia/Tashkent'),
   PAYMENT_PROVIDER: Joi.string().valid('mock', 'raiffeisen').default('mock'),
   PAYMENT_RETURN_URL: Joi.string().default('protravel://payments/result'),
   RAIFFEISEN_BASE_URL: Joi.string().uri().default('https://pay-test.raif.ru'),
@@ -62,26 +63,32 @@ export const envValidationSchema = Joi.object({
     .min(1_000)
     .max(60_000)
     .default(15_000),
-  FLIGHT_PROVIDER: Joi.string().valid('mock', 'cbs').default('mock'),
-  CBS_BASE_URL: Joi.string().uri().allow('').default(''),
-  CBS_FARE_RULES_URL: Joi.string().uri().allow('').default(''),
-  CBS_AGENCY_ID: Joi.string().allow('').default(''),
-  CBS_USER_ID: Joi.string().allow('').default(''),
-  CBS_PASSWORD: Joi.string().allow('').default(''),
-  CBS_LOCALE: Joi.string().valid('ru').default('ru'),
-  CBS_TIMEOUT_MS: Joi.number()
+  FLIGHT_PROVIDER: Joi.string().valid('mock', 'ttbooking').default('mock'),
+  TTBOOKING_BASE_URL: Joi.string().uri().allow('').default(''),
+  TTBOOKING_FARE_RULES_URL: Joi.string().uri().allow('').default(''),
+  TTBOOKING_AGENCY_ID: Joi.string().allow('').default(''),
+  TTBOOKING_USER_ID: Joi.string().allow('').default(''),
+  TTBOOKING_PASSWORD: Joi.string().allow('').default(''),
+  TTBOOKING_SECRET_KEY: Joi.string().allow('').default(''),
+  TTBOOKING_LOCALE: Joi.string().valid('ru').default('ru'),
+  TTBOOKING_TIMEOUT_MS: Joi.number()
     .integer()
     .min(1_000)
     .max(120_000)
     .default(30_000),
-  CBS_DEFAULT_CURRENCY: Joi.string().valid('RUB', 'USD', 'EUR').default('RUB'),
-  CBS_AMOUNT_MULTIPLIER: Joi.number().positive().default(1),
+  TTBOOKING_DEFAULT_CURRENCY: Joi.string()
+    .valid('RUB', 'USD', 'EUR')
+    .default('RUB'),
+  TTBOOKING_AMOUNT_MULTIPLIER: Joi.number().positive().default(1),
   UPLOAD_DIRECTORY: Joi.string().default('apps/backend-api/uploads'),
   PUBLIC_API_URL: Joi.string().uri().allow('').default(''),
   LOG_LEVEL: Joi.string()
     .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace')
     .default('info'),
   SENTRY_DSN: Joi.string().uri().allow('').default(''),
+  SENTRY_ENVIRONMENT: Joi.string().allow('').default(''),
+  SENTRY_RELEASE: Joi.string().allow('').default(''),
+  SENTRY_TRACES_SAMPLE_RATE: Joi.number().min(0).max(1).default(0),
   HEALTH_MAX_HEAP_PERCENT: Joi.number().min(50).max(100).default(90),
   OTEL_ENABLED: Joi.boolean().truthy('true').falsy('false').default(false),
   OTEL_SERVICE_NAME: Joi.string().default('protravel-backend-api'),

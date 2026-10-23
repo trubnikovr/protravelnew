@@ -9,7 +9,9 @@ import type { Request, Response } from 'express';
 import * as Sentry from '@sentry/nestjs';
 import { PinoLogger } from 'nestjs-pino';
 import type { ApiErrorResponse } from '../contracts/api-response.contract';
+import { errorMessage } from '../errors/error-message.catalog';
 import { createResponseMeta } from '../request/request-context';
+import { requestLocale } from '../request/request-locale';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -36,11 +38,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       Sentry.captureException(exception);
     }
 
+    const code = this.code(status, payload);
     const body: ApiErrorResponse = {
       error: {
-        code: this.code(status, payload),
-        message: this.message(status, payload),
-        details: this.details(payload),
+        code,
+        message: this.message(code, status, payload, request),
+        details: this.details(status, payload),
       },
       meta: createResponseMeta(request, status),
     };
@@ -54,7 +57,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
     return `HTTP_${status}`;
   }
 
-  private message(status: number, payload: unknown): string {
+  private message(
+    code: string,
+    status: number,
+    payload: unknown,
+    request: Request,
+  ): string {
+    const localized = errorMessage(code, requestLocale(request));
+    if (localized) return localized;
     if (this.isObject(payload) && 'message' in payload) {
       return Array.isArray(payload.message)
         ? 'Request validation failed'
@@ -63,7 +73,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     return status === 500 ? 'Internal server error' : 'Request failed';
   }
 
-  private details(payload: unknown): unknown {
+  private details(status: number, payload: unknown): unknown {
+    if (status >= 500) return null;
     if (!this.isObject(payload)) return null;
     if ('details' in payload) return payload.details;
     if (Array.isArray(payload.message)) {

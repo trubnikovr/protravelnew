@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: protravel-dashboard-runtime
+data:
+  config.js: |
+    window.__PROTRAVEL_CONFIG__ = {
+      apiUrl: "https://api.protravel.example"
+    };

@@ -1,0 +1,39 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: protravel-postgres
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.6-standard-bookworm
+  primaryUpdateStrategy: unsupervised
+  enableSuperuserAccess: false
+  bootstrap:
+    initdb:
+      database: protravel
+      owner: protravel
+      secret:
+        name: protravel-postgres-auth
+  storage:
+    size: 200Gi
+  resources:
+    requests:
+      cpu: "1"
+      memory: 4Gi
+    limits:
+      cpu: "4"
+      memory: 16Gi
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+  monitoring:
+    enablePodMonitor: true
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: protravel-postgres
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      cnpg.io/cluster: protravel-postgres

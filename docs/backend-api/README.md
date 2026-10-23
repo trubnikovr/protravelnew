@@ -14,10 +14,10 @@
   Prometheus and failure isolation.
 - [Reference data](reference-data.md) — country, city and airport seed sources
   and import rules.
-- [Flight search](flights.md) — use-case orchestration, CBS/mock provider
-  adapters, polling API and persistence constraints.
+- [Flight search](flights.md) — synchronous use-case orchestration,
+  TTBooking/mock provider adapters and offer persistence constraints.
 - [Flight orders](order-flight.md) — isolated airline order domain, booking
-  state machine, idempotency and CBS booking commands.
+  state machine, idempotency and TTBooking booking commands.
 - [Tour bookings](order-tour.md) — administrative booking lifecycle, paid
   status and private booking documents.
 - [Payments](payments.md) — hosted Raiffeisen checkout, signed webhooks and

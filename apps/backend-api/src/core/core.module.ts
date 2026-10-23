@@ -7,6 +7,7 @@ import { HealthScoreModule } from './health/health-score.module';
 import { HttpModule } from './http/http.module';
 import { ObservabilityModule } from './observability/observability.module';
 import { DomainEventsModule } from './events/domain-events.module';
+import { TimeModule } from './time/time.module';
 
 const CORE_MODULES = [
   AppConfigModule,
@@ -17,6 +18,7 @@ const CORE_MODULES = [
   HttpModule,
   ObservabilityModule,
   DomainEventsModule,
+  TimeModule,
 ];
 
 @Global()

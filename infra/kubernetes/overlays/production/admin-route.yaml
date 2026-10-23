@@ -1,0 +1,7 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: protravel-admin
+spec:
+  hostnames:
+    - admin.protravel.example

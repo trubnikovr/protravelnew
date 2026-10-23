@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { FlightOffer } from '../../domain';
 import {
-  FLIGHT_SEARCH_REPOSITORY,
-  type FlightSearchRepository,
-} from '../ports/flight-search.repository';
+  FLIGHT_OFFER_REPOSITORY,
+  type FlightOfferRepository,
+} from '../ports/flight-offer.repository';
 
 @Injectable()
 export class GetFlightOfferUseCase {
   constructor(
-    @Inject(FLIGHT_SEARCH_REPOSITORY)
-    private readonly searches: FlightSearchRepository,
+    @Inject(FLIGHT_OFFER_REPOSITORY)
+    private readonly offers: FlightOfferRepository,
   ) {}
   execute(id: string): Promise<FlightOffer | null> {
-    return this.searches.findOffer(id);
+    return this.offers.findOffer(id);
   }
 }

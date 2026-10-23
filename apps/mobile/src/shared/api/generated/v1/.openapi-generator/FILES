@@ -37,6 +37,8 @@ docs/CustomerTourBookingsCreate201Response.md
 docs/CustomerTourBookingsList200Response.md
 docs/CustomerTravelersCreate201Response.md
 docs/CustomerTravelersList200Response.md
+docs/CustomerTravelersList200ResponseMeta.md
+docs/FeaturedFlightLocationResponseDto.md
 docs/FilesApi.md
 docs/FlightFareRuleSectionResponseDto.md
 docs/FlightFareRulesResponseDto.md
@@ -51,14 +53,11 @@ docs/FlightOrdersApi.md
 docs/FlightOrdersCreate201Response.md
 docs/FlightPassengerRequestDto.md
 docs/FlightRouteRequestDto.md
-docs/FlightSearchResponseDto.md
 docs/FlightSegmentResponseDto.md
 docs/FlightsApi.md
-docs/FlightsCreate201Response.md
 docs/FlightsFareRules200Response.md
 docs/FlightsOffer200Response.md
-docs/FlightsResults200Response.md
-docs/FlightsResults200ResponseMeta.md
+docs/FlightsSearch200Response.md
 docs/HealthComponentResponseDto.md
 docs/HealthLive200Response.md
 docs/HealthScore200Response.md
@@ -94,6 +93,7 @@ docs/PublicTourResponseDto.md
 docs/ReferenceApi.md
 docs/ReferenceCountries200Response.md
 docs/ReferenceCountryResponseDto.md
+docs/ReferenceFeaturedFlightLocations200Response.md
 docs/ReferenceSuggest200Response.md
 docs/ReferenceSuggestionResponseDto.md
 docs/RefreshCustomerTokenRequestDto.md
@@ -132,6 +132,8 @@ models/CustomerTourBookingsCreate201Response.ts
 models/CustomerTourBookingsList200Response.ts
 models/CustomerTravelersCreate201Response.ts
 models/CustomerTravelersList200Response.ts
+models/CustomerTravelersList200ResponseMeta.ts
+models/FeaturedFlightLocationResponseDto.ts
 models/FlightFareRuleSectionResponseDto.ts
 models/FlightFareRulesResponseDto.ts
 models/FlightItineraryResponseDto.ts
@@ -144,13 +146,10 @@ models/FlightOrderTravelerRequestDto.ts
 models/FlightOrdersCreate201Response.ts
 models/FlightPassengerRequestDto.ts
 models/FlightRouteRequestDto.ts
-models/FlightSearchResponseDto.ts
 models/FlightSegmentResponseDto.ts
-models/FlightsCreate201Response.ts
 models/FlightsFareRules200Response.ts
 models/FlightsOffer200Response.ts
-models/FlightsResults200Response.ts
-models/FlightsResults200ResponseMeta.ts
+models/FlightsSearch200Response.ts
 models/HealthComponentResponseDto.ts
 models/HealthLive200Response.ts
 models/HealthScore200Response.ts
@@ -180,6 +179,7 @@ models/PublicTourProgramDayResponseDto.ts
 models/PublicTourResponseDto.ts
 models/ReferenceCountries200Response.ts
 models/ReferenceCountryResponseDto.ts
+models/ReferenceFeaturedFlightLocations200Response.ts
 models/ReferenceSuggest200Response.ts
 models/ReferenceSuggestionResponseDto.ts
 models/RefreshCustomerTokenRequestDto.ts

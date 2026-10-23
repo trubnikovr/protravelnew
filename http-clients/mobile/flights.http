@@ -1,4 +1,4 @@
-### Start a flight search (mock provider by default)
+### Search flights and return offers from the configured provider
 POST {{baseUrl}}/flights/searches
 Content-Type: application/json
 Accept: application/json
@@ -6,9 +6,9 @@ Accept: application/json
 {
   "routes": [
     {
-      "origin": "TAS",
-      "destination": "IST",
-      "departureDate": "2026-09-15"
+      "origin": "MOW",
+      "destination": "LED",
+      "departureDate": "2026-10-23"
     }
   ],
   "passengers": [
@@ -22,16 +22,6 @@ Accept: application/json
   "baggageRequired": true,
   "preferredAirlines": []
 }
-
-> {% client.global.set("flightSearchId", response.body.data.id); %}
-
-### Poll flight search
-GET {{baseUrl}}/flights/searches/{{flightSearchId}}
-Accept: application/json
-
-### Get results
-GET {{baseUrl}}/flights/searches/{{flightSearchId}}/results?page=1&limit=20&sortBy=price&sortDirection=asc
-Accept: application/json
 
 > {% client.global.set("flightOfferId", response.body.data[0].id); %}
 

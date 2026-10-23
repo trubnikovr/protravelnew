@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: protravel/backend-api
+    newName: registry.example/protravel/backend-api
+    newTag: replace-with-git-sha
+  - name: protravel/backend-migrator
+    newName: registry.example/protravel/backend-migrator
+    newTag: replace-with-git-sha
+  - name: protravel/admin-dashboard
+    newName: registry.example/protravel/admin-dashboard
+    newTag: replace-with-git-sha
+patches:
+  - path: backend-config.yaml
+  - path: dashboard-config.yaml
+  - path: certificate.yaml
+  - path: gateway.yaml
+  - path: api-route.yaml
+  - path: admin-route.yaml
