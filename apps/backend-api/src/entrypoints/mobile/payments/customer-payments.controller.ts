@@ -41,6 +41,7 @@ export class CustomerPaymentsController {
     private readonly config: ConfigService,
   ) {}
 
+  /** @see POST /api/v1/me/payments */
   @Post()
   @ApiHeader({ name: 'Idempotency-Key', required: true })
   @ApiOperation({ summary: 'Create hosted payment for an owned order' })
@@ -60,6 +61,7 @@ export class CustomerPaymentsController {
     return PaymentApiMapper.toResponse(payment);
   }
 
+  /** @see GET /api/v1/me/payments/:id */
   @Get(':id')
   @ApiOperation({ summary: 'Get owned payment status' })
   @ApiOkEnvelope(PaymentResponseDto)

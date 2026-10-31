@@ -6,7 +6,9 @@ export const envValidationSchema = Joi.object({
     .default('development'),
   PORT: Joi.number().port().default(3000),
   API_PREFIX: Joi.string().default('api'),
-  CORS_ORIGINS: Joi.string().default('http://localhost:8081'),
+  CORS_ORIGINS: Joi.string().default(
+    'http://localhost:3001,http://localhost:8081',
+  ),
   DATABASE_HOST: Joi.string().required(),
   DATABASE_PORT: Joi.number().port().default(5432),
   DATABASE_NAME: Joi.string().required(),
@@ -75,7 +77,17 @@ export const envValidationSchema = Joi.object({
     .integer()
     .min(1_000)
     .max(120_000)
-    .default(30_000),
+    .default(60_000),
+  TTBOOKING_MAX_RESPONSE_BYTES: Joi.number()
+    .integer()
+    .min(1_048_576)
+    .max(52_428_800)
+    .default(10_485_760),
+  FLIGHT_SEARCH_MAX_OFFERS: Joi.number()
+    .integer()
+    .min(100)
+    .max(20_000)
+    .default(5_000),
   TTBOOKING_DEFAULT_CURRENCY: Joi.string()
     .valid('RUB', 'USD', 'EUR')
     .default('RUB'),

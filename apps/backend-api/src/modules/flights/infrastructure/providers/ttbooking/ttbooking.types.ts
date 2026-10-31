@@ -37,6 +37,7 @@ export interface TtbookingFlightGroup {
 export interface TtbookingFlightResponse {
   respond?: {
     token?: string;
+    messages?: unknown;
     flightsGroup?: { flightGroup?: TtbookingFlightGroup[] };
   };
 }

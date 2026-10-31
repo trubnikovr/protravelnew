@@ -1,5 +1,13 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ImageBackground,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {
   CalendarCheck,
   ChevronRight,
@@ -13,12 +21,9 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ProfileStackParamList } from '../../../app/navigation/types';
-import { ScreenHeader } from '../../../shared/ui';
 import { theme, typography } from '../../../shared/theme/theme';
 import { useAuthSession } from '../../auth';
-import { ActivityIndicator } from 'react-native';
 import { useCustomerProfile } from '../model/useCustomerProfile';
-import { CustomerAvatar } from '../components/CustomerAvatar';
 
 const menu = [
   { id: 'edit', titleKey: 'profile.edit', icon: UserRoundPen },
@@ -37,9 +42,6 @@ export function ProfileScreen() {
   const { t } = useTranslation();
   const { phone, signOut } = useAuthSession();
   const profile = useCustomerProfile();
-  const fullName = [profile.data?.firstName, profile.data?.lastName]
-    .filter(Boolean)
-    .join(' ');
 
   const openMenuItem = (id: (typeof menu)[number]['id']) => {
     if (id === 'edit') {
@@ -55,17 +57,15 @@ export function ProfileScreen() {
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
-      <ScreenHeader title={t('profile.title')} />
+      <ImageBackground
+        imageStyle={styles.backgroundImage}
+        source={require('../../../shared/assets/images/profile-photo-background.png')}
+        style={styles.background}
+      />
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.avatar}>
-          <CustomerAvatar
-            firstName={profile.data?.firstName}
-            phone={profile.data?.phone ?? phone}
-          />
-        </View>
         {profile.isPending ? (
           <ActivityIndicator
             color={theme.colors.primary}
@@ -73,7 +73,6 @@ export function ProfileScreen() {
           />
         ) : (
           <>
-            <Text style={styles.name}>{fullName || t('profile.userName')}</Text>
             <Text style={styles.phone}>{profile.data?.phone ?? phone}</Text>
             {profile.data?.email ? (
               <Text style={styles.phone}>{profile.data.email}</Text>
@@ -111,16 +110,18 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     flex: 1,
   },
+  background: {
+    ...StyleSheet.absoluteFill,
+  },
+  backgroundImage: {
+    resizeMode: 'cover',
+    opacity: 0.72,
+  },
   content: {
     alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: theme.sizes.contentPadding,
-  },
-  avatar: {
-    marginTop: theme.spacing.md,
-  },
-  name: {
-    ...typography.titleSmall,
-    marginTop: theme.spacing.md,
   },
   loader: {
     marginTop: theme.spacing.md,

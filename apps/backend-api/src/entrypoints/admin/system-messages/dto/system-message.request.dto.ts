@@ -4,16 +4,16 @@ import { IsBoolean, IsEnum, IsString, MaxLength } from 'class-validator';
 import { SystemMessageType } from '@modules/content';
 
 export class CreateSystemMessageRequestDto {
-  @ApiProperty({example: 'Некоторые функции временно недоступны.'})
+  @ApiProperty({ example: 'Некоторые функции временно недоступны.' })
   @IsString()
   @MaxLength(500)
   text!: string;
 
-  @ApiProperty({enum: SystemMessageType})
+  @ApiProperty({ enum: SystemMessageType })
   @IsEnum(SystemMessageType)
   type!: SystemMessageType;
 
-  @ApiProperty({default: true})
+  @ApiProperty({ default: true })
   @IsBoolean()
   isActive!: boolean;
 }

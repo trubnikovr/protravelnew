@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { ChevronDown } from 'lucide-react-native';
+import type { ReferenceCountryResponseDto } from '../../../shared/api/generated/v1/models';
+import { ReferenceCountryResponseDtoFromJSON } from '../../../shared/api/generated/v1/models';
+import { apiRequestWithMeta } from '../../../shared/api/api-client';
 import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
+  TextInput,
   StyleSheet,
   Text,
   View,
@@ -30,6 +36,11 @@ type Navigation =
   | NativeStackNavigationProp<ToursStackParamList, 'AddBookingTraveler'>;
 type Gender = 'male' | 'female';
 
+async function listCountries(): Promise<ReferenceCountryResponseDto[]> {
+  const result = await apiRequestWithMeta<unknown[], { pagination?: { totalPages: number } }>('/reference/countries?page=1&limit=100');
+  return result.data.map(ReferenceCountryResponseDtoFromJSON);
+}
+
 export function AddTravelerScreen() {
   const navigation = useNavigation<Navigation>();
   const route =
@@ -54,6 +65,11 @@ export function AddTravelerScreen() {
     email: '',
   });
   const [error, setError] = useState(false);
+  const [countryMenuOpen, setCountryMenuOpen] = useState(false);
+  const [countrySearch, setCountrySearch] = useState('');
+  const countries = useQuery({ queryKey: ['reference', 'countries'], queryFn: listCountries });
+  const selectedCountry = countries.data?.find(country => country.code === form.citizenshipCountryCode);
+  const visibleCountries = (countries.data ?? []).filter(country => `${country.name} ${country.code}`.toLowerCase().includes(countrySearch.toLowerCase()));
   const createTraveler = useCreateCustomerTraveler();
 
   const update = (key: keyof typeof form, value: string) => {
@@ -146,13 +162,26 @@ export function AddTravelerScreen() {
               trailing={<CalendarDays color={theme.colors.primary} size={19} />}
               value={form.birthDate}
             />
-            <AppTextField
-              label={t('common.citizenship')}
-              maxLength={2}
-              onChangeText={value => update('citizenshipCountryCode', value)}
-              placeholder="UZ"
-              value={form.citizenshipCountryCode}
-            />
+            <Pressable onPress={() => setCountryMenuOpen(value => !value)} style={styles.countrySelect}>
+              <View style={styles.countrySelectText}>
+                <Text style={styles.countryLabel}>{t('common.citizenship')}</Text>
+                <Text style={styles.countryValue}>{selectedCountry?.name ?? form.citizenshipCountryCode}</Text>
+              </View>
+              <ChevronDown color={theme.colors.textSecondary} size={19} />
+            </Pressable>
+            {countryMenuOpen ? (
+              <View style={styles.countryMenu}>
+                <TextInput onChangeText={setCountrySearch} placeholder={t('search.booking.searchCountry')} style={styles.countrySearch} value={countrySearch} />
+                <ScrollView nestedScrollEnabled style={styles.countryList}>
+                  {visibleCountries.map(country => (
+                    <Pressable key={country.id} onPress={() => { update('citizenshipCountryCode', country.code); setCountryMenuOpen(false); setCountrySearch(''); }} style={styles.countryOption}>
+                      <Text style={styles.countryValue}>{country.name}</Text>
+                      <Text style={styles.countryCode}>{country.code}</Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+              </View>
+            ) : null}
             <AppTextField
               keyboardType="phone-pad"
               label={t('common.phone')}
@@ -210,6 +239,15 @@ const styles = StyleSheet.create({
   content: {
     padding: theme.sizes.contentPadding,
   },
+  countrySelect: { alignItems: 'center', borderBottomColor: theme.colors.inputDivider, borderBottomWidth: 1, flexDirection: 'row', minHeight: 64, paddingHorizontal: theme.spacing.xs },
+  countrySelectText: { flex: 1 },
+  countryLabel: { ...typography.caption, color: theme.colors.textSecondary },
+  countryValue: { ...typography.body },
+  countryMenu: { backgroundColor: theme.colors.surface, borderRadius: theme.radii.sm, maxHeight: 220, marginBottom: theme.spacing.md },
+  countrySearch: { ...typography.body, borderBottomColor: theme.colors.border, borderBottomWidth: 1, padding: theme.spacing.sm },
+  countryList: { maxHeight: 170 },
+  countryOption: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: theme.spacing.sm },
+  countryCode: { ...typography.caption, color: theme.colors.textSecondary },
   form: {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.radii.md,

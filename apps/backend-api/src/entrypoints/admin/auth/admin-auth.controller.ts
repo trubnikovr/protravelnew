@@ -22,6 +22,7 @@ import { AdminSessionsRevokedResponseDto } from './dto/response/admin-sessions-r
 export class AdminAuthController {
   constructor(private readonly auth: AdminAuthService) {}
 
+  /** @see POST /api/v1/admin/auth/login */
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
@@ -31,6 +32,7 @@ export class AdminAuthController {
     return this.auth.login(dto);
   }
 
+  /** @see POST /api/v1/admin/auth/revoke-all */
   @Post('revoke-all')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()

@@ -17,8 +17,10 @@ PDF page 67.
 - short `summary` text in feed cards and full `content` on the detail screen;
 - loading, error, empty and content states.
 
-The screen contains only the section header and the news feed. It does not use
-a promotional illustration or introductory marketing copy.
+The screen contains the section header and the news feed over a dedicated,
+low-contrast travel-editorial background. The background uses a world map and
+route-line motif, remains decorative and has no embedded text or promotional
+copy. It is exclusive to the News feed.
 
 Administrators create drafts and publish or unpublish feed items through the
 dashboard `/news` route backed by `/api/v1/admin/news`.
@@ -44,4 +46,9 @@ content in a vertically scrollable view.
 
 ## UI
 
-Shared: `ScreenHeader`.
+Shared: `ScreenHeader`, `TravelStateCard`.
+
+When the feed cannot load and no cached articles are available, show the same
+centered white state card as flight search: travel icon, error title, connection
+message and Retry action. The feed background and global bottom connection
+banner remain visible. Cached articles remain accessible after refresh errors.

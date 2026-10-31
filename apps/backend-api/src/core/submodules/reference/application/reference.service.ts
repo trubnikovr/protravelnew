@@ -7,6 +7,7 @@ import {
   eq,
   ilike,
   isNotNull,
+  inArray,
   or,
   sql,
 } from 'drizzle-orm';
@@ -45,6 +46,7 @@ export interface ReferenceSuggestion {
   countryCode: string | null;
   countryName: string;
   cityId: string | null;
+  airportCodes: string[];
 }
 
 export interface ReferenceSuggestInput {
@@ -143,10 +145,49 @@ export class ReferenceService {
     const regular = [...countryItems, ...cityItems, ...airportItems].filter(
       (item) =>
         (item.code === null || !featuredCodes.has(item.code)) &&
-        (item.cityId === null || !featuredCityIds.has(item.cityId)),
+        (item.type !== 'city' ||
+          item.cityId === null ||
+          !featuredCityIds.has(item.cityId)),
     );
+    return this.attachAirportCodes(
+      [...featured, ...regular].slice(0, input.limit),
+    );
+  }
 
-    return [...featured, ...regular].slice(0, input.limit);
+  private async attachAirportCodes(
+    suggestions: ReferenceSuggestion[],
+  ): Promise<ReferenceSuggestion[]> {
+    const cityIds = [
+      ...new Set(
+        suggestions
+          .filter((item) => item.type === 'city')
+          .map((item) => item.cityId)
+          .filter((id): id is string => id !== null),
+      ),
+    ];
+    const rows = cityIds.length
+      ? await this.database
+          .select({ cityId: airports.cityId, code: airports.iataCode })
+          .from(airports)
+          .where(inArray(airports.cityId, cityIds))
+      : [];
+    const codesByCity = new Map<string, string[]>();
+    for (const row of rows) {
+      if (!row.cityId) continue;
+      codesByCity.set(row.cityId, [
+        ...(codesByCity.get(row.cityId) ?? []),
+        row.code,
+      ]);
+    }
+    return suggestions.map((item) => ({
+      ...item,
+      airportCodes:
+        item.type === 'airport' && item.code
+          ? [item.code]
+          : item.cityId
+            ? (codesByCity.get(item.cityId) ?? [])
+            : [],
+    }));
   }
 
   private async suggestFeaturedFlightLocations(
@@ -204,6 +245,7 @@ export class ReferenceService {
               countryCode: country.isoCode,
               countryName: country.nameRu,
               cityId: city.id,
+              airportCodes: [],
             },
           ];
         }
@@ -218,6 +260,7 @@ export class ReferenceService {
               countryCode: country.isoCode,
               countryName: country.nameRu,
               cityId: airport.cityId,
+              airportCodes: [featured.code],
             },
           ];
         }
@@ -292,18 +335,17 @@ export class ReferenceService {
       )
       .orderBy(asc(countries.nameRu))
       .limit(limit);
-    return rows.map(
-      (row): ReferenceSuggestion => ({
-        type: 'country',
-        id: row.id,
-        code: row.isoCode,
-        name: row.nameRu,
-        countryId: row.id,
-        countryCode: row.isoCode,
-        countryName: row.nameRu,
-        cityId: null,
-      }),
-    );
+    return rows.map((row): ReferenceSuggestion => ({
+      type: 'country',
+      id: row.id,
+      code: row.isoCode,
+      name: row.nameRu,
+      countryId: row.id,
+      countryCode: row.isoCode,
+      countryName: row.nameRu,
+      cityId: null,
+        airportCodes: [],
+    }));
   }
 
   private async suggestCities(pattern: string, input: ReferenceSuggestInput) {
@@ -329,18 +371,17 @@ export class ReferenceService {
       )
       .orderBy(asc(cities.nameRu))
       .limit(input.limit);
-    return rows.map(
-      ({ city, country }): ReferenceSuggestion => ({
-        type: 'city',
-        id: city.id,
-        code: null,
-        name: city.nameRu,
-        countryId: country.id,
-        countryCode: country.isoCode,
-        countryName: country.nameRu,
-        cityId: city.id,
-      }),
-    );
+    return rows.map(({ city, country }): ReferenceSuggestion => ({
+      type: 'city',
+      id: city.id,
+      code: null,
+      name: city.nameRu,
+      countryId: country.id,
+      countryCode: country.isoCode,
+      countryName: country.nameRu,
+      cityId: city.id,
+        airportCodes: [],
+    }));
   }
 
   private async suggestAirports(pattern: string, input: ReferenceSuggestInput) {
@@ -385,6 +426,7 @@ export class ReferenceService {
         countryCode: country.isoCode,
         countryName: country.nameRu,
         cityId: airport.cityId,
+        airportCodes: [airport.iataCode],
       }),
     );
   }

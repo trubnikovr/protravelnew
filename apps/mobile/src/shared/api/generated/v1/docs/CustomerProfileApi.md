@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## customerProfileMe
 
-> CustomerProfileMe200Response customerProfileMe()
+> CustomerProfileMe200Response customerProfileMe(acceptLanguage)
 
 Get current customer profile
 
@@ -26,27 +26,35 @@ import type { CustomerProfileMeRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
   const api = new CustomerProfileApi(config);
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies CustomerProfileMeRequest;
+
   try {
-    const data = await api.customerProfileMe();
+    const data = await api.customerProfileMe(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -72,7 +80,7 @@ This endpoint does not need any parameter.
 
 ## customerProfileUpdate
 
-> CustomerProfileMe200Response customerProfileUpdate(updateCustomerProfileRequestDto)
+> CustomerProfileMe200Response customerProfileUpdate(updateCustomerProfileRequestDto, acceptLanguage)
 
 Update current customer profile
 
@@ -87,7 +95,7 @@ import type { CustomerProfileUpdateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -96,6 +104,8 @@ async function example() {
   const body = {
     // UpdateCustomerProfileRequestDto
     updateCustomerProfileRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerProfileUpdateRequest;
 
   try {
@@ -106,7 +116,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -116,6 +126,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **updateCustomerProfileRequestDto** | [UpdateCustomerProfileRequestDto](UpdateCustomerProfileRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

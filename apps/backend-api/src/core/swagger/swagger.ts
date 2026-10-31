@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { SupportedLocale } from '@shared/domain/enums';
 
 const API_VERSIONS = ['1'] as const;
 type ApiVersion = (typeof API_VERSIONS)[number];
@@ -13,6 +14,17 @@ function createSwaggerConfig(version: ApiVersion) {
     .setDescription('REST API for ProTravel mobile and admin applications')
     .setVersion(`${version}.0`)
     .addBearerAuth()
+    .addGlobalParameters({
+      name: 'Accept-Language',
+      in: 'header',
+      required: false,
+      description: 'Response language. Defaults to ru.',
+      schema: {
+        type: 'string',
+        enum: Object.values(SupportedLocale),
+        default: SupportedLocale.RU,
+      },
+    })
     .addApiKey(
       { type: 'apiKey', name: 'Idempotency-Key', in: 'header' },
       'idempotency-key',

@@ -1,18 +1,22 @@
-import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
+import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 import type { FlightSearchCachePort } from '../../application/ports/flight-search-cache.port';
 import type { FlightOfferData } from '../../domain';
+import { AppLogger } from '@core/logging/app-logger';
 
 @Injectable()
 export class RedisFlightSearchCache
   implements FlightSearchCachePort, OnApplicationShutdown
 {
-  private readonly logger = new Logger(RedisFlightSearchCache.name);
   private readonly client: Redis;
   private connecting: Promise<void> | null = null;
 
-  constructor(config: ConfigService) {
+  constructor(
+    config: ConfigService,
+    private readonly logger: AppLogger,
+  ) {
+    this.logger.setContext(RedisFlightSearchCache.name);
     this.client = new Redis({
       host: config.getOrThrow<string>('REDIS_HOST'),
       port: config.getOrThrow<number>('REDIS_PORT'),

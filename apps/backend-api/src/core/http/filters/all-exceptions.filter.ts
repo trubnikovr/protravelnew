@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import * as Sentry from '@sentry/nestjs';
-import { PinoLogger } from 'nestjs-pino';
+import { AppLogger } from '@core/logging/app-logger';
 import type { ApiErrorResponse } from '../contracts/api-response.contract';
 import { errorMessage } from '../errors/error-message.catalog';
 import { createResponseMeta } from '../request/request-context';
@@ -15,7 +15,7 @@ import { requestLocale } from '../request/request-locale';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  constructor(private readonly logger: PinoLogger) {
+  constructor(private readonly logger: AppLogger) {
     this.logger.setContext(AllExceptionsFilter.name);
   }
 

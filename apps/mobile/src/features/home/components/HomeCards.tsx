@@ -7,46 +7,28 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Flame } from 'lucide-react-native';
-import { useTranslation } from 'react-i18next';
 import type { DestinationCardModel, TourCardModel } from '../model/useHome';
 import { theme, typography } from '../../../shared/theme/theme';
+import { TourOfferCard } from '../../../shared/ui';
 
-export function HotelCard({
+export function RecommendedTourCard({
   hotel,
   onPress,
 }: {
   hotel: TourCardModel;
-  onPress?: () => void;
+  onPress: () => void;
 }) {
-  const { t } = useTranslation();
-
   return (
-    <Pressable onPress={onPress} style={styles.hotelCard}>
-      <View>
-        <Image source={hotel.image} style={styles.hotelImage} />
-        {hotel.hot ? (
-          <View style={styles.hotBadge}>
-            <Flame
-              color={theme.colors.danger}
-              fill={theme.colors.danger}
-              size={13}
-            />
-            <Text style={styles.hotText}>{t('home.hot')}</Text>
-          </View>
-        ) : null}
-      </View>
-      <View style={styles.hotelContent}>
-        <Text numberOfLines={2} style={styles.hotelTitle}>
-          {hotel.title}
-        </Text>
-        <Text style={styles.hotelMeta}>{hotel.location}</Text>
-        <Text style={styles.hotelMeta}>{hotel.duration}</Text>
-        <View style={styles.priceBlock}>
-          <Text style={styles.price}>{hotel.price.formatted}</Text>
-        </View>
-      </View>
-    </Pressable>
+    <TourOfferCard
+      duration={hotel.duration}
+      hotelCategory={hotel.hotelCategory}
+      hot={hotel.hot}
+      image={hotel.image}
+      location={hotel.location}
+      onPress={onPress}
+      price={hotel.price?.formatted ?? ''}
+      title={hotel.title}
+    />
   );
 }
 
@@ -56,15 +38,17 @@ export function DestinationCard({
   destination: DestinationCardModel;
 }) {
   return (
-    <View style={styles.destinationCard}>
-      <Image source={destination.image} style={styles.destinationImage} />
-      <View style={styles.destinationOverlay} />
-      <View style={styles.destinationContent}>
-        <Text style={styles.destinationTitle}>{destination.title}</Text>
-        <Text style={styles.destinationSubtitle}>{destination.subtitle}</Text>
-        <Text style={styles.destinationPrice}>
-          {destination.fromPrice.formatted}
-        </Text>
+    <View style={styles.homeCardShadow}>
+      <View style={styles.destinationCard}>
+        <Image source={destination.image} style={styles.destinationImage} />
+        <View style={styles.destinationOverlay} />
+        <View style={styles.destinationContent}>
+          <Text style={styles.destinationTitle}>{destination.title}</Text>
+          <Text style={styles.destinationSubtitle}>{destination.subtitle}</Text>
+          <Text style={styles.destinationPrice}>
+            {destination.fromPrice?.formatted ?? ''}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -81,7 +65,9 @@ export function CategoryCard({
 }) {
   return (
     <Pressable onPress={onPress} style={styles.categoryCard}>
-      <Image source={image} style={styles.categoryImage} />
+      <View style={styles.categoryIconSlot}>
+        <Image source={image} style={styles.categoryImage} />
+      </View>
       <Text numberOfLines={1} style={styles.categoryTitle}>
         {title}
       </Text>
@@ -90,74 +76,10 @@ export function CategoryCard({
 }
 
 const styles = StyleSheet.create({
-  hotelCard: {
-    ...theme.shadows.card,
-    backgroundColor: theme.colors.surface,
+  homeCardShadow: {
+    ...theme.shadows.homeCard,
     borderRadius: theme.radii.md,
     flex: 1,
-    overflow: 'hidden',
-  },
-  hotelImage: {
-    height: theme.sizes.homeCardImageHeight,
-    resizeMode: 'cover',
-    width: '100%',
-  },
-  hotelContent: {
-    minHeight: 166,
-    padding: theme.spacing.sm,
-  },
-  hotelTitle: {
-    ...typography.bodySemibold,
-    color: theme.colors.primary,
-    minHeight: 42,
-  },
-  hotelMeta: {
-    ...typography.bodySmall,
-    color: theme.colors.textSecondary,
-  },
-  priceBlock: {
-    marginTop: 'auto',
-    paddingTop: theme.spacing.sm,
-  },
-  oldPrice: {
-    ...typography.bodySmall,
-    color: theme.colors.textSecondary,
-    textDecorationLine: 'line-through',
-  },
-  price: {
-    ...typography.titleSmall,
-    color: theme.colors.text,
-  },
-  rating: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.white,
-    borderRadius: theme.radii.pill,
-    flexDirection: 'row',
-    left: theme.spacing.xs,
-    paddingHorizontal: theme.spacing.xs,
-    paddingVertical: theme.spacing.xxs,
-    position: 'absolute',
-    top: theme.spacing.xs,
-  },
-  ratingText: {
-    ...typography.bodySemibold,
-    marginLeft: theme.spacing.xxs,
-  },
-  hotBadge: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.white,
-    borderRadius: theme.radii.pill,
-    flexDirection: 'row',
-    left: 62,
-    paddingHorizontal: theme.spacing.xs,
-    paddingVertical: theme.spacing.xxs,
-    position: 'absolute',
-    top: theme.spacing.xs,
-  },
-  hotText: {
-    ...typography.caption,
-    color: theme.colors.text,
-    marginLeft: theme.spacing.xxs,
   },
   destinationCard: {
     borderRadius: theme.radii.md,
@@ -191,11 +113,11 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
   },
   destinationPrice: {
-    ...typography.bodySemibold,
+    ...typography.homePrice,
     color: theme.colors.white,
   },
   categoryCard: {
-    ...theme.shadows.card,
+    ...theme.shadows.homeCard,
     alignItems: 'center',
     aspectRatio: 1,
     backgroundColor: theme.colors.surface,
@@ -204,12 +126,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   categoryImage: {
+    height: '100%',
+    resizeMode: 'contain',
+    width: '100%',
+  },
+  categoryIconSlot: {
     height: theme.sizes.categoryIcon,
-    marginBottom: theme.spacing.xs,
+    marginBottom: theme.spacing.xxs,
     width: theme.sizes.categoryIcon,
   },
   categoryTitle: {
-    ...typography.caption,
-    color: theme.colors.text,
+    ...typography.homeCategoryTitle,
   },
 });

@@ -8,6 +8,8 @@ export class HomeTourResponseDto {
   @ApiProperty() duration!: string;
   @ApiProperty({ type: MoneyResponseDto }) price!: MoneyResponseDto;
   @ApiPropertyOptional({ nullable: true }) imageUrl!: string | null;
+  @ApiPropertyOptional({ type: Number, nullable: true }) hotelCategory!:
+    number | null;
 }
 
 export class HomeDestinationResponseDto {

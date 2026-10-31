@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## healthLive
 
-> HealthLive200Response healthLive()
+> HealthLive200Response healthLive(acceptLanguage)
 
 Check whether the API process is alive
 
@@ -28,21 +28,29 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new SystemHealthApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies HealthLiveRequest;
+
   try {
-    const data = await api.healthLive();
+    const data = await api.healthLive(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -68,7 +76,7 @@ No authorization required
 
 ## healthScore
 
-> HealthScore200Response healthScore()
+> HealthScore200Response healthScore(acceptLanguage)
 
 Get the overall weighted system health score
 
@@ -85,21 +93,29 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new SystemHealthApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies HealthScoreRequest;
+
   try {
-    const data = await api.healthScore();
+    const data = await api.healthScore(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

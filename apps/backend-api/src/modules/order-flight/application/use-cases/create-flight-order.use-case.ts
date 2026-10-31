@@ -66,14 +66,10 @@ export class CreateFlightOrderUseCase {
   private async getValidatedOffer(
     input: CreateFlightOrderInput,
   ): Promise<FlightOfferForOrderContract> {
-    const original = await this.requireOffer(input.offerId);
-    const current = await this.offers.revalidate(input.offerId);
-
-    if (!current) this.offerNotFound();
-    this.ensureAvailable(current);
-    this.ensurePriceUnchanged(original, current);
-    this.ensurePassengersMatch(current, input.travelers);
-    return current;
+    const offer = await this.requireOffer(input.offerId);
+    this.ensureAvailable(offer);
+    this.ensurePassengersMatch(offer, input.travelers);
+    return offer;
   }
 
   private async requireOffer(
@@ -90,30 +86,6 @@ export class CreateFlightOrderUseCase {
       code: 'OFFER_EXPIRED',
       message: 'Flight offer has expired',
     });
-  }
-
-  private ensurePriceUnchanged(
-    original: FlightOfferForOrderContract,
-    current: FlightOfferForOrderContract,
-  ): void {
-    const unchanged =
-      original.totalAmount === current.totalAmount &&
-      original.currency === current.currency;
-    if (unchanged) return;
-
-    throw new ConflictException({
-      code: 'PRICE_CHANGED',
-      message: 'Flight offer price has changed',
-      details: this.priceChangeDetails(current),
-    });
-  }
-
-  private priceChangeDetails(offer: FlightOfferForOrderContract) {
-    return {
-      offerId: offer.id,
-      totalAmount: offer.totalAmount,
-      currency: offer.currency,
-    };
   }
 
   private ensurePassengersMatch(

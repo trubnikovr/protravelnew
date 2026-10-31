@@ -1,7 +1,4 @@
-import {
-  formatTtbookingTime,
-  parseTtbookingId,
-} from './ttbooking-context';
+import { formatTtbookingTime, parseTtbookingId } from './ttbooking-context';
 
 describe('TTBooking context', () => {
   it('formats time with the required UTC+05:00 offset', () => {

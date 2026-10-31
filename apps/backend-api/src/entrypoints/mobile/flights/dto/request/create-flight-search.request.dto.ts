@@ -24,6 +24,20 @@ import {
 export class FlightRouteRequestDto {
   @ApiProperty({ example: 'MOW' }) @Matches(/^[A-Z]{3}$/) origin!: string;
   @ApiProperty({ example: 'IST' }) @Matches(/^[A-Z]{3}$/) destination!: string;
+  @ApiPropertyOptional({ type: [String], example: ['SVO', 'DME', 'VKO'] })
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(8)
+  @Matches(/^[A-Z]{3}$/, { each: true })
+  originAirports?: string[];
+  @ApiPropertyOptional({ type: [String], example: ['IST', 'SAW'] })
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(8)
+  @Matches(/^[A-Z]{3}$/, { each: true })
+  destinationAirports?: string[];
   @ApiProperty({ example: '2026-09-15', format: 'date' })
   @Matches(/^\d{4}-\d{2}-\d{2}$/)
   departureDate!: string;
@@ -41,6 +55,26 @@ export class FlightPassengerRequestDto {
 }
 
 export class CreateFlightSearchRequestDto {
+  @ApiPropertyOptional({ type: Number, minimum: 1, default: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page = 1;
+
+  @ApiPropertyOptional({
+    type: Number,
+    minimum: 1,
+    maximum: 50,
+    default: 20,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  limit = 20;
+
   @ApiProperty({ type: [FlightRouteRequestDto] })
   @IsArray()
   @ArrayMinSize(1)
@@ -100,6 +134,12 @@ export class CreateFlightSearchRequestDto {
   @Min(0)
   @Max(4)
   maxStops?: number;
+
+  @ApiPropertyOptional({ minimum: 0, description: 'Exact maximum number of connections across the offer itineraries; 0 means direct.' })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  stopsCount?: number;
 
   @ApiPropertyOptional({ minimum: 1, example: 720 })
   @IsOptional()

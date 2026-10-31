@@ -48,9 +48,7 @@ interface TtbookingCredentials {
 }
 
 @Injectable()
-export class TtbookingFlightBookingProvider
-  implements FlightBookingProviderPort
-{
+export class TtbookingFlightBookingProvider implements FlightBookingProviderPort {
   constructor(
     private readonly config: ConfigService,
     private readonly errors: TtbookingErrorMapper,
@@ -230,7 +228,7 @@ export class TtbookingFlightBookingProvider
   }
 
   private timeout(): number {
-    return this.config.get<number>('TTBOOKING_TIMEOUT_MS') ?? 30_000;
+    return this.config.get<number>('TTBOOKING_TIMEOUT_MS') ?? 60_000;
   }
 
   private map(response: TtbookingBookingResponse): FlightBookingResult {

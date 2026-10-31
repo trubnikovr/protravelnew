@@ -3,10 +3,10 @@ import { EntityResponseDto } from '@entrypoints/common/dto/response/entity.respo
 import { SystemMessageType } from '@modules/content';
 
 export class SystemMessageResponseDto extends EntityResponseDto {
-  @ApiProperty({example: 'Некоторые функции временно недоступны.'})
+  @ApiProperty({ example: 'Некоторые функции временно недоступны.' })
   text!: string;
 
-  @ApiProperty({enum: SystemMessageType})
+  @ApiProperty({ enum: SystemMessageType })
   type!: SystemMessageType;
 
   @ApiProperty()

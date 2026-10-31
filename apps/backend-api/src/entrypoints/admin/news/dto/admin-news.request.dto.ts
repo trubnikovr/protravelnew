@@ -25,7 +25,8 @@ export class CreateAdminNewsRequestDto {
   summary!: string;
 
   @ApiProperty({
-    example: 'Рассказываем, на какие даты доступны билеты и как оформить поездку.',
+    example:
+      'Рассказываем, на какие даты доступны билеты и как оформить поездку.',
   })
   @IsString()
   @MinLength(1)

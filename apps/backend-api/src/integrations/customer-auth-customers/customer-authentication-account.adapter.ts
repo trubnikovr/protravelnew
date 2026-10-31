@@ -7,9 +7,7 @@ import {
 import type { CustomerAuthenticationAccountPort } from '@modules/customer-auth/application/customer-authentication-account.port';
 
 @Injectable()
-export class CustomerAuthenticationAccountAdapter
-  implements CustomerAuthenticationAccountPort
-{
+export class CustomerAuthenticationAccountAdapter implements CustomerAuthenticationAccountPort {
   constructor(
     private readonly findOrCreate: FindOrCreateCustomerForAuthenticationUseCase,
     private readonly getCustomer: GetCustomerForAuthenticationUseCase,

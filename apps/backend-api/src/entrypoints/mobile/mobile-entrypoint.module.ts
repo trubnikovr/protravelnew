@@ -11,6 +11,7 @@ import { SystemMessagesEntrypointModule } from './system-messages/system-message
 import { ToursEntrypointModule } from './tours/tours-entrypoint.module';
 import { CustomerTourBookingsEntrypointModule } from './tour-bookings/customer-tour-bookings-entrypoint.module';
 import { PaymentsEntrypointModule } from './payments/payments-entrypoint.module';
+import { TravelFactsEntrypointModule } from './travel-facts/travel-facts-entrypoint.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PaymentsEntrypointModule } from './payments/payments-entrypoint.module'
     ReferenceEntrypointModule,
     SystemMessagesEntrypointModule,
     ToursEntrypointModule,
+    TravelFactsEntrypointModule,
   ],
 })
 export class MobileEntrypointModule {}

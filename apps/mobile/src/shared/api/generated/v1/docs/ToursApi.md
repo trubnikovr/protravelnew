@@ -9,11 +9,11 @@ All URIs are relative to *http://localhost*
 
 
 
-## toursGet
+## toursGe
 
-> ToursGet200Response toursGet(id)
+> ToursGet200Response toursGet(id, acceptLanguage)
 
-Get a published tour with full customer content
+Get a published tour with full customer conten
 
 ### Example
 
@@ -31,6 +31,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies ToursGetRequest;
 
   try {
@@ -41,7 +43,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -51,6 +53,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -74,9 +77,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## toursList
+## toursLis
 
-> ToursList200Response toursList(page, limit, destination, sort)
+> ToursList200Response toursList(page, limit, destination, sort, acceptLanguage)
 
 List published tours for mobile catalog
 
@@ -102,6 +105,8 @@ async function example() {
     destination: destination_example,
     // 'recommended' | 'price' (optional)
     sort: sort_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies ToursListRequest;
 
   try {
@@ -112,7 +117,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -125,6 +130,7 @@ example().catch(console.error);
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
 | **destination** | `string` | Country or city name | [Optional] [Defaults to `undefined`] |
 | **sort** | `recommended`, `price` |  | [Optional] [Defaults to `&#39;recommended&#39;`] [Enum: recommended, price] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

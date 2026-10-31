@@ -12,7 +12,7 @@ All URIs are relative to *http://localhost*
 
 ## customerAuthLogin
 
-> CustomerAuthLogin202Response customerAuthLogin(customerLoginRequestDto)
+> CustomerAuthLogin202Response customerAuthLogin(customerLoginRequestDto, acceptLanguage)
 
 Request a customer login SMS code
 
@@ -32,6 +32,8 @@ async function example() {
   const body = {
     // CustomerLoginRequestDto
     customerLoginRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerAuthLoginRequest;
 
   try {
@@ -42,7 +44,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -52,6 +54,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **customerLoginRequestDto** | [CustomerLoginRequestDto](CustomerLoginRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -77,7 +80,7 @@ No authorization required
 
 ## customerAuthRefresh
 
-> CustomerAuthVerify200Response customerAuthRefresh(refreshCustomerTokenRequestDto)
+> CustomerAuthVerify200Response customerAuthRefresh(refreshCustomerTokenRequestDto, acceptLanguage)
 
 Rotate customer access and refresh tokens
 
@@ -97,6 +100,8 @@ async function example() {
   const body = {
     // RefreshCustomerTokenRequestDto
     refreshCustomerTokenRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerAuthRefreshRequest;
 
   try {
@@ -107,7 +112,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -117,6 +122,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **refreshCustomerTokenRequestDto** | [RefreshCustomerTokenRequestDto](RefreshCustomerTokenRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -142,7 +148,7 @@ No authorization required
 
 ## customerAuthVerify
 
-> CustomerAuthVerify200Response customerAuthVerify(verifyCustomerLoginRequestDto)
+> CustomerAuthVerify200Response customerAuthVerify(verifyCustomerLoginRequestDto, acceptLanguage)
 
 Verify customer login code and create a session
 
@@ -162,6 +168,8 @@ async function example() {
   const body = {
     // VerifyCustomerLoginRequestDto
     verifyCustomerLoginRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerAuthVerifyRequest;
 
   try {
@@ -172,7 +180,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -182,6 +190,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **verifyCustomerLoginRequestDto** | [VerifyCustomerLoginRequestDto](VerifyCustomerLoginRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

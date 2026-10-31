@@ -15,229 +15,228 @@
 import { mapValues } from '../runtime';
 import type { FlightRouteRequestDto } from './FlightRouteRequestDto';
 import {
-  FlightRouteRequestDtoFromJSON,
-  FlightRouteRequestDtoFromJSONTyped,
-  FlightRouteRequestDtoToJSON,
-  FlightRouteRequestDtoToJSONTyped,
+    FlightRouteRequestDtoFromJSON,
+    FlightRouteRequestDtoFromJSONTyped,
+    FlightRouteRequestDtoToJSON,
+    FlightRouteRequestDtoToJSONTyped,
 } from './FlightRouteRequestDto';
 import type { FlightPassengerRequestDto } from './FlightPassengerRequestDto';
 import {
-  FlightPassengerRequestDtoFromJSON,
-  FlightPassengerRequestDtoFromJSONTyped,
-  FlightPassengerRequestDtoToJSON,
-  FlightPassengerRequestDtoToJSONTyped,
+    FlightPassengerRequestDtoFromJSON,
+    FlightPassengerRequestDtoFromJSONTyped,
+    FlightPassengerRequestDtoToJSON,
+    FlightPassengerRequestDtoToJSONTyped,
 } from './FlightPassengerRequestDto';
 
 /**
  *
- * @export
+ * @expor
  * @interface CreateFlightSearchRequestDto
  */
 export interface CreateFlightSearchRequestDto {
-  /**
-   *
-   * @type {Array<FlightRouteRequestDto>}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  routes: Array<FlightRouteRequestDto>;
-  /**
-   *
-   * @type {Array<FlightPassengerRequestDto>}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  passengers: Array<FlightPassengerRequestDto>;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  cabinClass: CreateFlightSearchRequestDtoCabinClassEnum;
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  directOnly?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  baggageRequired?: boolean;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  preferredAirlines?: Array<string>;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  departureTimeFrom?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  departureTimeTo?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  arrivalTimeFrom?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  arrivalTimeTo?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  maxStops?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  maxDurationMinutes?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  minPrice?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  maxPrice?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateFlightSearchRequestDto
-   */
-  sortBy?: CreateFlightSearchRequestDtoSortByEnum;
+    /**
+     *
+     * @type {number}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    page?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    limit?: number;
+    /**
+     *
+     * @type {Array<FlightRouteRequestDto>}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    routes: Array<FlightRouteRequestDto>;
+    /**
+     *
+     * @type {Array<FlightPassengerRequestDto>}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    passengers: Array<FlightPassengerRequestDto>;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    cabinClass: CreateFlightSearchRequestDtoCabinClassEnum;
+    /**
+     *
+     * @type {boolean}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    directOnly?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    baggageRequired?: boolean;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    preferredAirlines?: Array<string>;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    departureTimeFrom?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    departureTimeTo?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    arrivalTimeFrom?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    arrivalTimeTo?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    maxStops?: number;
+    /**
+     * Exact maximum number of connections across the offer itineraries; 0 means direct.
+     * @type {number}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    stopsCount?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    maxDurationMinutes?: number;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    minPrice?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    maxPrice?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFlightSearchRequestDto
+     */
+    sortBy?: CreateFlightSearchRequestDtoSortByEnum;
 }
 
-/**
- * @export
- */
-export const CreateFlightSearchRequestDtoCabinClassEnum = {
-  economy: 'economy',
-  premium_economy: 'premium_economy',
-  business: 'business',
-  first: 'first',
-} as const;
-export type CreateFlightSearchRequestDtoCabinClassEnum =
-  (typeof CreateFlightSearchRequestDtoCabinClassEnum)[keyof typeof CreateFlightSearchRequestDtoCabinClassEnum];
 
 /**
- * @export
+ * @expor
+ */
+export const CreateFlightSearchRequestDtoCabinClassEnum = {
+    economy: 'economy',
+    premium_economy: 'premium_economy',
+    business: 'business',
+    first: 'first'
+} as const;
+export type CreateFlightSearchRequestDtoCabinClassEnum = typeof CreateFlightSearchRequestDtoCabinClassEnum[keyof typeof CreateFlightSearchRequestDtoCabinClassEnum];
+
+/**
+ * @expor
  */
 export const CreateFlightSearchRequestDtoSortByEnum = {
-  recommended: 'recommended',
-  price: 'price',
-  duration: 'duration',
-  departure: 'departure',
+    recommended: 'recommended',
+    price: 'price',
+    duration: 'duration',
+    departure: 'departure'
 } as const;
-export type CreateFlightSearchRequestDtoSortByEnum =
-  (typeof CreateFlightSearchRequestDtoSortByEnum)[keyof typeof CreateFlightSearchRequestDtoSortByEnum];
+export type CreateFlightSearchRequestDtoSortByEnum = typeof CreateFlightSearchRequestDtoSortByEnum[keyof typeof CreateFlightSearchRequestDtoSortByEnum];
+
 
 /**
  * Check if a given object implements the CreateFlightSearchRequestDto interface.
  */
-export function instanceOfCreateFlightSearchRequestDto(
-  value: object,
-): value is CreateFlightSearchRequestDto {
-  if (!('routes' in value) || value['routes'] === undefined) return false;
-  if (!('passengers' in value) || value['passengers'] === undefined)
-    return false;
-  if (!('cabinClass' in value) || value['cabinClass'] === undefined)
-    return false;
-  return true;
+export function instanceOfCreateFlightSearchRequestDto(value: object): value is CreateFlightSearchRequestDto {
+    if (!('routes' in value) || value['routes'] === undefined) return false;
+    if (!('passengers' in value) || value['passengers'] === undefined) return false;
+    if (!('cabinClass' in value) || value['cabinClass'] === undefined) return false;
+    return true;
 }
 
-export function CreateFlightSearchRequestDtoFromJSON(
-  json: any,
-): CreateFlightSearchRequestDto {
-  return CreateFlightSearchRequestDtoFromJSONTyped(json, false);
+export function CreateFlightSearchRequestDtoFromJSON(json: any): CreateFlightSearchRequestDto {
+    return CreateFlightSearchRequestDtoFromJSONTyped(json, false);
 }
 
-export function CreateFlightSearchRequestDtoFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean,
-): CreateFlightSearchRequestDto {
-  if (json == null) {
-    return json;
-  }
-  return {
-    routes: (json['routes'] as Array<any>).map(FlightRouteRequestDtoFromJSON),
-    passengers: (json['passengers'] as Array<any>).map(
-      FlightPassengerRequestDtoFromJSON,
-    ),
-    cabinClass: json['cabinClass'],
-    directOnly: json['directOnly'] == null ? undefined : json['directOnly'],
-    baggageRequired:
-      json['baggageRequired'] == null ? undefined : json['baggageRequired'],
-    preferredAirlines:
-      json['preferredAirlines'] == null ? undefined : json['preferredAirlines'],
-    departureTimeFrom:
-      json['departureTimeFrom'] == null ? undefined : json['departureTimeFrom'],
-    departureTimeTo:
-      json['departureTimeTo'] == null ? undefined : json['departureTimeTo'],
-    arrivalTimeFrom:
-      json['arrivalTimeFrom'] == null ? undefined : json['arrivalTimeFrom'],
-    arrivalTimeTo:
-      json['arrivalTimeTo'] == null ? undefined : json['arrivalTimeTo'],
-    maxStops: json['maxStops'] == null ? undefined : json['maxStops'],
-    maxDurationMinutes:
-      json['maxDurationMinutes'] == null
-        ? undefined
-        : json['maxDurationMinutes'],
-    minPrice: json['minPrice'] == null ? undefined : json['minPrice'],
-    maxPrice: json['maxPrice'] == null ? undefined : json['maxPrice'],
-    sortBy: json['sortBy'] == null ? undefined : json['sortBy'],
-  };
+export function CreateFlightSearchRequestDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateFlightSearchRequestDto {
+    if (json == null) {
+        return json;
+    }
+    return {
+
+        'page': json['page'] == null ? undefined : json['page'],
+        'limit': json['limit'] == null ? undefined : json['limit'],
+        'routes': ((json['routes'] as Array<any>).map(FlightRouteRequestDtoFromJSON)),
+        'passengers': ((json['passengers'] as Array<any>).map(FlightPassengerRequestDtoFromJSON)),
+        'cabinClass': json['cabinClass'],
+        'directOnly': json['directOnly'] == null ? undefined : json['directOnly'],
+        'baggageRequired': json['baggageRequired'] == null ? undefined : json['baggageRequired'],
+        'preferredAirlines': json['preferredAirlines'] == null ? undefined : json['preferredAirlines'],
+        'departureTimeFrom': json['departureTimeFrom'] == null ? undefined : json['departureTimeFrom'],
+        'departureTimeTo': json['departureTimeTo'] == null ? undefined : json['departureTimeTo'],
+        'arrivalTimeFrom': json['arrivalTimeFrom'] == null ? undefined : json['arrivalTimeFrom'],
+        'arrivalTimeTo': json['arrivalTimeTo'] == null ? undefined : json['arrivalTimeTo'],
+        'maxStops': json['maxStops'] == null ? undefined : json['maxStops'],
+        'stopsCount': json['stopsCount'] == null ? undefined : json['stopsCount'],
+        'maxDurationMinutes': json['maxDurationMinutes'] == null ? undefined : json['maxDurationMinutes'],
+        'minPrice': json['minPrice'] == null ? undefined : json['minPrice'],
+        'maxPrice': json['maxPrice'] == null ? undefined : json['maxPrice'],
+        'sortBy': json['sortBy'] == null ? undefined : json['sortBy'],
+    };
 }
 
-export function CreateFlightSearchRequestDtoToJSON(
-  json: any,
-): CreateFlightSearchRequestDto {
-  return CreateFlightSearchRequestDtoToJSONTyped(json, false);
+export function CreateFlightSearchRequestDtoToJSON(json: any): CreateFlightSearchRequestDto {
+    return CreateFlightSearchRequestDtoToJSONTyped(json, false);
 }
 
-export function CreateFlightSearchRequestDtoToJSONTyped(
-  value?: CreateFlightSearchRequestDto | null,
-  ignoreDiscriminator: boolean = false,
-): any {
-  if (value == null) {
-    return value;
-  }
+export function CreateFlightSearchRequestDtoToJSONTyped(value?: CreateFlightSearchRequestDto | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
+    }
 
-  return {
-    routes: (value['routes'] as Array<any>).map(FlightRouteRequestDtoToJSON),
-    passengers: (value['passengers'] as Array<any>).map(
-      FlightPassengerRequestDtoToJSON,
-    ),
-    cabinClass: value['cabinClass'],
-    directOnly: value['directOnly'],
-    baggageRequired: value['baggageRequired'],
-    preferredAirlines: value['preferredAirlines'],
-    departureTimeFrom: value['departureTimeFrom'],
-    departureTimeTo: value['departureTimeTo'],
-    arrivalTimeFrom: value['arrivalTimeFrom'],
-    arrivalTimeTo: value['arrivalTimeTo'],
-    maxStops: value['maxStops'],
-    maxDurationMinutes: value['maxDurationMinutes'],
-    minPrice: value['minPrice'],
-    maxPrice: value['maxPrice'],
-    sortBy: value['sortBy'],
-  };
+    return {
+
+        'page': value['page'],
+        'limit': value['limit'],
+        'routes': ((value['routes'] as Array<any>).map(FlightRouteRequestDtoToJSON)),
+        'passengers': ((value['passengers'] as Array<any>).map(FlightPassengerRequestDtoToJSON)),
+        'cabinClass': value['cabinClass'],
+        'directOnly': value['directOnly'],
+        'baggageRequired': value['baggageRequired'],
+        'preferredAirlines': value['preferredAirlines'],
+        'departureTimeFrom': value['departureTimeFrom'],
+        'departureTimeTo': value['departureTimeTo'],
+        'arrivalTimeFrom': value['arrivalTimeFrom'],
+        'arrivalTimeTo': value['arrivalTimeTo'],
+        'maxStops': value['maxStops'],
+        'stopsCount': value['stopsCount'],
+        'maxDurationMinutes': value['maxDurationMinutes'],
+        'minPrice': value['minPrice'],
+        'maxPrice': value['maxPrice'],
+        'sortBy': value['sortBy'],
+    };
 }

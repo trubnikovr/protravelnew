@@ -21,7 +21,7 @@ export class SystemMessage extends DomainEntity<SystemMessageProperties> {
 
   static restore(properties: SystemMessageProperties): SystemMessage {
     if (!properties.text.trim()) throw new Error('System message is required');
-    return new SystemMessage({...properties, text: properties.text.trim()});
+    return new SystemMessage({ ...properties, text: properties.text.trim() });
   }
 
   get text(): string {

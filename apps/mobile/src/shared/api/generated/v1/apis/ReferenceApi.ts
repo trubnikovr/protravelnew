@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+
 import * as runtime from '../runtime';
 import type {
   ReferenceCountries200Response,
@@ -19,321 +20,296 @@ import type {
   ReferenceSuggest200Response,
 } from '../models/index';
 import {
-  ReferenceCountries200ResponseFromJSON,
-  ReferenceCountries200ResponseToJSON,
-  ReferenceFeaturedFlightLocations200ResponseFromJSON,
-  ReferenceFeaturedFlightLocations200ResponseToJSON,
-  ReferenceSuggest200ResponseFromJSON,
-  ReferenceSuggest200ResponseToJSON,
+    ReferenceCountries200ResponseFromJSON,
+    ReferenceCountries200ResponseToJSON,
+    ReferenceFeaturedFlightLocations200ResponseFromJSON,
+    ReferenceFeaturedFlightLocations200ResponseToJSON,
+    ReferenceSuggest200ResponseFromJSON,
+    ReferenceSuggest200ResponseToJSON,
 } from '../models/index';
 
 export interface ReferenceCountriesRequest {
-  page?: number;
-  limit?: number;
-  sortBy?: ReferenceCountriesSortByEnum;
-  sortDirection?: ReferenceCountriesSortDirectionEnum;
-  search?: string;
-  acceptLanguage?: ReferenceCountriesAcceptLanguageEnum;
+    page?: number;
+    limit?: number;
+    sortBy?: ReferenceCountriesSortByEnum;
+    sortDirection?: ReferenceCountriesSortDirectionEnum;
+    search?: string;
+    acceptLanguage?: ReferenceCountriesAcceptLanguageEnum;
+}
+
+export interface ReferenceFeaturedFlightLocationsRequest {
+    acceptLanguage?: ReferenceFeaturedFlightLocationsAcceptLanguageEnum;
 }
 
 export interface ReferenceSuggestRequest {
-  q: string;
-  types?: Array<ReferenceSuggestTypesEnum>;
-  countryId?: string;
-  limit?: number;
+    q: string;
+    types?: Array<ReferenceSuggestTypesEnum>;
+    countryId?: string;
+    limit?: number;
+    acceptLanguage?: ReferenceSuggestAcceptLanguageEnum;
 }
 
 /**
  * ReferenceApi - interface
  *
- * @export
+ * @expor
  * @interface ReferenceApiInterface
  */
 export interface ReferenceApiInterface {
-  /**
-   *
-   * @summary List localized countries for citizenship selection
-   * @param {number} [page]
-   * @param {number} [limit]
-   * @param {'name' | 'code'} [sortBy]
-   * @param {'asc' | 'desc'} [sortDirection]
-   * @param {string} [search]
-   * @param {'ru' | 'uz' | 'en'} [acceptLanguage]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ReferenceApiInterface
-   */
-  referenceCountriesRaw(
-    requestParameters: ReferenceCountriesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ReferenceCountries200Response>>;
+    /**
+     *
+     * @summary List localized countries for citizenship selection
+     * @param {number} [page]
+     * @param {number} [limit]
+     * @param {'name' | 'code'} [sortBy]
+     * @param {'asc' | 'desc'} [sortDirection]
+     * @param {string} [search]
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReferenceApiInterface
+     */
+    referenceCountriesRaw(requestParameters: ReferenceCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferenceCountries200Response>>;
 
-  /**
-   * List localized countries for citizenship selection
-   */
-  referenceCountries(
-    requestParameters: ReferenceCountriesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ReferenceCountries200Response>;
+    /**
+     * List localized countries for citizenship selection
+     */
+    referenceCountries(requestParameters: ReferenceCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReferenceCountries200Response>;
 
-  /**
-   *
-   * @summary List featured flight locations
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ReferenceApiInterface
-   */
-  referenceFeaturedFlightLocationsRaw(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ReferenceFeaturedFlightLocations200Response>>;
+    /**
+     *
+     * @summary List featured flight locations
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReferenceApiInterface
+     */
+    referenceFeaturedFlightLocationsRaw(requestParameters: ReferenceFeaturedFlightLocationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferenceFeaturedFlightLocations200Response>>;
 
-  /**
-   * List featured flight locations
-   */
-  referenceFeaturedFlightLocations(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ReferenceFeaturedFlightLocations200Response>;
+    /**
+     * List featured flight locations
+     */
+    referenceFeaturedFlightLocations(requestParameters: ReferenceFeaturedFlightLocationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReferenceFeaturedFlightLocations200Response>;
 
-  /**
-   *
-   * @summary Suggest countries, cities and airports
-   * @param {string} q
-   * @param {Array<'country' | 'city' | 'airport'>} [types]
-   * @param {string} [countryId]
-   * @param {number} [limit]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ReferenceApiInterface
-   */
-  referenceSuggestRaw(
-    requestParameters: ReferenceSuggestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ReferenceSuggest200Response>>;
+    /**
+     *
+     * @summary Suggest countries, cities and airports
+     * @param {string} q
+     * @param {Array<'country' | 'city' | 'airport'>} [types]
+     * @param {string} [countryId]
+     * @param {number} [limit]
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReferenceApiInterface
+     */
+    referenceSuggestRaw(requestParameters: ReferenceSuggestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferenceSuggest200Response>>;
 
-  /**
-   * Suggest countries, cities and airports
-   */
-  referenceSuggest(
-    requestParameters: ReferenceSuggestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ReferenceSuggest200Response>;
+    /**
+     * Suggest countries, cities and airports
+     */
+    referenceSuggest(requestParameters: ReferenceSuggestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReferenceSuggest200Response>;
+
 }
 
 /**
  *
  */
-export class ReferenceApi
-  extends runtime.BaseAPI
-  implements ReferenceApiInterface
-{
-  /**
-   * List localized countries for citizenship selection
-   */
-  async referenceCountriesRaw(
-    requestParameters: ReferenceCountriesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ReferenceCountries200Response>> {
-    const queryParameters: any = {};
+export class ReferenceApi extends runtime.BaseAPI implements ReferenceApiInterface {
 
-    if (requestParameters['page'] != null) {
-      queryParameters['page'] = requestParameters['page'];
+    /**
+     * List localized countries for citizenship selection
+     */
+    async referenceCountriesRaw(requestParameters: ReferenceCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferenceCountries200Response>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['sortBy'] != null) {
+            queryParameters['sortBy'] = requestParameters['sortBy'];
+        }
+
+        if (requestParameters['sortDirection'] != null) {
+            queryParameters['sortDirection'] = requestParameters['sortDirection'];
+        }
+
+        if (requestParameters['search'] != null) {
+            queryParameters['search'] = requestParameters['search'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
+
+
+        let urlPath = `/api/v1/reference/countries`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ReferenceCountries200ResponseFromJSON(jsonValue));
     }
 
-    if (requestParameters['limit'] != null) {
-      queryParameters['limit'] = requestParameters['limit'];
+    /**
+     * List localized countries for citizenship selection
+     */
+    async referenceCountries(requestParameters: ReferenceCountriesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReferenceCountries200Response> {
+        const response = await this.referenceCountriesRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    if (requestParameters['sortBy'] != null) {
-      queryParameters['sortBy'] = requestParameters['sortBy'];
+    /**
+     * List featured flight locations
+     */
+    async referenceFeaturedFlightLocationsRaw(requestParameters: ReferenceFeaturedFlightLocationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferenceFeaturedFlightLocations200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
+
+
+        let urlPath = `/api/v1/reference/featured-flight-locations`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ReferenceFeaturedFlightLocations200ResponseFromJSON(jsonValue));
     }
 
-    if (requestParameters['sortDirection'] != null) {
-      queryParameters['sortDirection'] = requestParameters['sortDirection'];
+    /**
+     * List featured flight locations
+     */
+    async referenceFeaturedFlightLocations(requestParameters: ReferenceFeaturedFlightLocationsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReferenceFeaturedFlightLocations200Response> {
+        const response = await this.referenceFeaturedFlightLocationsRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    if (requestParameters['search'] != null) {
-      queryParameters['search'] = requestParameters['search'];
+    /**
+     * Suggest countries, cities and airports
+     */
+    async referenceSuggestRaw(requestParameters: ReferenceSuggestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferenceSuggest200Response>> {
+        if (requestParameters['q'] == null) {
+            throw new runtime.RequiredError(
+                'q',
+                'Required parameter "q" was null or undefined when calling referenceSuggest().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['q'] != null) {
+            queryParameters['q'] = requestParameters['q'];
+        }
+
+        if (requestParameters['types'] != null) {
+            queryParameters['types'] = requestParameters['types'];
+        }
+
+        if (requestParameters['countryId'] != null) {
+            queryParameters['countryId'] = requestParameters['countryId'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
+
+
+        let urlPath = `/api/v1/reference/suggest`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ReferenceSuggest200ResponseFromJSON(jsonValue));
     }
 
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    if (requestParameters['acceptLanguage'] != null) {
-      headerParameters['Accept-Language'] = String(
-        requestParameters['acceptLanguage'],
-      );
+    /**
+     * Suggest countries, cities and airports
+     */
+    async referenceSuggest(requestParameters: ReferenceSuggestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReferenceSuggest200Response> {
+        const response = await this.referenceSuggestRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    let urlPath = `/api/v1/reference/countries`;
-
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'GET',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides,
-    );
-
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      ReferenceCountries200ResponseFromJSON(jsonValue),
-    );
-  }
-
-  /**
-   * List localized countries for citizenship selection
-   */
-  async referenceCountries(
-    requestParameters: ReferenceCountriesRequest = {},
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ReferenceCountries200Response> {
-    const response = await this.referenceCountriesRaw(
-      requestParameters,
-      initOverrides,
-    );
-    return await response.value();
-  }
-
-  /**
-   * List featured flight locations
-   */
-  async referenceFeaturedFlightLocationsRaw(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ReferenceFeaturedFlightLocations200Response>> {
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    let urlPath = `/api/v1/reference/featured-flight-locations`;
-
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'GET',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides,
-    );
-
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      ReferenceFeaturedFlightLocations200ResponseFromJSON(jsonValue),
-    );
-  }
-
-  /**
-   * List featured flight locations
-   */
-  async referenceFeaturedFlightLocations(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ReferenceFeaturedFlightLocations200Response> {
-    const response = await this.referenceFeaturedFlightLocationsRaw(
-      initOverrides,
-    );
-    return await response.value();
-  }
-
-  /**
-   * Suggest countries, cities and airports
-   */
-  async referenceSuggestRaw(
-    requestParameters: ReferenceSuggestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ReferenceSuggest200Response>> {
-    if (requestParameters['q'] == null) {
-      throw new runtime.RequiredError(
-        'q',
-        'Required parameter "q" was null or undefined when calling referenceSuggest().',
-      );
-    }
-
-    const queryParameters: any = {};
-
-    if (requestParameters['q'] != null) {
-      queryParameters['q'] = requestParameters['q'];
-    }
-
-    if (requestParameters['types'] != null) {
-      queryParameters['types'] = requestParameters['types'];
-    }
-
-    if (requestParameters['countryId'] != null) {
-      queryParameters['countryId'] = requestParameters['countryId'];
-    }
-
-    if (requestParameters['limit'] != null) {
-      queryParameters['limit'] = requestParameters['limit'];
-    }
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    let urlPath = `/api/v1/reference/suggest`;
-
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'GET',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides,
-    );
-
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      ReferenceSuggest200ResponseFromJSON(jsonValue),
-    );
-  }
-
-  /**
-   * Suggest countries, cities and airports
-   */
-  async referenceSuggest(
-    requestParameters: ReferenceSuggestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ReferenceSuggest200Response> {
-    const response = await this.referenceSuggestRaw(
-      requestParameters,
-      initOverrides,
-    );
-    return await response.value();
-  }
 }
 
 /**
- * @export
+ * @expor
  */
 export const ReferenceCountriesSortByEnum = {
-  name: 'name',
-  code: 'code',
+    name: 'name',
+    code: 'code'
 } as const;
-export type ReferenceCountriesSortByEnum =
-  (typeof ReferenceCountriesSortByEnum)[keyof typeof ReferenceCountriesSortByEnum];
+export type ReferenceCountriesSortByEnum = typeof ReferenceCountriesSortByEnum[keyof typeof ReferenceCountriesSortByEnum];
 /**
- * @export
+ * @expor
  */
 export const ReferenceCountriesSortDirectionEnum = {
-  asc: 'asc',
-  desc: 'desc',
+    asc: 'asc',
+    desc: 'desc'
 } as const;
-export type ReferenceCountriesSortDirectionEnum =
-  (typeof ReferenceCountriesSortDirectionEnum)[keyof typeof ReferenceCountriesSortDirectionEnum];
+export type ReferenceCountriesSortDirectionEnum = typeof ReferenceCountriesSortDirectionEnum[keyof typeof ReferenceCountriesSortDirectionEnum];
 /**
- * @export
+ * @expor
  */
 export const ReferenceCountriesAcceptLanguageEnum = {
-  ru: 'ru',
-  uz: 'uz',
-  en: 'en',
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
-export type ReferenceCountriesAcceptLanguageEnum =
-  (typeof ReferenceCountriesAcceptLanguageEnum)[keyof typeof ReferenceCountriesAcceptLanguageEnum];
+export type ReferenceCountriesAcceptLanguageEnum = typeof ReferenceCountriesAcceptLanguageEnum[keyof typeof ReferenceCountriesAcceptLanguageEnum];
 /**
- * @export
+ * @expor
+ */
+export const ReferenceFeaturedFlightLocationsAcceptLanguageEnum = {
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
+} as const;
+export type ReferenceFeaturedFlightLocationsAcceptLanguageEnum = typeof ReferenceFeaturedFlightLocationsAcceptLanguageEnum[keyof typeof ReferenceFeaturedFlightLocationsAcceptLanguageEnum];
+/**
+ * @expor
  */
 export const ReferenceSuggestTypesEnum = {
-  country: 'country',
-  city: 'city',
-  airport: 'airport',
+    country: 'country',
+    city: 'city',
+    airport: 'airport'
 } as const;
-export type ReferenceSuggestTypesEnum =
-  (typeof ReferenceSuggestTypesEnum)[keyof typeof ReferenceSuggestTypesEnum];
+export type ReferenceSuggestTypesEnum = typeof ReferenceSuggestTypesEnum[keyof typeof ReferenceSuggestTypesEnum];
+/**
+ * @expor
+ */
+export const ReferenceSuggestAcceptLanguageEnum = {
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
+} as const;
+export type ReferenceSuggestAcceptLanguageEnum = typeof ReferenceSuggestAcceptLanguageEnum[keyof typeof ReferenceSuggestAcceptLanguageEnum];

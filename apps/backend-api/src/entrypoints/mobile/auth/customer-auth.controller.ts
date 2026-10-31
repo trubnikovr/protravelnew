@@ -27,6 +27,7 @@ export class CustomerAuthController {
     private readonly auth: CustomerAuthService,
   ) {}
 
+  /** @see POST /api/v1/auth/login */
   @Post('login')
   @HttpCode(HttpStatus.ACCEPTED)
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
@@ -36,6 +37,7 @@ export class CustomerAuthController {
     return this.requestCode.execute(dto.phone);
   }
 
+  /** @see POST /api/v1/auth/verify */
   @Post('verify')
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 10, ttl: 60_000 } })
@@ -45,6 +47,7 @@ export class CustomerAuthController {
     return this.verifyCode.execute(dto.verificationId, dto.code);
   }
 
+  /** @see POST /api/v1/auth/refresh */
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Rotate customer access and refresh tokens' })

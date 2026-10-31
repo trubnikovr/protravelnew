@@ -25,6 +25,21 @@
                 "home-card"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -52,7 +67,23 @@
     "/api/v1/health": {
       "get": {
         "operationId": "Health_score",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -108,7 +139,23 @@
     "/api/v1/health/live": {
       "get": {
         "operationId": "Health_live",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -142,7 +189,23 @@
     "/api/v1/auth/login": {
       "post": {
         "operationId": "CustomerAuth_login",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -186,7 +249,23 @@
     "/api/v1/auth/verify": {
       "post": {
         "operationId": "CustomerAuth_verify",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -230,7 +309,23 @@
     "/api/v1/auth/refresh": {
       "post": {
         "operationId": "CustomerAuth_refresh",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -274,7 +369,23 @@
     "/api/v1/users/me": {
       "get": {
         "operationId": "CustomerProfile_me",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -311,7 +422,23 @@
       },
       "patch": {
         "operationId": "CustomerProfile_update",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -365,13 +492,15 @@
             "name": "Accept-Language",
             "in": "header",
             "required": false,
+            "description": "Response language. Defaults to ru.",
             "schema": {
               "type": "string",
               "enum": [
                 "ru",
                 "uz",
                 "en"
-              ]
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -404,7 +533,25 @@
                       }
                     },
                     "meta": {
-                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        },
+                        {
+                          "$ref": "#/components/schemas/FlightSearchMetaResponseDto"
+                        }
+                      ]
                     }
                   }
                 }
@@ -423,24 +570,26 @@
         "operationId": "Flights_offer",
         "parameters": [
           {
+            "name": "offerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "Accept-Language",
             "in": "header",
             "required": false,
+            "description": "Response language. Defaults to ru.",
             "schema": {
               "type": "string",
               "enum": [
                 "ru",
                 "uz",
                 "en"
-              ]
-            }
-          },
-          {
-            "name": "offerId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -474,23 +623,10 @@
         ]
       }
     },
-    "/api/v1/flights/offers/{offerId}/revalidate": {
+    "/api/v1/flights/offers/{offerId}/share": {
       "post": {
-        "operationId": "Flights_revalidate",
+        "operationId": "Flights_share",
         "parameters": [
-          {
-            "name": "Accept-Language",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ru",
-                "uz",
-                "en"
-              ]
-            }
-          },
           {
             "name": "offerId",
             "required": true,
@@ -498,10 +634,25 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {
@@ -513,7 +664,7 @@
                   ],
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/FlightOfferResponseDto"
+                      "$ref": "#/components/schemas/FlightShareLinkResponseDto"
                     },
                     "meta": {
                       "$ref": "#/components/schemas/ApiResponseMetaDto"
@@ -524,7 +675,7 @@
             }
           }
         },
-        "summary": "Revalidate availability and price before booking",
+        "summary": "Create a public flight share link",
         "tags": [
           "flights"
         ]
@@ -535,24 +686,26 @@
         "operationId": "Flights_fareRules",
         "parameters": [
           {
+            "name": "offerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "Accept-Language",
             "in": "header",
             "required": false,
+            "description": "Response language. Defaults to ru.",
             "schema": {
               "type": "string",
               "enum": [
                 "ru",
                 "uz",
                 "en"
-              ]
-            }
-          },
-          {
-            "name": "offerId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -589,7 +742,23 @@
     "/api/v1/home": {
       "get": {
         "operationId": "Home_get",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -623,7 +792,23 @@
     "/api/v1/news": {
       "get": {
         "operationId": "News_list",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -660,7 +845,23 @@
     "/api/v1/news/unread-status": {
       "get": {
         "operationId": "News_unreadStatus",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -701,6 +902,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -744,6 +960,21 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -803,6 +1034,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -850,6 +1096,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -899,6 +1160,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -946,6 +1222,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1036,6 +1327,21 @@
                 "desc"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1092,7 +1398,23 @@
       },
       "post": {
         "operationId": "CustomerTravelers_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1148,6 +1470,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1205,6 +1542,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1233,6 +1585,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1300,6 +1667,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "requestBody": {
@@ -1363,6 +1745,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1428,6 +1825,21 @@
                 "desc"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1484,7 +1896,23 @@
       },
       "post": {
         "operationId": "CustomerTourBookings_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1541,6 +1969,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1588,6 +2031,21 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1647,6 +2105,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1687,7 +2160,23 @@
     "/api/v1/reference/featured-flight-locations": {
       "get": {
         "operationId": "Reference_featuredFlightLocations",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -1773,6 +2262,21 @@
               "maximum": 50,
               "default": 20,
               "type": "number"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1872,13 +2376,15 @@
             "name": "Accept-Language",
             "in": "header",
             "required": false,
+            "description": "Response language. Defaults to ru.",
             "schema": {
               "type": "string",
               "enum": [
                 "ru",
                 "uz",
                 "en"
-              ]
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1933,7 +2439,23 @@
     "/api/v1/system-messages": {
       "get": {
         "operationId": "SystemMessages_list",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -2013,6 +2535,21 @@
                 "price"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -2074,6 +2611,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -2103,6 +2655,138 @@
         "summary": "Get a published tour with full customer content",
         "tags": [
           "tours"
+        ]
+      }
+    },
+    "/api/v1/travel-facts": {
+      "get": {
+        "operationId": "TravelFacts_list",
+        "parameters": [
+          {
+            "name": "destinationCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "PQC",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 10,
+              "default": 5,
+              "type": "number"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TravelFactResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get published travel facts for rotation",
+        "tags": [
+          "travel-facts"
+        ]
+      }
+    },
+    "/api/v1/travel-facts/random": {
+      "get": {
+        "operationId": "TravelFacts_random",
+        "parameters": [
+          {
+            "name": "destinationCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "PQC",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TravelFactResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a random published travel fact",
+        "tags": [
+          "travel-facts"
         ]
       }
     }
@@ -2522,6 +3206,10 @@
           "baggage": {
             "type": "object",
             "nullable": true
+          },
+          "baggageLabel": {
+            "type": "string",
+            "example": "Без багажа"
           }
         },
         "required": [
@@ -2533,7 +3221,8 @@
           "departureLocal",
           "arrivalLocal",
           "durationMinutes",
-          "cabinClass"
+          "cabinClass",
+          "baggageLabel"
         ]
       },
       "FlightItineraryResponseDto": {
@@ -2541,6 +3230,10 @@
         "properties": {
           "durationMinutes": {
             "type": "number"
+          },
+          "stopsLabel": {
+            "type": "string",
+            "example": "Прямой"
           },
           "segments": {
             "type": "array",
@@ -2551,6 +3244,7 @@
         },
         "required": [
           "durationMinutes",
+          "stopsLabel",
           "segments"
         ]
       },
@@ -2568,6 +3262,10 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "baggageLabel": {
+            "type": "string",
+            "example": "до 20 кг · 1 место багажа"
           },
           "provider": {
             "type": "string"
@@ -2611,6 +3309,7 @@
           "id",
           "createdAt",
           "updatedAt",
+          "baggageLabel",
           "provider",
           "validatingCarrierCode",
           "validatingCarrierName",
@@ -2620,6 +3319,234 @@
           "electronicTicket",
           "requiresLatinNames",
           "expiresAt"
+        ]
+      },
+      "PaginationMetaResponseDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "minimum": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "example": 20
+          },
+          "total": {
+            "type": "number",
+            "minimum": 0,
+            "example": 125
+          },
+          "totalPages": {
+            "type": "number",
+            "minimum": 0,
+            "example": 7
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "totalPages"
+        ]
+      },
+      "FlightPriceFilterResponseDto": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "string",
+            "nullable": true,
+            "example": "1200000"
+          },
+          "max": {
+            "type": "string",
+            "nullable": true,
+            "example": "6800000"
+          }
+        },
+        "required": [
+          "min",
+          "max"
+        ]
+      },
+      "FlightStopsFilterOptionResponseDto": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "example": "Без пересадок"
+          },
+          "value": {
+            "type": "number",
+            "minimum": 0
+          },
+          "count": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "label",
+          "value",
+          "count"
+        ]
+      },
+      "FlightAirlineFilterOptionResponseDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "HY"
+          },
+          "name": {
+            "type": "string",
+            "example": "Uzbekistan Airways"
+          },
+          "count": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "count"
+        ]
+      },
+      "FlightBaggageFilterResponseDto": {
+        "type": "object",
+        "properties": {
+          "included": {
+            "type": "number",
+            "minimum": 0
+          },
+          "notIncluded": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "included",
+          "notIncluded"
+        ]
+      },
+      "FlightDurationFilterResponseDto": {
+        "type": "object",
+        "properties": {
+          "minMinutes": {
+            "type": "number",
+            "nullable": true
+          },
+          "maxMinutes": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": [
+          "minMinutes",
+          "maxMinutes"
+        ]
+      },
+      "FlightDepartureTimeFilterResponseDto": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "string",
+            "nullable": true,
+            "example": "01:20"
+          },
+          "max": {
+            "type": "string",
+            "nullable": true,
+            "example": "23:45"
+          }
+        },
+        "required": [
+          "min",
+          "max"
+        ]
+      },
+      "FlightSearchFiltersResponseDto": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "$ref": "#/components/schemas/FlightPriceFilterResponseDto"
+          },
+          "stops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightStopsFilterOptionResponseDto"
+            }
+          },
+          "airlines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightAirlineFilterOptionResponseDto"
+            }
+          },
+          "baggage": {
+            "$ref": "#/components/schemas/FlightBaggageFilterResponseDto"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/FlightDurationFilterResponseDto"
+          },
+          "departureTime": {
+            "$ref": "#/components/schemas/FlightDepartureTimeFilterResponseDto"
+          }
+        },
+        "required": [
+          "price",
+          "stops",
+          "airlines",
+          "baggage",
+          "duration",
+          "departureTime"
+        ]
+      },
+      "FlightHighlightResponseDto": {
+        "type": "object",
+        "properties": {
+          "offerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "cheapest",
+              "fastest"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "example": "Самый дешёвый"
+          }
+        },
+        "required": [
+          "offerId",
+          "type",
+          "label"
+        ]
+      },
+      "FlightSearchMetaResponseDto": {
+        "type": "object",
+        "properties": {
+          "filters": {
+            "$ref": "#/components/schemas/FlightSearchFiltersResponseDto"
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightHighlightResponseDto"
+            }
+          }
+        },
+        "required": [
+          "filters",
+          "highlights"
         ]
       },
       "FlightRouteRequestDto": {
@@ -2632,6 +3559,27 @@
           "destination": {
             "type": "string",
             "example": "IST"
+          },
+          "originAirports": {
+            "example": [
+              "SVO",
+              "DME",
+              "VKO"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "destinationAirports": {
+            "example": [
+              "IST",
+              "SAW"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "departureDate": {
             "type": "string",
@@ -2670,6 +3618,17 @@
       "CreateFlightSearchRequestDto": {
         "type": "object",
         "properties": {
+          "page": {
+            "type": "number",
+            "minimum": 1,
+            "default": 1
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20
+          },
           "routes": {
             "type": "array",
             "items": {
@@ -2733,6 +3692,11 @@
             "minimum": 0,
             "maximum": 4
           },
+          "stopsCount": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Exact maximum number of connections across the offer itineraries; 0 means direct."
+          },
           "maxDurationMinutes": {
             "type": "number",
             "minimum": 1,
@@ -2761,6 +3725,23 @@
           "routes",
           "passengers",
           "cabinClass"
+        ]
+      },
+      "FlightShareLinkResponseDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "url",
+          "expiresAt"
         ]
       },
       "FlightFareRuleSectionResponseDto": {
@@ -2843,6 +3824,10 @@
           },
           "imageUrl": {
             "type": "object",
+            "nullable": true
+          },
+          "hotelCategory": {
+            "type": "number",
             "nullable": true
           }
         },
@@ -3339,38 +4324,6 @@
           "lastName",
           "gender",
           "documents"
-        ]
-      },
-      "PaginationMetaResponseDto": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "number",
-            "minimum": 1,
-            "example": 1
-          },
-          "limit": {
-            "type": "number",
-            "minimum": 1,
-            "maximum": 100,
-            "example": 20
-          },
-          "total": {
-            "type": "number",
-            "minimum": 0,
-            "example": 125
-          },
-          "totalPages": {
-            "type": "number",
-            "minimum": 0,
-            "example": 7
-          }
-        },
-        "required": [
-          "page",
-          "limit",
-          "total",
-          "totalPages"
         ]
       },
       "CreateTravelerRequestDto": {
@@ -3911,6 +4864,17 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
+          },
+          "airportCodes": {
+            "example": [
+              "SVO",
+              "DME",
+              "VKO"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -3918,7 +4882,8 @@
           "id",
           "name",
           "countryId",
-          "countryName"
+          "countryName",
+          "airportCodes"
         ]
       },
       "ReferenceCountryResponseDto": {
@@ -4327,6 +5292,54 @@
           "departures",
           "programDays",
           "galleryImages"
+        ]
+      },
+      "TravelFactResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string",
+            "example": "В Японии чаевые обычно не приняты."
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "JP",
+            "nullable": true
+          },
+          "destinationCode": {
+            "type": "string",
+            "example": "NRT",
+            "nullable": true
+          },
+          "tags": {
+            "example": [
+              "культура",
+              "этикет"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "text",
+          "tags"
         ]
       }
     }

@@ -36,11 +36,16 @@ export interface ReferenceCountriesRequest {
   acceptLanguage?: ReferenceCountriesAcceptLanguageEnum;
 }
 
+export interface ReferenceFeaturedFlightLocationsRequest {
+  acceptLanguage?: ReferenceFeaturedFlightLocationsAcceptLanguageEnum;
+}
+
 export interface ReferenceSuggestRequest {
   q: string;
   types?: Array<ReferenceSuggestTypesEnum>;
   countryId?: string;
   limit?: number;
+  acceptLanguage?: ReferenceSuggestAcceptLanguageEnum;
 }
 
 /**
@@ -58,7 +63,7 @@ export interface ReferenceApiInterface {
    * @param {'name' | 'code'} [sortBy]
    * @param {'asc' | 'desc'} [sortDirection]
    * @param {string} [search]
-   * @param {'ru' | 'uz' | 'en'} [acceptLanguage]
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ReferenceApiInterface
@@ -79,11 +84,13 @@ export interface ReferenceApiInterface {
   /**
    *
    * @summary List featured flight locations
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ReferenceApiInterface
    */
   referenceFeaturedFlightLocationsRaw(
+    requestParameters: ReferenceFeaturedFlightLocationsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<ReferenceFeaturedFlightLocations200Response>>;
 
@@ -91,6 +98,7 @@ export interface ReferenceApiInterface {
    * List featured flight locations
    */
   referenceFeaturedFlightLocations(
+    requestParameters: ReferenceFeaturedFlightLocationsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<ReferenceFeaturedFlightLocations200Response>;
 
@@ -101,6 +109,7 @@ export interface ReferenceApiInterface {
    * @param {Array<'country' | 'city' | 'airport'>} [types]
    * @param {string} [countryId]
    * @param {number} [limit]
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ReferenceApiInterface
@@ -198,11 +207,18 @@ export class ReferenceApi
    * List featured flight locations
    */
   async referenceFeaturedFlightLocationsRaw(
+    requestParameters: ReferenceFeaturedFlightLocationsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<ReferenceFeaturedFlightLocations200Response>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
 
     let urlPath = `/api/v1/reference/featured-flight-locations`;
 
@@ -225,9 +241,11 @@ export class ReferenceApi
    * List featured flight locations
    */
   async referenceFeaturedFlightLocations(
+    requestParameters: ReferenceFeaturedFlightLocationsRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<ReferenceFeaturedFlightLocations200Response> {
     const response = await this.referenceFeaturedFlightLocationsRaw(
+      requestParameters,
       initOverrides
     );
     return await response.value();
@@ -266,6 +284,12 @@ export class ReferenceApi
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
 
     let urlPath = `/api/v1/reference/suggest`;
 
@@ -330,6 +354,16 @@ export type ReferenceCountriesAcceptLanguageEnum =
 /**
  * @export
  */
+export const ReferenceFeaturedFlightLocationsAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type ReferenceFeaturedFlightLocationsAcceptLanguageEnum =
+  (typeof ReferenceFeaturedFlightLocationsAcceptLanguageEnum)[keyof typeof ReferenceFeaturedFlightLocationsAcceptLanguageEnum];
+/**
+ * @export
+ */
 export const ReferenceSuggestTypesEnum = {
   country: "country",
   city: "city",
@@ -337,3 +371,13 @@ export const ReferenceSuggestTypesEnum = {
 } as const;
 export type ReferenceSuggestTypesEnum =
   (typeof ReferenceSuggestTypesEnum)[keyof typeof ReferenceSuggestTypesEnum];
+/**
+ * @export
+ */
+export const ReferenceSuggestAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type ReferenceSuggestAcceptLanguageEnum =
+  (typeof ReferenceSuggestAcceptLanguageEnum)[keyof typeof ReferenceSuggestAcceptLanguageEnum];

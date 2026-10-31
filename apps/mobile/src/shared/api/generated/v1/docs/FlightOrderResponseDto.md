@@ -12,14 +12,14 @@ Name | Type
 `status` | string
 `provider` | string
 `offer` | [FlightOrderOfferSnapshotResponseDto](FlightOrderOfferSnapshotResponseDto.md)
-`recordLocator` | object
-`bookingExpiresAt` | object
-`providerStatus` | object
-`failureCode` | object
+`recordLocator` | objec
+`bookingExpiresAt` | objec
+`providerStatus` | objec
+`failureCode` | objec
 
 ## Example
 
-```typescript
+```typescrip
 import type { FlightOrderResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -42,7 +42,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as FlightOrderResponseDto
 console.log(exampleParsed)
 ```

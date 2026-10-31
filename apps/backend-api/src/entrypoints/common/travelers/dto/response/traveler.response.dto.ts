@@ -27,14 +27,11 @@ export class TravelerResponseDto extends EntityResponseDto {
   @ApiProperty() firstName!: string;
   @ApiProperty() lastName!: string;
   @ApiPropertyOptional({ nullable: true, type: String }) middleName!:
-    | string
-    | null;
+    string | null;
   @ApiPropertyOptional({ nullable: true, type: String }) firstNameLatin!:
-    | string
-    | null;
+    string | null;
   @ApiPropertyOptional({ nullable: true, type: String }) lastNameLatin!:
-    | string
-    | null;
+    string | null;
   @ApiProperty({ enum: TravelerGender }) gender!: TravelerGender;
   @ApiPropertyOptional({ nullable: true, type: String, format: 'date' })
   birthDate!: string | null;

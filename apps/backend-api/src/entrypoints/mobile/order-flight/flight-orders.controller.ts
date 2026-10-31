@@ -50,6 +50,7 @@ export class FlightOrdersController {
     private readonly cancelOrder: CancelFlightOrderUseCase,
   ) {}
 
+  /** @see POST /api/v1/flight-orders */
   @Post()
   @ApiHeader({ name: 'Idempotency-Key', required: true })
   @ApiOperation({ summary: 'Create draft flight order from validated offer' })
@@ -65,6 +66,7 @@ export class FlightOrdersController {
     return FlightOrderApiMapper.toResponse(order);
   }
 
+  /** @see GET /api/v1/flight-orders/:id */
   @Get(':id')
   @ApiOperation({ summary: 'Get current customer flight order' })
   @ApiOkEnvelope(FlightOrderResponseDto)
@@ -77,6 +79,7 @@ export class FlightOrdersController {
     );
   }
 
+  /** @see POST /api/v1/flight-orders/:id/book */
   @Post(':id/book')
   @ApiOperation({ summary: 'Create provider booking for a draft flight order' })
   @ApiOkEnvelope(FlightOrderResponseDto)
@@ -89,6 +92,7 @@ export class FlightOrdersController {
     );
   }
 
+  /** @see POST /api/v1/flight-orders/:id/refresh */
   @Post(':id/refresh')
   @ApiOperation({ summary: 'Refresh provider booking status' })
   @ApiOkEnvelope(FlightOrderResponseDto)
@@ -101,6 +105,7 @@ export class FlightOrdersController {
     );
   }
 
+  /** @see POST /api/v1/flight-orders/:id/cancel */
   @Post(':id/cancel')
   @ApiOperation({ summary: 'Cancel a booked flight order' })
   @ApiOkEnvelope(FlightOrderResponseDto)

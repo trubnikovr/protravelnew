@@ -28,3 +28,17 @@ Swagger UI остаётся постоянным: mobile API доступен п
 
 Корневые `mobile.openapi.json`, `admin.openapi.json` и соответствующие HTTP
 JSON URL временно остаются алиасами текущей версии `v1` для совместимости.
+
+Flight offer and segment responses include a required localized `baggageLabel`.
+The API mapper owns baggage wording, plural forms and the deduplicated offer
+summary; raw `baggage` remains available for compatibility. Unknown allowances
+are labeled as pending rather than interpreted as no baggage. Mobile renders
+these strings verbatim without PC/KG parsing or local fallback copy.
+
+Flight search accepts optional `stopsCount` for an exact connection count,
+including `0`. For multiple itineraries this is the maximum connection count
+across directions, matching `meta.filters.stops[].value`. Existing `maxStops`
+and `directOnly` parameters remain supported. Stop options include a localized
+`label` from the API mapper. All filter metadata is calculated from raw provider
+offers before filtering/pagination, including empty filtered results. Changing
+`stopsCount` reuses the same raw search cache.

@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## customerPaymentsCreate
 
-> CustomerPaymentsCreate201Response customerPaymentsCreate(idempotencyKey, createPaymentRequestDto)
+> CustomerPaymentsCreate201Response customerPaymentsCreate(idempotencyKey, createPaymentRequestDto, acceptLanguage)
 
 Create hosted payment for an owned order
 
@@ -26,7 +26,7 @@ import type { CustomerPaymentsCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -37,6 +37,8 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreatePaymentRequestDto
     createPaymentRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerPaymentsCreateRequest;
 
   try {
@@ -47,7 +49,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -58,6 +60,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
 | **createPaymentRequestDto** | [CreatePaymentRequestDto](CreatePaymentRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -81,9 +84,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerPaymentsGet
+## customerPaymentsGe
 
-> CustomerPaymentsCreate201Response customerPaymentsGet(id)
+> CustomerPaymentsCreate201Response customerPaymentsGet(id, acceptLanguage)
 
 Get owned payment status
 
@@ -98,7 +101,7 @@ import type { CustomerPaymentsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -107,6 +110,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerPaymentsGetRequest;
 
   try {
@@ -117,7 +122,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -127,6 +132,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

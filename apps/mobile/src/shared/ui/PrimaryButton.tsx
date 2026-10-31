@@ -7,6 +7,7 @@ type Props = {
   onPress: () => void;
   disabled?: boolean;
   loading?: boolean;
+  variant?: 'default' | 'flightBooking';
 };
 
 export function PrimaryButton({
@@ -14,6 +15,7 @@ export function PrimaryButton({
   onPress,
   disabled = false,
   loading = false,
+  variant = 'default',
 }: Props) {
   return (
     <Pressable
@@ -21,13 +23,14 @@ export function PrimaryButton({
       onPress={onPress}
       style={({pressed}) => [
         styles.button,
+        variant === 'flightBooking' && styles.flightBooking,
         pressed && styles.pressed,
         disabled && styles.disabled,
       ]}>
       {loading ? (
         <ActivityIndicator color={theme.colors.white} />
       ) : (
-        <Text style={styles.label}>{title}</Text>
+        <Text style={[styles.label, variant === 'flightBooking' && styles.flightBookingLabel]}>{title}</Text>
       )}
     </Pressable>
   );
@@ -44,6 +47,16 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.bodySemibold,
+    color: theme.colors.white,
+  },
+  flightBooking: {
+    backgroundColor: theme.colors.flightPrimary,
+    borderRadius: theme.spacing.xxs,
+    height: 44,
+    paddingHorizontal: theme.spacing.md,
+  },
+  flightBookingLabel: {
+    ...typography.flightBodySemibold,
     color: theme.colors.white,
   },
   pressed: {

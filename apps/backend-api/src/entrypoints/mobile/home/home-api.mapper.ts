@@ -27,6 +27,7 @@ export class HomeApiMapper {
       duration: `${tour.durationDays} дн. / ${tour.durationNights} ноч.`,
       price: this.money(tour),
       imageUrl: tour.coverImage?.toString() ?? null,
+      hotelCategory: tour.packageDetails?.hotelCategory ?? null,
     };
   }
 

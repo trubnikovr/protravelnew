@@ -14,3 +14,4 @@ export * from './ReferenceApi';
 export * from './SystemHealthApi';
 export * from './SystemMessagesApi';
 export * from './ToursApi';
+export * from './TravelFactsApi';

@@ -1,14 +1,12 @@
 # ReferenceApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-| Method | HTTP request | Description |
-|------------- | ------------- | -------------|
-| [**referenceCountries**](ReferenceApi.md#referencecountries) | **GET** /api/v1/reference/countries | List localized countries for citizenship selection |
-| [**referenceFeaturedFlightLocations**](ReferenceApi.md#referencefeaturedflightlocations) | **GET** /api/v1/reference/featured-flight-locations | List featured flight locations |
-| [**referenceSuggest**](ReferenceApi.md#referencesuggest) | **GET** /api/v1/reference/suggest | Suggest countries, cities and airports |
-
-
+| Method                                                                                   | HTTP request                                        | Description                                        |
+| ---------------------------------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------- |
+| [**referenceCountries**](ReferenceApi.md#referencecountries)                             | **GET** /api/v1/reference/countries                 | List localized countries for citizenship selection |
+| [**referenceFeaturedFlightLocations**](ReferenceApi.md#referencefeaturedflightlocations) | **GET** /api/v1/reference/featured-flight-locations | List featured flight locations                     |
+| [**referenceSuggest**](ReferenceApi.md#referencesuggest)                                 | **GET** /api/v1/reference/suggest                   | Suggest countries, cities and airports             |
 
 ## referenceCountries
 
@@ -19,11 +17,8 @@ List localized countries for citizenship selection
 ### Example
 
 ```ts
-import {
-  Configuration,
-  ReferenceApi,
-} from '';
-import type { ReferenceCountriesRequest } from '';
+import { Configuration, ReferenceApi } from "";
+import type { ReferenceCountriesRequest } from "";
 
 async function example() {
   console.log("🚀 Testing  SDK...");
@@ -40,7 +35,7 @@ async function example() {
     sortDirection: sortDirection_example,
     // string (optional)
     search: search_example,
-    // 'ru' | 'uz' | 'en' (optional)
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
     acceptLanguage: acceptLanguage_example,
   } satisfies ReferenceCountriesRequest;
 
@@ -58,15 +53,14 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **page** | `number` |  | [Optional] [Defaults to `1`] |
-| **limit** | `number` |  | [Optional] [Defaults to `20`] |
-| **sortBy** | `name`, `code` |  | [Optional] [Defaults to `&#39;name&#39;`] [Enum: name, code] |
-| **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
-| **search** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
+| Name               | Type             | Description                        | Notes                                                        |
+| ------------------ | ---------------- | ---------------------------------- | ------------------------------------------------------------ |
+| **page**           | `number`         |                                    | [Optional] [Defaults to `1`]                                 |
+| **limit**          | `number`         |                                    | [Optional] [Defaults to `20`]                                |
+| **sortBy**         | `name`, `code`   |                                    | [Optional] [Defaults to `&#39;name&#39;`] [Enum: name, code] |
+| **sortDirection**  | `asc`, `desc`    |                                    | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc]  |
+| **search**         | `string`         |                                    | [Optional] [Defaults to `undefined`]                         |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en]   |
 
 ### Return type
 
@@ -81,36 +75,37 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     |             | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-
 ## referenceFeaturedFlightLocations
 
-> ReferenceFeaturedFlightLocations200Response referenceFeaturedFlightLocations()
+> ReferenceFeaturedFlightLocations200Response referenceFeaturedFlightLocations(acceptLanguage)
 
 List featured flight locations
 
 ### Example
 
 ```ts
-import {
-  Configuration,
-  ReferenceApi,
-} from '';
-import type { ReferenceFeaturedFlightLocationsRequest } from '';
+import { Configuration, ReferenceApi } from "";
+import type { ReferenceFeaturedFlightLocationsRequest } from "";
 
 async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new ReferenceApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies ReferenceFeaturedFlightLocationsRequest;
+
   try {
-    const data = await api.referenceFeaturedFlightLocations();
+    const data = await api.referenceFeaturedFlightLocations(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -123,7 +118,9 @@ example().catch(console.error);
 
 ### Parameters
 
-This endpoint does not need any parameter.
+| Name               | Type             | Description                        | Notes                                                      |
+| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -138,18 +135,17 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     |             | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-
 ## referenceSuggest
 
-> ReferenceSuggest200Response referenceSuggest(q, types, countryId, limit)
+> ReferenceSuggest200Response referenceSuggest(q, types, countryId, limit, acceptLanguage)
 
 Suggest countries, cities and airports
 
@@ -175,6 +171,8 @@ async function example() {
     countryId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // number (optional)
     limit: 8.14,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies ReferenceSuggestRequest;
 
   try {
@@ -191,13 +189,13 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **q** | `string` |  | [Defaults to `undefined`] |
-| **types** | `country`, `city`, `airport` |  | [Optional] [Enum: country, city, airport] |
-| **countryId** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **limit** | `number` |  | [Optional] [Defaults to `20`] |
+| Name               | Type                         | Description                        | Notes                                                      |
+| ------------------ | ---------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+| **q**              | `string`                     |                                    | [Defaults to `undefined`]                                  |
+| **types**          | `country`, `city`, `airport` |                                    | [Optional] [Enum: country, city, airport]                  |
+| **countryId**      | `string`                     |                                    | [Optional] [Defaults to `undefined`]                       |
+| **limit**          | `number`                     |                                    | [Optional] [Defaults to `20`]                              |
+| **acceptLanguage** | `ru`, `uz`, `en`             | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -212,11 +210,10 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     |             | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

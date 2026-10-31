@@ -14,9 +14,9 @@ All URIs are relative to *http://localhost*
 
 
 
-## customerTravelersAddDocument
+## customerTravelersAddDocumen
 
-> CustomerTravelersCreate201Response customerTravelersAddDocument(travelerId, createTravelerDocumentRequestDto)
+> CustomerTravelersCreate201Response customerTravelersAddDocument(travelerId, createTravelerDocumentRequestDto, acceptLanguage)
 
 Add encrypted document to own traveler
 
@@ -31,7 +31,7 @@ import type { CustomerTravelersAddDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -42,6 +42,8 @@ async function example() {
     travelerId: travelerId_example,
     // CreateTravelerDocumentRequestDto
     createTravelerDocumentRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersAddDocumentRequest;
 
   try {
@@ -52,7 +54,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -63,6 +65,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **travelerId** | `string` |  | [Defaults to `undefined`] |
 | **createTravelerDocumentRequestDto** | [CreateTravelerDocumentRequestDto](CreateTravelerDocumentRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -88,7 +91,7 @@ example().catch(console.error);
 
 ## customerTravelersCreate
 
-> CustomerTravelersCreate201Response customerTravelersCreate(createTravelerRequestDto)
+> CustomerTravelersCreate201Response customerTravelersCreate(createTravelerRequestDto, acceptLanguage)
 
 Add current customer or a family traveler
 
@@ -103,7 +106,7 @@ import type { CustomerTravelersCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -112,6 +115,8 @@ async function example() {
   const body = {
     // CreateTravelerRequestDto
     createTravelerRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersCreateRequest;
 
   try {
@@ -122,7 +127,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -132,6 +137,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **createTravelerRequestDto** | [CreateTravelerRequestDto](CreateTravelerRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -157,7 +163,7 @@ example().catch(console.error);
 
 ## customerTravelersDelete
 
-> customerTravelersDelete(travelerId)
+> customerTravelersDelete(travelerId, acceptLanguage)
 
 Delete own traveler and documents
 
@@ -172,7 +178,7 @@ import type { CustomerTravelersDeleteRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -181,6 +187,8 @@ async function example() {
   const body = {
     // string
     travelerId: travelerId_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersDeleteRequest;
 
   try {
@@ -191,7 +199,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -201,6 +209,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **travelerId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -224,11 +233,11 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTravelersDeleteDocument
+## customerTravelersDeleteDocumen
 
-> customerTravelersDeleteDocument(travelerId, documentId)
+> customerTravelersDeleteDocument(travelerId, documentId, acceptLanguage)
 
-Delete own traveler document
+Delete own traveler documen
 
 ### Example
 
@@ -241,7 +250,7 @@ import type { CustomerTravelersDeleteDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -252,6 +261,8 @@ async function example() {
     travelerId: travelerId_example,
     // string
     documentId: documentId_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersDeleteDocumentRequest;
 
   try {
@@ -262,7 +273,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -273,6 +284,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **travelerId** | `string` |  | [Defaults to `undefined`] |
 | **documentId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -296,9 +308,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTravelersList
+## customerTravelersLis
 
-> CustomerTravelersList200Response customerTravelersList(page, limit, sortBy, sortDirection)
+> CustomerTravelersList200Response customerTravelersList(page, limit, sortBy, sortDirection, acceptLanguage)
 
 List current customer and family travelers
 
@@ -313,7 +325,7 @@ import type { CustomerTravelersListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -328,6 +340,8 @@ async function example() {
     sortBy: sortBy_example,
     // 'asc' | 'desc' (optional)
     sortDirection: sortDirection_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersListRequest;
 
   try {
@@ -338,7 +352,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -351,6 +365,7 @@ example().catch(console.error);
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
 | **sortBy** | `createdAt`, `updatedAt`, `firstName`, `lastName` |  | [Optional] [Defaults to `&#39;createdAt&#39;`] [Enum: createdAt, updatedAt, firstName, lastName] |
 | **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -376,7 +391,7 @@ example().catch(console.error);
 
 ## customerTravelersUpdate
 
-> CustomerTravelersCreate201Response customerTravelersUpdate(travelerId, updateTravelerRequestDto)
+> CustomerTravelersCreate201Response customerTravelersUpdate(travelerId, updateTravelerRequestDto, acceptLanguage)
 
 Update own traveler
 
@@ -391,7 +406,7 @@ import type { CustomerTravelersUpdateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -402,6 +417,8 @@ async function example() {
     travelerId: travelerId_example,
     // UpdateTravelerRequestDto
     updateTravelerRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersUpdateRequest;
 
   try {
@@ -412,7 +429,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -423,6 +440,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **travelerId** | `string` |  | [Defaults to `undefined`] |
 | **updateTravelerRequestDto** | [UpdateTravelerRequestDto](UpdateTravelerRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -446,11 +464,11 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTravelersUpdateDocument
+## customerTravelersUpdateDocumen
 
-> CustomerTravelersCreate201Response customerTravelersUpdateDocument(travelerId, documentId, updateTravelerDocumentRequestDto)
+> CustomerTravelersCreate201Response customerTravelersUpdateDocument(travelerId, documentId, updateTravelerDocumentRequestDto, acceptLanguage)
 
-Update encrypted own traveler document
+Update encrypted own traveler documen
 
 ### Example
 
@@ -463,7 +481,7 @@ import type { CustomerTravelersUpdateDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -476,6 +494,8 @@ async function example() {
     documentId: documentId_example,
     // UpdateTravelerDocumentRequestDto
     updateTravelerDocumentRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTravelersUpdateDocumentRequest;
 
   try {
@@ -486,7 +506,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -498,6 +518,7 @@ example().catch(console.error);
 | **travelerId** | `string` |  | [Defaults to `undefined`] |
 | **documentId** | `string` |  | [Defaults to `undefined`] |
 | **updateTravelerDocumentRequestDto** | [UpdateTravelerDocumentRequestDto](UpdateTravelerDocumentRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

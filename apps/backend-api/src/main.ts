@@ -15,9 +15,14 @@ async function bootstrap(): Promise<void> {
   app.useLogger(app.get(PinoLogger));
   app.use(helmet());
   app.use(compression());
+  const corsOrigins = config
+    .getOrThrow<string>('CORS_ORIGINS')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
   app.enableCors({
     credentials: true,
-    origin: config.getOrThrow<string>('CORS_ORIGINS').split(','),
+    origin: corsOrigins,
   });
   app.setGlobalPrefix(config.getOrThrow<string>('API_PREFIX'));
   app.enableVersioning({

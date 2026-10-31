@@ -16,6 +16,7 @@ import {
   Map,
   Plane,
   Files,
+  Lightbulb,
   UserRound,
   Users,
 } from "lucide-react";
@@ -64,6 +65,7 @@ export function AppShell() {
               ...(admin.permissions.includes("content.read")
                 ? [
                     { to: "/news", label: t("news"), icon: Newspaper },
+                    { to: "/travel-facts", label: t("travelFacts"), icon: Lightbulb },
                     {
                       to: "/system-messages",
                       label: t("systemMessages"),

@@ -13,10 +13,12 @@ separated subset, while `countryId` limits city and airport results. Each city
 suggestion includes both its normalized country ID and display name so clients
 can persist an unambiguous country/city pair.
 
-Airport suggestions also match the linked city's localized names. This lets a
-flight selector turn a query such as `Москва` into selectable airport codes
-such as `DME`, `SVO` and `VKO`; city suggestions without an IATA code are not
-sent as flight-search locations.
+Airport suggestions also match the linked city's localized names. Every city
+suggestion contains `airportCodes`, allowing a flight selector to offer
+“Москва — все аэропорты” alongside individual `DME`, `SVO` and `VKO` rows.
+Airport suggestions contain their own code in the same array. The mobile
+client passes this list through; aggregation and provider-request expansion
+remain backend responsibilities.
 
 Flight-location autocomplete ranking is owned by this endpoint. Matching
 active featured locations are resolved and returned first in their configured

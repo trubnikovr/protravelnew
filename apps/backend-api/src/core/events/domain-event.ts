@@ -6,5 +6,8 @@ export abstract class DomainEvent<TPayload extends object> {
 
   abstract readonly name: string;
 
-  constructor(readonly aggregateId: string, readonly payload: TPayload) {}
+  constructor(
+    readonly aggregateId: string,
+    readonly payload: TPayload,
+  ) {}
 }

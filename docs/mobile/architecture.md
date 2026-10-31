@@ -55,7 +55,9 @@ Framework-level building blocks with no product workflow knowledge:
 `AppNavigator` always opens the main application. `MainTabNavigator` owns the
 five primary destinations: Home, News, Flights, Tours and Profile. The
 Profile tab switches between `AuthNavigator` and the authenticated profile
-stack according to the in-memory customer session.
+stack according to the in-memory customer session. Switching primary tabs uses
+React Navigation's short `shift` transition; nested native-stack transitions
+remain independent.
 
 Home, Flights, Tours and Profile each have a nested native-stack navigator. A feature
 stack owns its overview screen and every detail/form screen in that flow.
@@ -82,3 +84,10 @@ feature and map them to view models before rendering.
 Home uses this integrated structure: `features/home/api` owns the `/home`
 contract, the `home` TanStack Query owns loading/error/content state, and
 local data is limited to category navigation and fallback images.
+
+The shared API transport publishes connection failures to `connection-state`.
+`MainTabNavigator` renders a single `ConnectionBanner` above its tab bar for all
+nested screens. Both normal requests and token refresh use the transport;
+connection failures preserve the stored session. Only rejected refresh
+credentials (401/403) clear it. Caller cancellation does not display a connection
+warning. A subsequent reachable API response clears the warning.

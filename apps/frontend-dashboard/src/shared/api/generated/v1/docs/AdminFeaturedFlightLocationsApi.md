@@ -1,39 +1,37 @@
 # AdminFeaturedFlightLocationsApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-| Method | HTTP request | Description |
-|------------- | ------------- | -------------|
-| [**adminFeaturedFlightLocationsList**](AdminFeaturedFlightLocationsApi.md#adminfeaturedflightlocationslist) | **GET** /api/v1/admin/featured-flight-locations |  |
+| Method                                                                                                            | HTTP request                                    | Description                              |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------- |
+| [**adminFeaturedFlightLocationsList**](AdminFeaturedFlightLocationsApi.md#adminfeaturedflightlocationslist)       | **GET** /api/v1/admin/featured-flight-locations |                                          |
 | [**adminFeaturedFlightLocationsReplace**](AdminFeaturedFlightLocationsApi.md#adminfeaturedflightlocationsreplace) | **PUT** /api/v1/admin/featured-flight-locations | Replace mobile featured flight locations |
-
-
 
 ## adminFeaturedFlightLocationsList
 
-> ReferenceFeaturedFlightLocations200Response adminFeaturedFlightLocationsList()
-
-
+> ReferenceFeaturedFlightLocations200Response adminFeaturedFlightLocationsList(acceptLanguage)
 
 ### Example
 
 ```ts
-import {
-  Configuration,
-  AdminFeaturedFlightLocationsApi,
-} from '';
-import type { AdminFeaturedFlightLocationsListRequest } from '';
+import { Configuration, AdminFeaturedFlightLocationsApi } from "";
+import type { AdminFeaturedFlightLocationsListRequest } from "";
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AdminFeaturedFlightLocationsApi(config);
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies AdminFeaturedFlightLocationsListRequest;
+
   try {
-    const data = await api.adminFeaturedFlightLocationsList();
+    const data = await api.adminFeaturedFlightLocationsList(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -46,7 +44,9 @@ example().catch(console.error);
 
 ### Parameters
 
-This endpoint does not need any parameter.
+| Name               | Type             | Description                        | Notes                                                      |
+| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -61,18 +61,17 @@ This endpoint does not need any parameter.
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     |             | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-
 ## adminFeaturedFlightLocationsReplace
 
-> ReferenceFeaturedFlightLocations200Response adminFeaturedFlightLocationsReplace(featuredFlightLocationRequestDto)
+> ReferenceFeaturedFlightLocations200Response adminFeaturedFlightLocationsReplace(featuredFlightLocationRequestDto, acceptLanguage)
 
 Replace mobile featured flight locations
 
@@ -87,7 +86,7 @@ import type { AdminFeaturedFlightLocationsReplaceRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -96,6 +95,8 @@ async function example() {
   const body = {
     // Array<FeaturedFlightLocationRequestDto>
     featuredFlightLocationRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies AdminFeaturedFlightLocationsReplaceRequest;
 
   try {
@@ -112,10 +113,10 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **featuredFlightLocationRequestDto** | `Array<FeaturedFlightLocationRequestDto>` |  | |
+| Name                                 | Type                                      | Description                        | Notes                                                      |
+| ------------------------------------ | ----------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+| **featuredFlightLocationRequestDto** | `Array<FeaturedFlightLocationRequestDto>` |                                    |                                                            |
+| **acceptLanguage**                   | `ru`, `uz`, `en`                          | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -130,11 +131,10 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     |             | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

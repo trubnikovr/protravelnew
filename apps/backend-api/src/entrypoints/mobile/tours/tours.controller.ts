@@ -28,6 +28,7 @@ import { PublicTourApiMapper } from './public-tour-api.mapper';
 export class ToursController {
   constructor(private readonly tours: ToursService) {}
 
+  /** @see GET /api/v1/tours */
   @Get()
   @ApiOperation({ summary: 'List published tours for mobile catalog' })
   @ApiPaginatedEnvelope(PublicTourListItemResponseDto)
@@ -41,6 +42,7 @@ export class ToursController {
     );
   }
 
+  /** @see GET /api/v1/tours/:id */
   @Get(':id')
   @ApiOperation({ summary: 'Get a published tour with full customer content' })
   @ApiOkEnvelope(PublicTourResponseDto)

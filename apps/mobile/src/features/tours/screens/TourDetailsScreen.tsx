@@ -105,7 +105,10 @@ export function TourDetailsScreen() {
               label={t('tourDetails.duration')}
               value={`${data.durationDays} дн. / ${data.durationNights} ноч.`}
             />
-            <InfoRow label={t('hotel.price')} value={data.price.formatted} />
+            <InfoRow
+              label={t('hotel.price')}
+              value={data.price?.formatted ?? ''}
+            />
             {data.activeFrom && (
               <InfoRow
                 label={t('tourDetails.activeFrom')}
@@ -183,13 +186,16 @@ export function TourDetailsScreen() {
                       ? ` — ${date(departure.returnDate)}`
                       : ''
                   }`}
-                  value={`${departure.price.formatted}${
+                  value={[
+                    departure.price?.formatted,
                     departure.seatsAvailable != null
-                      ? ` · ${t('tourDetails.seats', {
+                      ? t('tourDetails.seats', {
                           count: departure.seatsAvailable,
-                        })}`
-                      : ''
-                  }`}
+                        })
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
                 />
               ))}
             </InfoSection>

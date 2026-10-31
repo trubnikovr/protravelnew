@@ -18,9 +18,7 @@ import {
 } from './system-message.schema';
 
 @Injectable()
-export class DrizzleSystemMessagesRepository
-  implements SystemMessagesRepository
-{
+export class DrizzleSystemMessagesRepository implements SystemMessagesRepository {
   constructor(@Inject(DRIZZLE_DB) private readonly database: Database) {}
 
   async listActive(): Promise<SystemMessage[]> {
@@ -51,7 +49,7 @@ export class DrizzleSystemMessagesRepository
   async update(id: string, data: SystemMessageUpdateData) {
     const [record] = await this.database
       .update(systemMessages)
-      .set({...data, updatedAt: new Date()})
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(systemMessages.id, id))
       .returning();
     return record ? this.toDomain(record) : null;
@@ -61,7 +59,7 @@ export class DrizzleSystemMessagesRepository
     const deleted = await this.database
       .delete(systemMessages)
       .where(eq(systemMessages.id, id))
-      .returning({id: systemMessages.id});
+      .returning({ id: systemMessages.id });
     return deleted.length > 0;
   }
 

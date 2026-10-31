@@ -20,6 +20,8 @@ libraries.
 - [System messages](system-messages.md) — operational mobile banners.
 - [Featured flight locations](featured-flight-locations.md) — ordered popular
   mobile flight destinations.
+- [Travel facts](travel-facts.md) — country and airport facts shown during
+  mobile flight search.
 
 Future dashboard-owned documents belong here:
 

@@ -94,6 +94,10 @@ Rules:
 
 ## Verification
 
+Временно тесты мобильного приложения не добавляем и не запускаем до отдельного
+указания пользователя. Существующие тесты сохраняем. Проверки TypeScript и ESLint
+остаются обязательными.
+
 Use Node from the repository-root `.nvmrc` and JDK 17 for Android. The Android
 npm script validates the active Java runtime, discovers JDK 17 automatically on
 macOS and leaves Metro ownership to the separately started `mobile:start`
@@ -105,7 +109,6 @@ Run before handing work off:
 nvm use
 npm run mobile:typecheck
 npm run mobile:lint
-npm run mobile:test
 ```
 
 For native dependency or navigation changes also run:

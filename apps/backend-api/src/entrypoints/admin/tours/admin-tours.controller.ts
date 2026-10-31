@@ -53,6 +53,7 @@ import { TourApiMapper } from './tour-api.mapper';
 export class AdminToursController {
   constructor(private readonly tours: ToursService) {}
 
+  /** @see GET /api/v1/admin/tours */
   @Get()
   @RequirePermissions(AdminPermission.TOURS_READ)
   @ApiOperation({ summary: 'List tours for administration' })
@@ -72,6 +73,7 @@ export class AdminToursController {
     );
   }
 
+  /** @see GET /api/v1/admin/tours/:id */
   @Get(':id')
   @RequirePermissions(AdminPermission.TOURS_READ)
   @ApiOperation({ summary: 'Get an administrative tour' })
@@ -82,6 +84,7 @@ export class AdminToursController {
     return TourApiMapper.toResponse(tour);
   }
 
+  /** @see POST /api/v1/admin/tours */
   @Post()
   @RequirePermissions(AdminPermission.TOURS_WRITE)
   @ApiOperation({ summary: 'Create a typed tour with route and departures' })
@@ -92,6 +95,7 @@ export class AdminToursController {
     );
   }
 
+  /** @see PATCH /api/v1/admin/tours/:id */
   @Patch(':id')
   @RequirePermissions(AdminPermission.TOURS_WRITE)
   @ApiOperation({ summary: 'Update a typed tour' })
@@ -105,6 +109,7 @@ export class AdminToursController {
     return TourApiMapper.toResponse(tour);
   }
 
+  /** @see DELETE /api/v1/admin/tours/:id */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.TOURS_WRITE)

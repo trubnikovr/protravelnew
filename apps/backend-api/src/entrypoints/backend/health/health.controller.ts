@@ -14,6 +14,7 @@ import { LivenessResponseDto } from './dto/response/liveness.response.dto';
 export class HealthController {
   constructor(private readonly healthScore: HealthScoreService) {}
 
+  /** @see GET /api/v1/health */
   @Get()
   @ApiOperation({ summary: 'Get the overall weighted system health score' })
   @ApiOkEnvelope(HealthScoreResponseDto)
@@ -28,6 +29,7 @@ export class HealthController {
     return result;
   }
 
+  /** @see GET /api/v1/health/live */
   @Get('live')
   @ApiOperation({ summary: 'Check whether the API process is alive' })
   @ApiOkEnvelope(LivenessResponseDto)

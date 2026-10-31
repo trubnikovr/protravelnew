@@ -92,6 +92,12 @@ forms such as `ru-RU`. `error.code` and `details` do not depend on language;
 clients must branch on the stable code and display the backend-provided
 `message`. Unsupported or missing languages fall back to Russian.
 
+`Accept-Language` is declared once as a global OpenAPI header parameter in
+`core/swagger/swagger.ts`; controllers must not repeat `@ApiHeader` for it.
+At runtime `core/http/request/request-locale.ts` is the single parser used by
+`@CurrentLocale()` and the global exception filter. A locale middleware is not
+required because parsing does not mutate request state.
+
 ## Exceptions
 
 - HTTP `204` responses have no body;

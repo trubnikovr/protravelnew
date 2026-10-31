@@ -19,17 +19,21 @@ export type PassengerSelection = {
   adults: number;
   children: number;
   infants: number;
-  seatInfants: number;
 };
 
-export type FlightPlaceSelection = { code: string; label: string };
+export type FlightPlaceSelection = {
+  code: string;
+  label: string;
+  airportCodes: string[];
+};
 
 export type FlightSearchSelection = {
   departure: FlightPlaceSelection;
   destination: FlightPlaceSelection;
   departureDate: string;
-  returnDate: string;
+  returnDate?: string;
   passengers: PassengerSelection;
+  cabinClass: 'economy' | 'premium_economy' | 'business' | 'first';
 };
 
 export type SearchStackParamList = {
@@ -38,6 +42,8 @@ export type SearchStackParamList = {
     passengers: PassengerSelection;
   };
   SearchResults: FlightSearchSelection;
+  FlightDetails: { offerId: string; passengers: PassengerSelection };
+  FlightBooking: { offerId: string; passengers: PassengerSelection };
 };
 
 export type ToursStackParamList = {

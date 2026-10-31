@@ -23,7 +23,11 @@ export interface ApiPaginatedResponse<T> extends ApiSuccessResponse<T[]> {
 }
 
 export class PaginatedResult<T> {
-  constructor(readonly items: T[], readonly pagination: PaginationMeta) {}
+  constructor(
+    readonly items: T[],
+    readonly pagination: PaginationMeta,
+    readonly additionalMeta: Record<string, unknown> = {},
+  ) {}
 }
 
 export interface ApiErrorBody {

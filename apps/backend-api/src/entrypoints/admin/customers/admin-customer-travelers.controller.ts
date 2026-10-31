@@ -39,6 +39,7 @@ import { TravelerApiMapper } from '@entrypoints/common/travelers/traveler-api.ma
 export class AdminCustomerTravelersController {
   constructor(private readonly travelers: CustomerTravelersService) {}
 
+  /** @see GET /api/v1/admin/customers/:customerId/travelers */
   @Get()
   @RequirePermissions(AdminPermission.USERS_READ)
   @ApiOperation({
@@ -61,6 +62,7 @@ export class AdminCustomerTravelersController {
     );
   }
 
+  /** @see POST /api/v1/admin/customers/:customerId/travelers */
   @Post()
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Add the customer or a related traveler' })
@@ -74,6 +76,7 @@ export class AdminCustomerTravelersController {
     );
   }
 
+  /** @see PATCH /api/v1/admin/customers/:customerId/travelers/:travelerId */
   @Patch(':travelerId')
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Update a customer traveler' })
@@ -88,6 +91,7 @@ export class AdminCustomerTravelersController {
     );
   }
 
+  /** @see DELETE /api/v1/admin/customers/:customerId/travelers/:travelerId */
   @Delete(':travelerId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.USERS_WRITE)
@@ -99,6 +103,7 @@ export class AdminCustomerTravelersController {
     await this.travelers.delete(customerId, travelerId);
   }
 
+  /** @see POST /api/v1/admin/customers/:customerId/travelers/:travelerId/documents */
   @Post(':travelerId/documents')
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Add an encrypted traveler document' })
@@ -113,6 +118,7 @@ export class AdminCustomerTravelersController {
     );
   }
 
+  /** @see PATCH /api/v1/admin/customers/:customerId/travelers/:travelerId/documents/:documentId */
   @Patch(':travelerId/documents/:documentId')
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Update an encrypted traveler document' })
@@ -133,6 +139,7 @@ export class AdminCustomerTravelersController {
     );
   }
 
+  /** @see DELETE /api/v1/admin/customers/:customerId/travelers/:travelerId/documents/:documentId */
   @Delete(':travelerId/documents/:documentId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.USERS_WRITE)

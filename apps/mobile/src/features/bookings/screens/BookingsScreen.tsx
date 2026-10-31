@@ -96,7 +96,9 @@ function BookingCard({ booking }: { booking: CustomerTourBooking }) {
         <Text style={styles.peopleText}>
           {t('bookings.travelersCount', { count: booking.travelersCount })}
         </Text>
-        <Text style={styles.price}>{booking.totalPrice.formatted}</Text>
+        <Text style={styles.price}>
+          {booking.totalPrice?.formatted ?? ''}
+        </Text>
       </View>
       {canPay ? (
         <View style={styles.payButton}>

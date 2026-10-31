@@ -15,6 +15,7 @@ import { AdminApiMapper } from '@entrypoints/admin/common/mappers/admin-api.mapp
 export class AdminProfileController {
   constructor(private readonly admins: AdminService) {}
 
+  /** @see GET /api/v1/admin/me */
   @Get()
   @ApiOperation({ summary: 'Get current administrator profile' })
   @ApiOkEnvelope(AdminResponseDto)

@@ -4,9 +4,7 @@ import { GetFlightOrderNotificationContextUseCase } from '@modules/order-flight'
 import type { FlightOrderNotificationContextPort } from '@core/submodules/notifications/application/flight-order-notification-context.port';
 
 @Injectable()
-export class OrderFlightNotificationContextAdapter
-  implements FlightOrderNotificationContextPort
-{
+export class OrderFlightNotificationContextAdapter implements FlightOrderNotificationContextPort {
   constructor(
     private readonly getContext: GetFlightOrderNotificationContextUseCase,
   ) {}

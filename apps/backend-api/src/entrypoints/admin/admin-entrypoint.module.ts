@@ -23,6 +23,7 @@ import { AdminSystemMessagesController } from './system-messages/admin-system-me
 import { AdminNewsController } from './news/admin-news.controller';
 import { ReferenceModule } from '@core/submodules/reference';
 import { AdminFeaturedFlightLocationsController } from './reference/admin-featured-flight-locations.controller';
+import { AdminTravelFactsController } from './travel-facts/admin-travel-facts.controller';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { AdminFeaturedFlightLocationsController } from './reference/admin-featur
     AdminSystemMessagesController,
     AdminNewsController,
     AdminFeaturedFlightLocationsController,
+    AdminTravelFactsController,
   ],
   providers: [
     AdminAuthService,

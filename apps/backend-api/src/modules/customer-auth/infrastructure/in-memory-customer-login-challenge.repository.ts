@@ -3,9 +3,7 @@ import type { CustomerLoginChallengeRepository } from '../application/customer-l
 import type { CustomerLoginChallenge } from '../domain/customer-auth.types';
 
 @Injectable()
-export class InMemoryCustomerLoginChallengeRepository
-  implements CustomerLoginChallengeRepository
-{
+export class InMemoryCustomerLoginChallengeRepository implements CustomerLoginChallengeRepository {
   private readonly challenges = new Map<string, CustomerLoginChallenge>();
 
   save(challenge: CustomerLoginChallenge): Promise<void> {

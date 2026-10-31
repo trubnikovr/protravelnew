@@ -15,6 +15,5 @@ export interface FlightSearchProviderResult {
 export interface FlightProviderPort {
   readonly name: string;
   search(criteria: FlightSearchCriteria): Promise<FlightSearchProviderResult>;
-  revalidate(offer: FlightOffer): Promise<FlightOfferData>;
   getFareRules(offer: FlightOffer): Promise<FlightFareRules>;
 }

@@ -29,6 +29,7 @@ const COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000;
 export class NewsController {
   constructor(private readonly news: NewsService) {}
 
+  /** @see GET /api/v1/news */
   @Get()
   @ApiOperation({ summary: 'List published news for the mobile application' })
   @ApiArrayEnvelope(NewsArticleResponseDto)
@@ -43,6 +44,7 @@ export class NewsController {
     );
   }
 
+  /** @see GET /api/v1/news/unread-status */
   @Get('unread-status')
   @ApiOperation({ summary: 'Get unread news status for this reader' })
   @ApiOkEnvelope(NewsUnreadStatusResponseDto)
@@ -54,6 +56,7 @@ export class NewsController {
     return this.news.unreadStatus(readerId);
   }
 
+  /** @see POST /api/v1/news/:newsId/read */
   @Post(':newsId/read')
   @ApiOperation({ summary: 'Mark a news article as read for this reader' })
   @ApiOkEnvelope(NewsReadResponseDto)

@@ -275,8 +275,8 @@ async function seedReferenceData(): Promise<void> {
       iataCode: airport.iataCode,
       countryId,
       cityId: cityName
-        ? cityIdByCountryAndName.get(`${countryId}:${normalize(cityName)}`) ??
-          null
+        ? (cityIdByCountryAndName.get(`${countryId}:${normalize(cityName)}`) ??
+          null)
         : null,
       nameRu: airport.nameRu,
       nameEn: airport.nameEn,

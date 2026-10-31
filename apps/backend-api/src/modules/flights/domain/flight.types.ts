@@ -20,9 +20,16 @@ export enum FlightSortBy {
   DEPARTURE = 'departure',
 }
 
+export enum FlightHighlightType {
+  CHEAPEST = 'cheapest',
+  FASTEST = 'fastest',
+}
+
 export interface FlightRouteLeg {
   origin: string;
   destination: string;
+  originAirports?: string[];
+  destinationAirports?: string[];
   departureDate: string;
 }
 
@@ -43,10 +50,13 @@ export interface FlightSearchCriteria {
   arrivalTimeFrom?: string;
   arrivalTimeTo?: string;
   maxStops?: number;
+  stopsCount?: number;
   maxDurationMinutes?: number;
   minPrice?: string;
   maxPrice?: string;
   sortBy: FlightSortBy;
+  page: number;
+  limit: number;
 }
 
 export interface FlightLocation {
@@ -100,4 +110,13 @@ export interface FlightOfferData {
   expiresAt: string;
   providerReference: FlightProviderReference;
   passengers: FlightPassengerGroup[];
+}
+
+export interface FlightSearchFilters {
+  price: { min: string | null; max: string | null };
+  stops: Array<{ value: number; count: number }>;
+  airlines: Array<{ code: string; name: string; count: number }>;
+  baggage: { included: number; notIncluded: number };
+  duration: { minMinutes: number | null; maxMinutes: number | null };
+  departureTime: { min: string | null; max: string | null };
 }

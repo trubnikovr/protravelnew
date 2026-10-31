@@ -6,8 +6,8 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 | [**flightsFareRules**](FlightsApi.md#flightsfarerules) | **GET** /api/v1/flights/offers/{offerId}/fare-rules | Get provider fare rules for a flight offer |
 | [**flightsOffer**](FlightsApi.md#flightsoffer) | **GET** /api/v1/flights/offers/{offerId} | Get a normalized flight offer |
-| [**flightsRevalidate**](FlightsApi.md#flightsrevalidate) | **POST** /api/v1/flights/offers/{offerId}/revalidate | Revalidate availability and price before booking |
 | [**flightsSearch**](FlightsApi.md#flightssearch) | **POST** /api/v1/flights/searches | Search flights and return normalized offers |
+| [**flightsShare**](FlightsApi.md#flightsshare) | **POST** /api/v1/flights/offers/{offerId}/share | Create a public flight share link |
 
 
 
@@ -33,7 +33,7 @@ async function example() {
   const body = {
     // string
     offerId: offerId_example,
-    // 'ru' | 'uz' | 'en' (optional)
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
     acceptLanguage: acceptLanguage_example,
   } satisfies FlightsFareRulesRequest;
 
@@ -45,7 +45,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -55,7 +55,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **offerId** | `string` |  | [Defaults to `undefined`] |
-| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -101,7 +101,7 @@ async function example() {
   const body = {
     // string
     offerId: offerId_example,
-    // 'ru' | 'uz' | 'en' (optional)
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
     acceptLanguage: acceptLanguage_example,
   } satisfies FlightsOfferRequest;
 
@@ -113,7 +113,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -123,75 +123,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **offerId** | `string` |  | [Defaults to `undefined`] |
-| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
-
-### Return type
-
-[**FlightsOffer200Response**](FlightsOffer200Response.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## flightsRevalidate
-
-> FlightsOffer200Response flightsRevalidate(offerId, acceptLanguage)
-
-Revalidate availability and price before booking
-
-### Example
-
-```ts
-import {
-  Configuration,
-  FlightsApi,
-} from '';
-import type { FlightsRevalidateRequest } from '';
-
-async function example() {
-  console.log("🚀 Testing  SDK...");
-  const api = new FlightsApi();
-
-  const body = {
-    // string
-    offerId: offerId_example,
-    // 'ru' | 'uz' | 'en' (optional)
-    acceptLanguage: acceptLanguage_example,
-  } satisfies FlightsRevalidateRequest;
-
-  try {
-    const data = await api.flightsRevalidate(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **offerId** | `string` |  | [Defaults to `undefined`] |
-| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -237,7 +169,7 @@ async function example() {
   const body = {
     // CreateFlightSearchRequestDto
     createFlightSearchRequestDto: ...,
-    // 'ru' | 'uz' | 'en' (optional)
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
     acceptLanguage: acceptLanguage_example,
   } satisfies FlightsSearchRequest;
 
@@ -249,7 +181,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -259,7 +191,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **createFlightSearchRequestDto** | [CreateFlightSearchRequestDto](CreateFlightSearchRequestDto.md) |  | |
-| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -279,6 +211,74 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## flightsShare
+
+> FlightsShare201Response flightsShare(offerId, acceptLanguage)
+
+Create a public flight share link
+
+### Example
+
+```ts
+import {
+  Configuration,
+  FlightsApi,
+} from '';
+import type { FlightsShareRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new FlightsApi();
+
+  const body = {
+    // string
+    offerId: offerId_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies FlightsShareRequest;
+
+  try {
+    const data = await api.flightsShare(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the tes
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **offerId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+### Return type
+
+[**FlightsShare201Response**](FlightsShare201Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

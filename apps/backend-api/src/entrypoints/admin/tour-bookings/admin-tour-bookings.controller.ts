@@ -62,6 +62,7 @@ export class AdminTourBookingsController {
     private readonly documents: LocalDocumentStorageService,
   ) {}
 
+  /** @see GET /api/v1/admin/tour-bookings */
   @Get()
   @RequirePermissions(AdminPermission.ORDERS_READ)
   @ApiOperation({ summary: 'List tour bookings' })
@@ -81,6 +82,7 @@ export class AdminTourBookingsController {
     );
   }
 
+  /** @see GET /api/v1/admin/tour-bookings/:id */
   @Get(':id')
   @RequirePermissions(AdminPermission.ORDERS_READ)
   @ApiOperation({ summary: 'Get a tour booking' })
@@ -91,6 +93,7 @@ export class AdminTourBookingsController {
     return TourBookingApiMapper.toResponse(await this.bookings.get(id));
   }
 
+  /** @see POST /api/v1/admin/tour-bookings */
   @Post()
   @RequirePermissions(AdminPermission.ORDERS_WRITE)
   @ApiOperation({ summary: 'Create a tour booking' })
@@ -109,6 +112,7 @@ export class AdminTourBookingsController {
     );
   }
 
+  /** @see PATCH /api/v1/admin/tour-bookings/:id/status */
   @Patch(':id/status')
   @RequirePermissions(AdminPermission.ORDERS_WRITE)
   @ApiOperation({ summary: 'Change tour booking status' })
@@ -122,6 +126,7 @@ export class AdminTourBookingsController {
     );
   }
 
+  /** @see POST /api/v1/admin/tour-bookings/:id/documents */
   @Post(':id/documents')
   @RequirePermissions(AdminPermission.ORDERS_WRITE)
   @UseInterceptors(FileInterceptor('file'))
@@ -165,6 +170,7 @@ export class AdminTourBookingsController {
     }
   }
 
+  /** @see GET /api/v1/admin/tour-bookings/:bookingId/documents/:documentId/download */
   @Get(':bookingId/documents/:documentId/download')
   @RequirePermissions(AdminPermission.ORDERS_READ)
   @ApiOperation({ summary: 'Download a private tour booking document' })
@@ -185,6 +191,7 @@ export class AdminTourBookingsController {
     });
   }
 
+  /** @see DELETE /api/v1/admin/tour-bookings/:bookingId/documents/:documentId */
   @Delete(':bookingId/documents/:documentId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.ORDERS_WRITE)

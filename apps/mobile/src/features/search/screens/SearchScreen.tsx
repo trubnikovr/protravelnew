@@ -1,8 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   ImageBackground,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -10,14 +13,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {
-  ArrowLeft,
-  CalendarDays,
-  ChevronDown,
-  MapPin,
-  Repeat2,
-  UserRound,
-} from 'lucide-react-native';
+import { Minus, Plus } from 'lucide-react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import {
   useNavigation,
   useRoute,
@@ -28,7 +25,11 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PrimaryButton } from '../../../shared/ui/PrimaryButton';
+import {
+  AppSelectField,
+  FilterChoice,
+  PrimaryButton,
+} from '../../../shared/ui';
 import type {
   MainTabParamList,
   SearchStackParamList,
@@ -41,14 +42,58 @@ type SearchNavigation = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList>
 >;
 
-type Place = { code: string; label: string };
+type Place = { code: string; label: string; airportCodes: string[] };
 type Selector = 'departure' | 'destination' | 'departureDate' | 'returnDate';
+type CabinClass = 'economy' | 'premium_economy' | 'business' | 'first';
+type PassengerSelection = typeof defaultPassengers;
+
+LocaleConfig.locales.ru = {
+  monthNames: [
+    'январь',
+    'февраль',
+    'март',
+    'апрель',
+    'май',
+    'июнь',
+    'июль',
+    'август',
+    'сентябрь',
+    'октябрь',
+    'ноябрь',
+    'декабрь',
+  ],
+  monthNamesShort: [
+    'янв.',
+    'февр.',
+    'март',
+    'апр.',
+    'май',
+    'июнь',
+    'июль',
+    'авг.',
+    'сент.',
+    'окт.',
+    'нояб.',
+    'дек.',
+  ],
+  dayNames: [
+    'воскресенье',
+    'понедельник',
+    'вторник',
+    'среда',
+    'четверг',
+    'пятница',
+    'суббота',
+  ],
+  dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+  today: 'Сегодня',
+};
+LocaleConfig.defaultLocale = 'ru';
 
 const defaultPassengers = {
   adults: 1,
   children: 0,
   infants: 0,
-  seatInfants: 0,
 };
 
 function dateOptions(offsets: number[]): Date[] {
@@ -80,142 +125,132 @@ export function SearchScreen() {
   const route = useRoute<RouteProp<SearchStackParamList, 'SearchForm'>>();
   const { t } = useTranslation();
   const [departure, setDeparture] = useState<Place>({
-    code: __DEV__ ? 'MOW' : 'TAS',
-    label: __DEV__ ? t('common.moscow') : t('common.tashkent'),
+    code: 'MOW',
+    label: t('common.moscow'),
+    airportCodes: ['SVO', 'DME', 'VKO', 'ZIA'],
   });
   const [destination, setDestination] = useState<Place>({
-    code: __DEV__ ? 'LED' : 'PQC',
-    label: __DEV__ ? t('common.saintPetersburg') : t('common.phuQuoc'),
+    code: 'LED',
+    label: t('common.saintPetersburg'),
+    airportCodes: ['LED'],
   });
-  const availableDates = useMemo(() => dateOptions([0, 7, 14, 21, 28]), []);
-  const [departureDate, setDepartureDate] = useState(availableDates[0]);
-  const [returnDate, setReturnDate] = useState(availableDates[1]);
+  const initialDates = useMemo(() => dateOptions([0, 1, 2]), []);
+  const [departureDate, setDepartureDate] = useState<Date | null>(
+    initialDates[1],
+  );
+  const [returnDate, setReturnDate] = useState<Date | null>(initialDates[2]);
   const [selector, setSelector] = useState<Selector | null>(null);
-
-  const passengers = route.params?.passengers ?? defaultPassengers;
+  const [passengers, setPassengers] = useState<PassengerSelection>(
+    route.params?.passengers ?? defaultPassengers,
+  );
+  const [cabinClass, setCabinClass] = useState<CabinClass>('economy');
+  const [passengersVisible, setPassengersVisible] = useState(false);
   const passengerCount = Object.values(passengers).reduce(
     (total, count) => total + count,
     0,
   );
-  const closeSearch = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-      return;
-    }
-
-    navigation.navigate('Home');
-  };
-
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
+      <ImageBackground
+        imageStyle={styles.backgroundImage}
+        source={require('../../../shared/assets/images/flight-search.png')}
+        style={styles.background}
+      />
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <ImageBackground
-          imageStyle={styles.heroImage}
-          source={require('../../../shared/assets/images/travel-hero.png')}
-          style={styles.hero}
-        >
-          <View style={styles.heroOverlay} />
-          <View style={styles.topBar}>
-            <Pressable
-              hitSlop={theme.spacing.md}
-              onPress={closeSearch}
-              style={styles.backButton}
-            >
-              <ArrowLeft color={theme.colors.white} size={22} />
-            </Pressable>
-            <Text style={styles.screenTitle}>{t('search.flights')}</Text>
-            <View style={styles.backButtonPlaceholder} />
-          </View>
-        </ImageBackground>
-
+        <View style={styles.formTopSpacer} />
         <View style={styles.formCard}>
-          <>
-            <FormRow
+          <View style={styles.routeFields}>
+            <AppSelectField
               code={departure.code}
-              icon={<MapPin color={theme.colors.primary} size={20} />}
               label={t('search.from')}
               onPress={() => setSelector('departure')}
-              rightIcon
               value={departure.label}
+            />
+            <AppSelectField
+              code={destination.code}
+              label={t('search.to')}
+              onPress={() => setSelector('destination')}
+              value={destination.label}
             />
             <Pressable
               accessibilityRole="button"
+              accessibilityLabel={t('search.swapRoute')}
               onPress={() => {
                 setDeparture(destination);
                 setDestination(departure);
               }}
               style={styles.swapButton}
             >
-              <Repeat2 color={theme.colors.primary} size={18} />
+              <Image
+                source={require('../../../shared/assets/images/swap-directions.png')}
+                style={styles.swapIcon}
+              />
             </Pressable>
-            <FormRow
-              code={destination.code}
-              icon={<MapPin color={theme.colors.primary} size={20} />}
-              label={t('search.to')}
-              onPress={() => setSelector('destination')}
-              rightIcon
-              value={destination.label}
-            />
-          </>
+          </View>
 
           <View style={styles.dateRow}>
-            <FormRow
+            <AppSelectField
               compact
-              icon={<CalendarDays color={theme.colors.primary} size={20} />}
               label={t('search.departureDate')}
+              onClear={() => setDepartureDate(null)}
               onPress={() => setSelector('departureDate')}
-              rightIcon
-              value={formatDate(departureDate)}
+              rightDivider
+              showClear={departureDate !== null}
+              value={departureDate ? formatDate(departureDate) : ''}
             />
-            <FormRow
+            <AppSelectField
               compact
-              icon={<CalendarDays color={theme.colors.primary} size={20} />}
               label={t('search.returnDate')}
+              onClear={() => setReturnDate(null)}
               onPress={() => setSelector('returnDate')}
-              rightIcon
-              value={formatDate(returnDate)}
+              showClear={returnDate !== null}
+              value={returnDate ? formatDate(returnDate) : ''}
             />
           </View>
 
-          <FormRow
-            icon={<UserRound color={theme.colors.primary} size={20} />}
-            label={t('common.economy')}
-            onPress={() =>
-              navigation.navigate('Passengers', {
-                passengers,
-              })
-            }
-            rightIcon
+          <AppSelectField
+            label={t(`common.${cabinClassLabelKey[cabinClass]}`)}
+            onPress={() => setPassengersVisible(true)}
+            showChevron
             value={t('search.passengerCount', { count: passengerCount })}
           />
+        </View>
 
+        <View style={styles.submitButton}>
           <PrimaryButton
-            onPress={() =>
+            disabled={!departureDate}
+            onPress={() => {
+              if (!departureDate) return;
               navigation.navigate('SearchResults', {
                 departure,
                 destination,
                 departureDate: toLocalDate(departureDate),
-                returnDate: toLocalDate(returnDate),
+                returnDate: returnDate ? toLocalDate(returnDate) : undefined,
                 passengers,
-              })
-            }
+                cabinClass,
+              });
+            }}
             title={t('search.findFlights')}
           />
         </View>
       </ScrollView>
       <SelectionModal
-        availableDates={availableDates}
+        minimumDate={
+          selector === 'returnDate'
+            ? (departureDate ?? initialDates[0])
+            : initialDates[0]
+        }
         onClose={() => setSelector(null)}
         onSelectDate={date => {
           if (selector === 'departureDate') {
             setDepartureDate(date);
-            if (date >= returnDate) {
+            if (!returnDate || date >= returnDate) {
               const nextReturn = new Date(date);
-              nextReturn.setDate(nextReturn.getDate() + 7);
+              nextReturn.setDate(nextReturn.getDate() + 1);
               setReturnDate(nextReturn);
             }
           } else {
@@ -228,60 +263,182 @@ export function SearchScreen() {
           if (selector === 'destination') setDestination(place);
           setSelector(null);
         }}
+        selectedDate={
+          selector === 'returnDate'
+            ? (returnDate ?? departureDate ?? initialDates[1])
+            : (departureDate ?? initialDates[1])
+        }
         selector={selector}
+      />
+      <PassengersSheet
+        cabinClass={cabinClass}
+        onApply={(nextPassengers, nextCabinClass) => {
+          setPassengers(nextPassengers);
+          setCabinClass(nextCabinClass);
+          setPassengersVisible(false);
+        }}
+        onClose={() => setPassengersVisible(false)}
+        passengers={passengers}
+        visible={passengersVisible}
       />
     </SafeAreaView>
   );
 }
 
-function FormRow({
-  label,
-  value,
-  icon,
-  code,
-  compact = false,
-  rightIcon = false,
-  onPress,
+const cabinClassLabelKey: Record<
+  CabinClass,
+  'economy' | 'premiumEconomy' | 'business' | 'first'
+> = {
+  economy: 'economy',
+  premium_economy: 'premiumEconomy',
+  business: 'business',
+  first: 'first',
+};
+
+function PassengersSheet({
+  visible,
+  passengers,
+  cabinClass,
+  onApply,
+  onClose,
 }: {
-  label: string;
-  value: string;
-  icon: React.ReactNode;
-  code?: string;
-  compact?: boolean;
-  rightIcon?: boolean;
-  onPress?: () => void;
+  visible: boolean;
+  passengers: PassengerSelection;
+  cabinClass: CabinClass;
+  onApply: (passengers: PassengerSelection, cabinClass: CabinClass) => void;
+  onClose: () => void;
 }) {
+  const { t } = useTranslation();
+  const [draftPassengers, setDraftPassengers] = useState(passengers);
+  const [draftCabinClass, setDraftCabinClass] = useState(cabinClass);
+  useEffect(() => {
+    if (!visible) return;
+    setDraftPassengers(passengers);
+    setDraftCabinClass(cabinClass);
+  }, [cabinClass, passengers, visible]);
+  const passengerRows: Array<{
+    id: keyof PassengerSelection;
+    label: string;
+    hint: string;
+  }> = [
+    { id: 'adults', label: t('search.adults'), hint: t('search.adultsHint') },
+    {
+      id: 'children',
+      label: t('search.children'),
+      hint: t('search.childrenHint'),
+    },
+    {
+      id: 'infants',
+      label: t('search.infants'),
+      hint: t('search.infantsHint'),
+    },
+  ];
+  const updatePassenger = (id: keyof PassengerSelection, delta: number) => {
+    setDraftPassengers(current => ({
+      ...current,
+      [id]: Math.max(id === 'adults' ? 1 : 0, current[id] + delta),
+    }));
+  };
+  const classes = Object.keys(cabinClassLabelKey) as CabinClass[];
+  return (
+    <Modal
+      animationType="slide"
+      onRequestClose={onClose}
+      transparent
+      visible={visible}
+    >
+      <Pressable onPress={onClose} style={styles.modalBackdrop}>
+        <Pressable onPress={() => undefined} style={styles.passengersSheet}>
+          <View style={styles.modalHandle} />
+          <Text style={styles.modalTitle}>{t('search.passengersTitle')}</Text>
+          {passengerRows.map(item => (
+            <View key={item.id} style={styles.passengerRow}>
+              <View style={styles.passengerText}>
+                <Text style={styles.passengerLabel}>{item.label}</Text>
+                <Text style={styles.passengerHint}>{item.hint}</Text>
+              </View>
+              <CounterButton
+                disabled={
+                  draftPassengers[item.id] <= (item.id === 'adults' ? 1 : 0)
+                }
+                onPress={() => updatePassenger(item.id, -1)}
+                type="minus"
+              />
+              <Text style={styles.passengerCount}>
+                {draftPassengers[item.id]}
+              </Text>
+              <CounterButton
+                onPress={() => updatePassenger(item.id, 1)}
+                primary
+                type="plus"
+              />
+            </View>
+          ))}
+          <Text style={styles.classTitle}>{t('search.serviceClass')}</Text>
+          <View style={styles.classOptions}>
+            {classes.map(value => {
+              const selected = value === draftCabinClass;
+              return (
+                <FilterChoice
+                  key={value}
+                  label={t(`common.${cabinClassLabelKey[value]}`)}
+                  onPress={() => setDraftCabinClass(value)}
+                  selected={selected}
+                />
+              );
+            })}
+          </View>
+          <PrimaryButton
+            onPress={() => onApply(draftPassengers, draftCabinClass)}
+            title={t('common.apply')}
+          />
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
+
+function CounterButton({
+  type,
+  onPress,
+  primary = false,
+  disabled = false,
+}: {
+  type: 'minus' | 'plus';
+  onPress: () => void;
+  primary?: boolean;
+  disabled?: boolean;
+}) {
+  const Icon = type === 'plus' ? Plus : Minus;
   return (
     <Pressable
-      accessibilityRole={onPress ? 'button' : undefined}
-      disabled={!onPress}
+      disabled={disabled}
       onPress={onPress}
-      style={[styles.formRow, compact && styles.compactFormRow]}
+      style={[
+        styles.counterButton,
+        primary && styles.counterButtonPrimary,
+        disabled && styles.counterButtonDisabled,
+      ]}
     >
-      <View style={styles.formIcon}>{icon}</View>
-      <View style={styles.formText}>
-        <Text style={styles.formLabel}>{label}</Text>
-        <Text numberOfLines={1} style={styles.formValue}>
-          {value}
-        </Text>
-      </View>
-      {code ? <Text style={styles.code}>{code}</Text> : null}
-      {rightIcon ? (
-        <ChevronDown color={theme.colors.textSecondary} size={18} />
-      ) : null}
+      <Icon
+        color={primary ? theme.colors.white : theme.colors.textSecondary}
+        size={17}
+      />
     </Pressable>
   );
 }
 
 function SelectionModal({
   selector,
-  availableDates,
+  selectedDate,
+  minimumDate,
   onSelectPlace,
   onSelectDate,
   onClose,
 }: {
   selector: Selector | null;
-  availableDates: Date[];
+  selectedDate: Date;
+  minimumDate: Date;
   onSelectPlace: (place: Place) => void;
   onSelectDate: (date: Date) => void;
   onClose: () => void;
@@ -300,12 +457,18 @@ function SelectionModal({
       setQuery('');
       setDebouncedQuery('');
     }
-  }, [selector]);
+  }, [selectedDate, selector]);
   const normalizedQuery = debouncedQuery.trim();
   const places = normalizedQuery
     ? (suggestions.data ?? [])
-        .filter(item => item.code)
-        .map(item => ({ code: item.code!, label: item.name }))
+        .filter(item => item.airportCodes.length)
+        .map(item => ({
+          key: `${item.type}:${item.id}`,
+          code: item.code ?? item.airportCodes[0],
+          airportCodes: item.airportCodes,
+          label: item.name,
+          codesLabel: item.airportCodes.join(', '),
+        }))
     : [];
   const title = isDate
     ? t('search.selectDate')
@@ -320,70 +483,112 @@ function SelectionModal({
       transparent
       visible={selector !== null}
     >
-      <Pressable onPress={onClose} style={styles.modalBackdrop}>
-        <Pressable onPress={() => undefined} style={styles.modalSheet}>
-          <View style={styles.modalHandle} />
-          <Text style={styles.modalTitle}>{title}</Text>
-          {!isDate ? (
-            <TextInput
-              autoFocus
-              onChangeText={setQuery}
-              placeholder={t('search.placeSearchPlaceholder')}
-              placeholderTextColor={theme.colors.textSecondary}
-              style={styles.searchInput}
-              value={query}
-            />
-          ) : null}
-          {!isDate &&
-          normalizedQuery &&
-          suggestions.isFetching &&
-          !places.length ? (
-            <ActivityIndicator
-              color={theme.colors.primary}
-              style={styles.modalState}
-            />
-          ) : null}
-          {!isDate && suggestions.isError && !places.length ? (
-            <Text style={styles.modalStateText}>
-              {t('search.placeSearchError')}
-            </Text>
-          ) : null}
-          {!isDate &&
-          normalizedQuery &&
-          !suggestions.isFetching &&
-          !suggestions.isError &&
-          places.length === 0 ? (
-            <Text style={styles.modalStateText}>
-              {t('search.placeSearchEmpty')}
-            </Text>
-          ) : null}
-          {(isDate ? availableDates : places).map(option => {
-            const key =
-              option instanceof Date ? option.toISOString() : option.code;
-            return (
-              <Pressable
-                key={key}
-                onPress={() =>
-                  option instanceof Date
-                    ? onSelectDate(option)
-                    : onSelectPlace(option)
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.modalKeyboardView}
+      >
+        <Pressable onPress={onClose} style={styles.modalBackdrop}>
+          <Pressable onPress={() => undefined} style={styles.modalSheet}>
+            <View style={styles.modalHandle} />
+            <Text style={styles.modalTitle}>{title}</Text>
+            {!isDate ? (
+              <TextInput
+                autoFocus
+                onChangeText={setQuery}
+                placeholder={t('search.placeSearchPlaceholder')}
+                placeholderTextColor={theme.colors.textSecondary}
+                style={styles.searchInput}
+                value={query}
+              />
+            ) : null}
+            {isDate ? (
+              <Calendar
+                current={toLocalDate(selectedDate)}
+                enableSwipeMonths
+                firstDay={1}
+                hideExtraDays
+                key={`${selector}-${toLocalDate(selectedDate)}`}
+                markedDates={{
+                  [toLocalDate(selectedDate)]: {
+                    selected: true,
+                    selectedColor: theme.colors.primary,
+                    selectedTextColor: theme.colors.white,
+                  },
+                }}
+                minDate={toLocalDate(minimumDate)}
+                onDayPress={day =>
+                  onSelectDate(new Date(day.year, day.month - 1, day.day))
                 }
-                style={styles.modalOption}
+                style={styles.calendar}
+                theme={{
+                  arrowColor: theme.colors.primary,
+                  calendarBackground: theme.colors.surface,
+                  dayTextColor: theme.colors.text,
+                  monthTextColor: theme.colors.textStrong,
+                  selectedDayBackgroundColor: theme.colors.primary,
+                  selectedDayTextColor: theme.colors.white,
+                  textDayFontFamily: theme.fonts.regular,
+                  textDayFontSize: theme.fontSizes.body,
+                  textDayHeaderFontFamily: theme.fonts.medium,
+                  textDayHeaderFontSize: theme.fontSizes.caption,
+                  textDisabledColor: theme.colors.textMuted,
+                  textMonthFontFamily: theme.fonts.semibold,
+                  textMonthFontSize: theme.fontSizes.bodyLarge,
+                  todayTextColor: theme.colors.primary,
+                }}
+              />
+            ) : null}
+            {!isDate ? (
+              <ScrollView
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+                style={styles.placeResults}
               >
-                <Text style={styles.modalOptionText}>
-                  {option instanceof Date ? formatDate(option) : option.label}
-                </Text>
-                {option instanceof Date ? null : (
-                  <Text style={styles.modalOptionCode}>{option.code}</Text>
-                )}
-              </Pressable>
-            );
-          })}
-          <Pressable onPress={onClose} style={styles.modalCancel}>
-            <Text style={styles.modalCancelText}>{t('common.cancel')}</Text>
+                {normalizedQuery && suggestions.isFetching && !places.length ? (
+                  <ActivityIndicator
+                    color={theme.colors.primary}
+                    style={styles.modalState}
+                  />
+                ) : null}
+                {suggestions.isError && !places.length ? (
+                  <Text style={styles.modalStateText}>
+                    {t('search.placeSearchError')}
+                  </Text>
+                ) : null}
+                {normalizedQuery &&
+                !suggestions.isFetching &&
+                !suggestions.isError &&
+                places.length === 0 ? (
+                  <Text style={styles.modalStateText}>
+                    {t('search.placeSearchEmpty')}
+                  </Text>
+                ) : null}
+                {places.map(option => (
+                  <Pressable
+                    key={option.key}
+                    onPress={() =>
+                      onSelectPlace({
+                        code: option.code,
+                        label: option.label,
+                        airportCodes: option.airportCodes,
+                      })
+                    }
+                    style={styles.modalOption}
+                  >
+                    <Text style={styles.modalOptionText}>{option.label}</Text>
+                    <Text style={styles.modalOptionCode}>
+                      {option.codesLabel}
+                    </Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
+            ) : null}
+            <Pressable onPress={onClose} style={styles.modalCancel}>
+              <Text style={styles.modalCancelText}>{t('common.cancel')}</Text>
+            </Pressable>
           </Pressable>
         </Pressable>
-      </Pressable>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
@@ -395,107 +600,104 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
+    paddingBottom: theme.spacing.xxl,
   },
-  hero: {
-    height: 240,
+  background: {
+    ...StyleSheet.absoluteFill,
   },
-  heroImage: {
+  backgroundImage: {
     resizeMode: 'cover',
   },
-  heroOverlay: {
-    backgroundColor: theme.colors.overlay,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  topBar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: theme.sizes.contentPadding,
-    paddingTop: theme.spacing.md,
-  },
-  backButton: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.overlay,
-    borderRadius: theme.radii.pill,
-    height: 40,
-    justifyContent: 'center',
-    width: 40,
-  },
-  backButtonPlaceholder: {
-    height: 40,
-    width: 40,
-  },
-  screenTitle: {
-    ...typography.title,
-    color: theme.colors.white,
+  formTopSpacer: {
+    height: 178,
   },
   formCard: {
     ...theme.shadows.floating,
     backgroundColor: theme.colors.surface,
-    borderRadius: theme.radii.lg,
+    borderRadius: theme.radii.sm,
     marginHorizontal: theme.sizes.contentPadding,
-    marginTop: -62,
-    padding: theme.spacing.md,
+    overflow: 'hidden',
   },
-  formRow: {
-    alignItems: 'center',
-    borderBottomColor: theme.colors.divider,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    flexDirection: 'row',
-    minHeight: 64,
-  },
-  compactFormRow: {
-    flex: 1,
-  },
-  formIcon: {
-    alignItems: 'center',
-    height: 34,
-    justifyContent: 'center',
-    width: 34,
-  },
-  formText: {
-    flex: 1,
-  },
-  formLabel: {
-    ...typography.caption,
-  },
-  formValue: {
-    ...typography.bodySemibold,
-  },
-  code: {
-    ...typography.bodySemibold,
-    color: theme.colors.textSecondary,
+  routeFields: {
+    position: 'relative',
   },
   swapButton: {
     alignItems: 'center',
-    backgroundColor: theme.colors.primarySoft,
-    borderRadius: theme.radii.pill,
-    height: 34,
+    height: 38,
     justifyContent: 'center',
     position: 'absolute',
-    right: theme.spacing.md,
-    top: 122,
-    width: 34,
+    right: theme.spacing.sm,
+    top: 56,
+    width: 38,
     zIndex: 2,
+  },
+  swapIcon: {
+    height: 24,
+    width: 24,
   },
   dateRow: {
     flexDirection: 'row',
-    gap: theme.spacing.sm,
+  },
+  submitButton: {
+    marginHorizontal: theme.sizes.contentPadding,
+    marginTop: theme.spacing.md,
   },
   modalBackdrop: {
     backgroundColor: theme.colors.overlay,
     flex: 1,
     justifyContent: 'flex-end',
   },
+  modalKeyboardView: { flex: 1 },
   modalSheet: {
     backgroundColor: theme.colors.surface,
     borderTopLeftRadius: theme.radii.lg,
     borderTopRightRadius: theme.radii.lg,
+    maxHeight: '92%',
     padding: theme.sizes.contentPadding,
+  },
+  passengersSheet: {
+    backgroundColor: theme.colors.surface,
+    borderTopLeftRadius: theme.radii.xl,
+    borderTopRightRadius: theme.radii.xl,
+    maxHeight: '92%',
+    padding: theme.sizes.contentPadding,
+    paddingBottom: theme.spacing.xxl,
+  },
+  passengerRow: {
+    alignItems: 'center',
+    borderBottomColor: theme.colors.divider,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    minHeight: 68,
+  },
+  passengerText: { flex: 1 },
+  passengerLabel: { ...typography.bodySemibold },
+  passengerHint: { ...typography.bodySmall },
+  passengerCount: {
+    ...typography.bodySemibold,
+    minWidth: 38,
+    textAlign: 'center',
+  },
+  counterButton: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.divider,
+    borderRadius: theme.radii.pill,
+    height: 32,
+    justifyContent: 'center',
+    width: 32,
+  },
+  counterButtonPrimary: { backgroundColor: theme.colors.primary },
+  counterButtonDisabled: { opacity: 0.4 },
+  classTitle: {
+    ...typography.bodySemibold,
+    marginBottom: theme.spacing.sm,
+    marginTop: theme.spacing.lg,
+  },
+  classOptions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: theme.spacing.xs,
+    marginBottom: theme.spacing.lg,
   },
   modalHandle: {
     alignSelf: 'center',
@@ -509,6 +711,7 @@ const styles = StyleSheet.create({
     ...typography.titleSmall,
     marginBottom: theme.spacing.sm,
   },
+  calendar: { marginBottom: theme.spacing.sm },
   searchInput: {
     ...typography.body,
     backgroundColor: theme.colors.background,
@@ -519,6 +722,7 @@ const styles = StyleSheet.create({
     minHeight: theme.sizes.inputHeight,
     paddingHorizontal: theme.spacing.md,
   },
+  placeResults: { flexShrink: 1 },
   modalState: {
     marginVertical: theme.spacing.md,
   },

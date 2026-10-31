@@ -7,7 +7,10 @@ import type { AdminJwtPayload, AuthenticatedAdmin } from './admin-auth.types';
 
 @Injectable()
 export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
-  constructor(config: ConfigService, private readonly admins: AdminService) {
+  constructor(
+    config: ConfigService,
+    private readonly admins: AdminService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,

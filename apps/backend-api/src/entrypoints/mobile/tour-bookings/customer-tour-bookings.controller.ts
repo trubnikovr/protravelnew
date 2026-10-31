@@ -34,6 +34,7 @@ import { CustomerTourBookingResponseDto } from './dto/customer-tour-booking.resp
 export class CustomerTourBookingsController {
   constructor(private readonly bookings: TourBookingsService) {}
 
+  /** @see GET /api/v1/me/tour-bookings */
   @Get()
   @ApiOperation({ summary: 'List current customer tour bookings' })
   @ApiPaginatedEnvelope(CustomerTourBookingResponseDto)
@@ -59,6 +60,7 @@ export class CustomerTourBookingsController {
     );
   }
 
+  /** @see GET /api/v1/me/tour-bookings/:id */
   @Get(':id')
   @ApiOperation({ summary: 'Get own tour booking' })
   @ApiOkEnvelope(CustomerTourBookingResponseDto)
@@ -71,6 +73,7 @@ export class CustomerTourBookingsController {
     );
   }
 
+  /** @see POST /api/v1/me/tour-bookings */
   @Post()
   @ApiOperation({ summary: 'Create a tour booking request' })
   @ApiEnvelope(CustomerTourBookingResponseDto, HttpStatus.CREATED)

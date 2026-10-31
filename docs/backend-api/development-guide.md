@@ -23,6 +23,12 @@ API mappers belong to `src/entrypoints/mobile` or `src/entrypoints/admin`.
 Business logic, database schemas and persistence belong to `src/modules`.
 Imports from `src/modules` to `src/entrypoints` are forbidden.
 
+Every controller action must have a searchable full-route JSDoc immediately
+before its HTTP decorator, for example
+`/** @see GET /api/v1/admin/travel-facts */`. Keep the HTTP method, global
+prefix, API version, controller path and action path in that string so IDE
+full-text search can locate an endpoint directly.
+
 Implemented business modules must contain a `domain` directory. Domain
 entities and Value Objects are the module's outward-facing model; controllers
 must not receive Drizzle records. Read `docs/backend-api/domain-modeling.md`

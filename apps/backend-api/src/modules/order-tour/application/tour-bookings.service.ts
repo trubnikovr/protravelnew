@@ -109,7 +109,7 @@ export class TourBookingsService {
     const paidAt =
       status === TourBookingStatus.PAID
         ? new Date()
-        : booking.paidAt?.toDate() ?? null;
+        : (booking.paidAt?.toDate() ?? null);
     return (await this.repository.updateStatus(id, status, paidAt))!;
   }
 

@@ -15,3 +15,7 @@
 The mobile v1 contract includes the polymorphic hosted-payment request and
 response used by both tour bookings and flight orders. Provider webhook
 payloads remain backend-private and are not shared customer contracts.
+
+Flight sharing adds `POST /api/v1/flights/offers/{offerId}/share` to the mobile
+v1 contract. It returns a public URL and expiry; the URL serves backend-rendered
+HTML and is intentionally not part of the JSON client contract.

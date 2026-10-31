@@ -4,9 +4,7 @@ import { CustomerTravelersService } from '@modules/customers/submodules/customer
 import type { TravelersForTourBookingReaderPort } from '@modules/order-tour/application/travelers-for-tour-booking-reader.port';
 
 @Injectable()
-export class TravelersForTourBookingAdapter
-  implements TravelersForTourBookingReaderPort
-{
+export class TravelersForTourBookingAdapter implements TravelersForTourBookingReaderPort {
   constructor(private readonly travelers: CustomerTravelersService) {}
 
   get(

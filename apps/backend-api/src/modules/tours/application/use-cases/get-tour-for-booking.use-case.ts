@@ -16,9 +16,9 @@ export class GetTourForBookingUseCase {
     const tour = await this.tours.findById(tourId);
     if (!tour || tour.status !== TourStatus.PUBLISHED) return null;
     const departure = departureDate
-      ? tour.departures.find(
+      ? (tour.departures.find(
           (item) => item.departureDate.toString() === departureDate,
-        ) ?? null
+        ) ?? null)
       : null;
     if (departureDate && !departure) return null;
     if (

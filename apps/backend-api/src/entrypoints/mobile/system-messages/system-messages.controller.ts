@@ -10,8 +10,9 @@ import { SystemMessageResponseDto } from '@entrypoints/common/system-messages/sy
 export class SystemMessagesController {
   constructor(private readonly messages: SystemMessagesService) {}
 
+  /** @see GET /api/v1/system-messages */
   @Get()
-  @ApiOperation({summary: 'List active messages displayed by mobile clients'})
+  @ApiOperation({ summary: 'List active messages displayed by mobile clients' })
   @ApiArrayEnvelope(SystemMessageResponseDto)
   async list(): Promise<SystemMessageResponseDto[]> {
     const messages = await this.messages.listActive();

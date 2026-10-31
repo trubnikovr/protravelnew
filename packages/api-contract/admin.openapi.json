@@ -4,7 +4,23 @@
     "/api/v1/reference/featured-flight-locations": {
       "get": {
         "operationId": "Reference_featuredFlightLocations",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -90,6 +106,21 @@
               "maximum": 50,
               "default": 20,
               "type": "number"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -189,13 +220,15 @@
             "name": "Accept-Language",
             "in": "header",
             "required": false,
+            "description": "Response language. Defaults to ru.",
             "schema": {
               "type": "string",
               "enum": [
                 "ru",
                 "uz",
                 "en"
-              ]
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -250,7 +283,23 @@
     "/api/v1/admin/auth/login": {
       "post": {
         "operationId": "AdminAuth_login",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -294,7 +343,23 @@
     "/api/v1/admin/auth/revoke-all": {
       "post": {
         "operationId": "AdminAuth_revokeAll",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -333,7 +398,23 @@
     "/api/v1/admin/me": {
       "get": {
         "operationId": "AdminProfile_me",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -455,6 +536,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -511,7 +607,23 @@
       },
       "post": {
         "operationId": "AdminTours_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -568,6 +680,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -613,6 +740,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -669,6 +811,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -748,6 +905,21 @@
                 "desc"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -811,6 +983,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -878,6 +1065,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "requestBody": {
@@ -942,6 +1144,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -978,6 +1195,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1053,6 +1285,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "requestBody": {
@@ -1125,6 +1372,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1146,7 +1408,23 @@
     "/api/v1/admin/customers": {
       "post": {
         "operationId": "AdminCustomers_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1262,6 +1540,21 @@
                 "blocked"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1328,6 +1621,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1373,6 +1681,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1430,6 +1753,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1458,6 +1796,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1509,7 +1862,23 @@
     "/api/v1/admin/files/images": {
       "post": {
         "operationId": "AdminFiles_uploadImage",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1634,6 +2003,21 @@
                 "cancelled"
               ]
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1690,7 +2074,23 @@
       },
       "post": {
         "operationId": "AdminTourBookings_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1747,6 +2147,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1794,6 +2209,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1852,6 +2282,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -1928,6 +2373,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1973,6 +2433,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -1994,7 +2469,23 @@
     "/api/v1/admin/system-messages": {
       "get": {
         "operationId": "AdminSystemMessages_list",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -2034,7 +2525,23 @@
       },
       "post": {
         "operationId": "AdminSystemMessages_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2090,6 +2597,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -2147,6 +2669,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -2168,7 +2705,23 @@
     "/api/v1/admin/news": {
       "get": {
         "operationId": "AdminNews_list",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -2208,7 +2761,23 @@
       },
       "post": {
         "operationId": "AdminNews_create",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2264,6 +2833,21 @@
             "in": "path",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
             }
           }
         ],
@@ -2321,6 +2905,21 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
           }
         ],
         "responses": {
@@ -2342,7 +2941,23 @@
     "/api/v1/admin/featured-flight-locations": {
       "get": {
         "operationId": "AdminFeaturedFlightLocations_list",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -2381,7 +2996,23 @@
       },
       "put": {
         "operationId": "AdminFeaturedFlightLocations_replace",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2430,6 +3061,242 @@
         "summary": "Replace mobile featured flight locations",
         "tags": [
           "admin/featured-flight-locations"
+        ]
+      }
+    },
+    "/api/v1/admin/travel-facts": {
+      "get": {
+        "operationId": "AdminTravelFacts_list",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AdminTravelFactResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List all travel facts",
+        "tags": [
+          "admin/travel-facts"
+        ]
+      },
+      "post": {
+        "operationId": "AdminTravelFacts_create",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTravelFactRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AdminTravelFactResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a travel fact",
+        "tags": [
+          "admin/travel-facts"
+        ]
+      }
+    },
+    "/api/v1/admin/travel-facts/{id}": {
+      "patch": {
+        "operationId": "AdminTravelFacts_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTravelFactRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AdminTravelFactResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a travel fact",
+        "tags": [
+          "admin/travel-facts"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminTravelFacts_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete a travel fact",
+        "tags": [
+          "admin/travel-facts"
         ]
       }
     }
@@ -2481,6 +3348,38 @@
           "path",
           "statusCode",
           "requestId"
+        ]
+      },
+      "PaginationMetaResponseDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "minimum": 1,
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "example": 20
+          },
+          "total": {
+            "type": "number",
+            "minimum": 0,
+            "example": 125
+          },
+          "totalPages": {
+            "type": "number",
+            "minimum": 0,
+            "example": 7
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "totalPages"
         ]
       },
       "MoneyResponseDto": {
@@ -2663,38 +3562,6 @@
           "lastName",
           "gender",
           "documents"
-        ]
-      },
-      "PaginationMetaResponseDto": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "number",
-            "minimum": 1,
-            "example": 1
-          },
-          "limit": {
-            "type": "number",
-            "minimum": 1,
-            "maximum": 100,
-            "example": 20
-          },
-          "total": {
-            "type": "number",
-            "minimum": 0,
-            "example": 125
-          },
-          "totalPages": {
-            "type": "number",
-            "minimum": 0,
-            "example": 7
-          }
-        },
-        "required": [
-          "page",
-          "limit",
-          "total",
-          "totalPages"
         ]
       },
       "CreateTravelerRequestDto": {
@@ -2985,6 +3852,17 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
+          },
+          "airportCodes": {
+            "example": [
+              "SVO",
+              "DME",
+              "VKO"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
@@ -2992,7 +3870,8 @@
           "id",
           "name",
           "countryId",
-          "countryName"
+          "countryName",
+          "airportCodes"
         ]
       },
       "ReferenceCountryResponseDto": {
@@ -4651,6 +5530,129 @@
           "sortOrder",
           "isActive"
         ]
+      },
+      "AdminTravelFactResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string",
+            "example": "В Японии чаевые обычно не приняты."
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "JP",
+            "nullable": true
+          },
+          "destinationCode": {
+            "type": "string",
+            "example": "NRT",
+            "nullable": true
+          },
+          "tags": {
+            "example": [
+              "культура",
+              "этикет"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isPublished": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "text",
+          "tags",
+          "isPublished"
+        ]
+      },
+      "CreateTravelFactRequestDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "VN",
+            "nullable": true
+          },
+          "destinationCode": {
+            "type": "string",
+            "example": "PQC",
+            "nullable": true
+          },
+          "tags": {
+            "example": [
+              "еда",
+              "культура"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isPublished": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "text",
+          "tags",
+          "isPublished"
+        ]
+      },
+      "UpdateTravelFactRequestDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "VN",
+            "nullable": true
+          },
+          "destinationCode": {
+            "type": "string",
+            "example": "PQC",
+            "nullable": true
+          },
+          "tags": {
+            "example": [
+              "еда",
+              "культура"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isPublished": {
+            "type": "boolean",
+            "default": false
+          }
+        }
       }
     }
   }

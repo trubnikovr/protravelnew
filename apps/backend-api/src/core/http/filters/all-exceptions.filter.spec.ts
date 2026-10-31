@@ -1,5 +1,5 @@
 import { BadRequestException, type ArgumentsHost } from '@nestjs/common';
-import type { PinoLogger } from 'nestjs-pino';
+import type { AppLogger } from '@core/logging/app-logger';
 import type { ApiErrorResponse } from '../contracts/api-response.contract';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 
@@ -9,14 +9,18 @@ describe('AllExceptionsFilter', () => {
     const status = jest.fn().mockReturnValue({ json });
     const host = {
       switchToHttp: () => ({
-        getRequest: () => ({ id: 'request-1', originalUrl: '/api/v1/test' }),
+        getRequest: () => ({
+          id: 'request-1',
+          originalUrl: '/api/v1/test',
+          headers: {},
+        }),
         getResponse: () => ({ status }),
       }),
     } as unknown as ArgumentsHost;
     const logger = {
       setContext: jest.fn(),
       error: jest.fn(),
-    } as unknown as PinoLogger;
+    } as unknown as AppLogger;
     const filter = new AllExceptionsFilter(logger);
 
     filter.catch(

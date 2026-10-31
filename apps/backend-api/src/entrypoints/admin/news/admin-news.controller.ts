@@ -37,6 +37,7 @@ import { AdminNewsArticleResponseDto } from './dto/admin-news.response.dto';
 export class AdminNewsController {
   constructor(private readonly news: NewsService) {}
 
+  /** @see GET /api/v1/admin/news */
   @Get()
   @RequirePermissions(AdminPermission.CONTENT_READ)
   @ApiOperation({ summary: 'List all news articles' })
@@ -47,6 +48,7 @@ export class AdminNewsController {
     );
   }
 
+  /** @see POST /api/v1/admin/news */
   @Post()
   @RequirePermissions(AdminPermission.CONTENT_WRITE)
   @ApiOperation({ summary: 'Create a news article' })
@@ -57,6 +59,7 @@ export class AdminNewsController {
     return AdminNewsApiMapper.toResponse(await this.news.create(dto));
   }
 
+  /** @see PATCH /api/v1/admin/news/:id */
   @Patch(':id')
   @RequirePermissions(AdminPermission.CONTENT_WRITE)
   @ApiOperation({ summary: 'Update or publish a news article' })
@@ -70,6 +73,7 @@ export class AdminNewsController {
     return AdminNewsApiMapper.toResponse(article);
   }
 
+  /** @see DELETE /api/v1/admin/news/:id */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.CONTENT_WRITE)

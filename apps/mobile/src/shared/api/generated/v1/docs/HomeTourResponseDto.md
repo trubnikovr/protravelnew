@@ -11,11 +11,12 @@ Name | Type
 `location` | string
 `duration` | string
 `price` | [MoneyResponseDto](MoneyResponseDto.md)
-`imageUrl` | object
+`imageUrl` | objec
+`hotelCategory` | number
 
 ## Example
 
-```typescript
+```typescrip
 import type { HomeTourResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -26,6 +27,7 @@ const example = {
   "duration": null,
   "price": null,
   "imageUrl": null,
+  "hotelCategory": null,
 } satisfies HomeTourResponseDto
 
 console.log(example)
@@ -34,7 +36,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as HomeTourResponseDto
 console.log(exampleParsed)
 ```

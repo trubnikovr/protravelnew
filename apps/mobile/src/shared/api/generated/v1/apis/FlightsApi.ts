@@ -12,419 +12,327 @@
  * Do not edit the class manually.
  */
 
+
 import * as runtime from '../runtime';
 import type {
   CreateFlightSearchRequestDto,
   FlightsFareRules200Response,
   FlightsOffer200Response,
   FlightsSearch200Response,
+  FlightsShare201Response,
 } from '../models/index';
 import {
-  CreateFlightSearchRequestDtoFromJSON,
-  CreateFlightSearchRequestDtoToJSON,
-  FlightsFareRules200ResponseFromJSON,
-  FlightsFareRules200ResponseToJSON,
-  FlightsOffer200ResponseFromJSON,
-  FlightsOffer200ResponseToJSON,
-  FlightsSearch200ResponseFromJSON,
-  FlightsSearch200ResponseToJSON,
+    CreateFlightSearchRequestDtoFromJSON,
+    CreateFlightSearchRequestDtoToJSON,
+    FlightsFareRules200ResponseFromJSON,
+    FlightsFareRules200ResponseToJSON,
+    FlightsOffer200ResponseFromJSON,
+    FlightsOffer200ResponseToJSON,
+    FlightsSearch200ResponseFromJSON,
+    FlightsSearch200ResponseToJSON,
+    FlightsShare201ResponseFromJSON,
+    FlightsShare201ResponseToJSON,
 } from '../models/index';
 
 export interface FlightsFareRulesRequest {
-  offerId: string;
-  acceptLanguage?: FlightsFareRulesAcceptLanguageEnum;
+    offerId: string;
+    acceptLanguage?: FlightsFareRulesAcceptLanguageEnum;
 }
 
 export interface FlightsOfferRequest {
-  offerId: string;
-  acceptLanguage?: FlightsOfferAcceptLanguageEnum;
-}
-
-export interface FlightsRevalidateRequest {
-  offerId: string;
-  acceptLanguage?: FlightsRevalidateAcceptLanguageEnum;
+    offerId: string;
+    acceptLanguage?: FlightsOfferAcceptLanguageEnum;
 }
 
 export interface FlightsSearchRequest {
-  createFlightSearchRequestDto: CreateFlightSearchRequestDto;
-  acceptLanguage?: FlightsSearchAcceptLanguageEnum;
+    createFlightSearchRequestDto: CreateFlightSearchRequestDto;
+    acceptLanguage?: FlightsSearchAcceptLanguageEnum;
+}
+
+export interface FlightsShareRequest {
+    offerId: string;
+    acceptLanguage?: FlightsShareAcceptLanguageEnum;
 }
 
 /**
  * FlightsApi - interface
  *
- * @export
+ * @expor
  * @interface FlightsApiInterface
  */
 export interface FlightsApiInterface {
-  /**
-   *
-   * @summary Get provider fare rules for a flight offer
-   * @param {string} offerId
-   * @param {'ru' | 'uz' | 'en'} [acceptLanguage]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FlightsApiInterface
-   */
-  flightsFareRulesRaw(
-    requestParameters: FlightsFareRulesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsFareRules200Response>>;
+    /**
+     *
+     * @summary Get provider fare rules for a flight offer
+     * @param {string} offerId
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FlightsApiInterface
+     */
+    flightsFareRulesRaw(requestParameters: FlightsFareRulesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsFareRules200Response>>;
 
-  /**
-   * Get provider fare rules for a flight offer
-   */
-  flightsFareRules(
-    requestParameters: FlightsFareRulesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsFareRules200Response>;
+    /**
+     * Get provider fare rules for a flight offer
+     */
+    flightsFareRules(requestParameters: FlightsFareRulesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsFareRules200Response>;
 
-  /**
-   *
-   * @summary Get a normalized flight offer
-   * @param {string} offerId
-   * @param {'ru' | 'uz' | 'en'} [acceptLanguage]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FlightsApiInterface
-   */
-  flightsOfferRaw(
-    requestParameters: FlightsOfferRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsOffer200Response>>;
+    /**
+     *
+     * @summary Get a normalized flight offer
+     * @param {string} offerId
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FlightsApiInterface
+     */
+    flightsOfferRaw(requestParameters: FlightsOfferRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsOffer200Response>>;
 
-  /**
-   * Get a normalized flight offer
-   */
-  flightsOffer(
-    requestParameters: FlightsOfferRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsOffer200Response>;
+    /**
+     * Get a normalized flight offer
+     */
+    flightsOffer(requestParameters: FlightsOfferRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsOffer200Response>;
 
-  /**
-   *
-   * @summary Revalidate availability and price before booking
-   * @param {string} offerId
-   * @param {'ru' | 'uz' | 'en'} [acceptLanguage]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FlightsApiInterface
-   */
-  flightsRevalidateRaw(
-    requestParameters: FlightsRevalidateRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsOffer200Response>>;
+    /**
+     *
+     * @summary Search flights and return normalized offers
+     * @param {CreateFlightSearchRequestDto} createFlightSearchRequestDto
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FlightsApiInterface
+     */
+    flightsSearchRaw(requestParameters: FlightsSearchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsSearch200Response>>;
 
-  /**
-   * Revalidate availability and price before booking
-   */
-  flightsRevalidate(
-    requestParameters: FlightsRevalidateRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsOffer200Response>;
+    /**
+     * Search flights and return normalized offers
+     */
+    flightsSearch(requestParameters: FlightsSearchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsSearch200Response>;
 
-  /**
-   *
-   * @summary Search flights and return normalized offers
-   * @param {CreateFlightSearchRequestDto} createFlightSearchRequestDto
-   * @param {'ru' | 'uz' | 'en'} [acceptLanguage]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof FlightsApiInterface
-   */
-  flightsSearchRaw(
-    requestParameters: FlightsSearchRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsSearch200Response>>;
+    /**
+     *
+     * @summary Create a public flight share link
+     * @param {string} offerId
+     * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FlightsApiInterface
+     */
+    flightsShareRaw(requestParameters: FlightsShareRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsShare201Response>>;
 
-  /**
-   * Search flights and return normalized offers
-   */
-  flightsSearch(
-    requestParameters: FlightsSearchRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsSearch200Response>;
+    /**
+     * Create a public flight share link
+     */
+    flightsShare(requestParameters: FlightsShareRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsShare201Response>;
+
 }
 
 /**
  *
  */
 export class FlightsApi extends runtime.BaseAPI implements FlightsApiInterface {
-  /**
-   * Get provider fare rules for a flight offer
-   */
-  async flightsFareRulesRaw(
-    requestParameters: FlightsFareRulesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsFareRules200Response>> {
-    if (requestParameters['offerId'] == null) {
-      throw new runtime.RequiredError(
-        'offerId',
-        'Required parameter "offerId" was null or undefined when calling flightsFareRules().',
-      );
+
+    /**
+     * Get provider fare rules for a flight offer
+     */
+    async flightsFareRulesRaw(requestParameters: FlightsFareRulesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsFareRules200Response>> {
+        if (requestParameters['offerId'] == null) {
+            throw new runtime.RequiredError(
+                'offerId',
+                'Required parameter "offerId" was null or undefined when calling flightsFareRules().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
+
+
+        let urlPath = `/api/v1/flights/offers/{offerId}/fare-rules`;
+        urlPath = urlPath.replace(`{${"offerId"}}`, encodeURIComponent(String(requestParameters['offerId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FlightsFareRules200ResponseFromJSON(jsonValue));
     }
 
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    if (requestParameters['acceptLanguage'] != null) {
-      headerParameters['Accept-Language'] = String(
-        requestParameters['acceptLanguage'],
-      );
+    /**
+     * Get provider fare rules for a flight offer
+     */
+    async flightsFareRules(requestParameters: FlightsFareRulesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsFareRules200Response> {
+        const response = await this.flightsFareRulesRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    let urlPath = `/api/v1/flights/offers/{offerId}/fare-rules`;
-    urlPath = urlPath.replace(
-      `{${'offerId'}}`,
-      encodeURIComponent(String(requestParameters['offerId'])),
-    );
+    /**
+     * Get a normalized flight offer
+     */
+    async flightsOfferRaw(requestParameters: FlightsOfferRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsOffer200Response>> {
+        if (requestParameters['offerId'] == null) {
+            throw new runtime.RequiredError(
+                'offerId',
+                'Required parameter "offerId" was null or undefined when calling flightsOffer().'
+            );
+        }
 
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'GET',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides,
-    );
+        const queryParameters: any = {};
 
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      FlightsFareRules200ResponseFromJSON(jsonValue),
-    );
-  }
+        const headerParameters: runtime.HTTPHeaders = {};
 
-  /**
-   * Get provider fare rules for a flight offer
-   */
-  async flightsFareRules(
-    requestParameters: FlightsFareRulesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsFareRules200Response> {
-    const response = await this.flightsFareRulesRaw(
-      requestParameters,
-      initOverrides,
-    );
-    return await response.value();
-  }
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
 
-  /**
-   * Get a normalized flight offer
-   */
-  async flightsOfferRaw(
-    requestParameters: FlightsOfferRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsOffer200Response>> {
-    if (requestParameters['offerId'] == null) {
-      throw new runtime.RequiredError(
-        'offerId',
-        'Required parameter "offerId" was null or undefined when calling flightsOffer().',
-      );
+
+        let urlPath = `/api/v1/flights/offers/{offerId}`;
+        urlPath = urlPath.replace(`{${"offerId"}}`, encodeURIComponent(String(requestParameters['offerId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FlightsOffer200ResponseFromJSON(jsonValue));
     }
 
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    if (requestParameters['acceptLanguage'] != null) {
-      headerParameters['Accept-Language'] = String(
-        requestParameters['acceptLanguage'],
-      );
+    /**
+     * Get a normalized flight offer
+     */
+    async flightsOffer(requestParameters: FlightsOfferRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsOffer200Response> {
+        const response = await this.flightsOfferRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    let urlPath = `/api/v1/flights/offers/{offerId}`;
-    urlPath = urlPath.replace(
-      `{${'offerId'}}`,
-      encodeURIComponent(String(requestParameters['offerId'])),
-    );
+    /**
+     * Search flights and return normalized offers
+     */
+    async flightsSearchRaw(requestParameters: FlightsSearchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsSearch200Response>> {
+        if (requestParameters['createFlightSearchRequestDto'] == null) {
+            throw new runtime.RequiredError(
+                'createFlightSearchRequestDto',
+                'Required parameter "createFlightSearchRequestDto" was null or undefined when calling flightsSearch().'
+            );
+        }
 
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'GET',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides,
-    );
+        const queryParameters: any = {};
 
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      FlightsOffer200ResponseFromJSON(jsonValue),
-    );
-  }
+        const headerParameters: runtime.HTTPHeaders = {};
 
-  /**
-   * Get a normalized flight offer
-   */
-  async flightsOffer(
-    requestParameters: FlightsOfferRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsOffer200Response> {
-    const response = await this.flightsOfferRaw(
-      requestParameters,
-      initOverrides,
-    );
-    return await response.value();
-  }
+        headerParameters['Content-Type'] = 'application/json';
 
-  /**
-   * Revalidate availability and price before booking
-   */
-  async flightsRevalidateRaw(
-    requestParameters: FlightsRevalidateRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsOffer200Response>> {
-    if (requestParameters['offerId'] == null) {
-      throw new runtime.RequiredError(
-        'offerId',
-        'Required parameter "offerId" was null or undefined when calling flightsRevalidate().',
-      );
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
+
+
+        let urlPath = `/api/v1/flights/searches`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateFlightSearchRequestDtoToJSON(requestParameters['createFlightSearchRequestDto']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FlightsSearch200ResponseFromJSON(jsonValue));
     }
 
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    if (requestParameters['acceptLanguage'] != null) {
-      headerParameters['Accept-Language'] = String(
-        requestParameters['acceptLanguage'],
-      );
+    /**
+     * Search flights and return normalized offers
+     */
+    async flightsSearch(requestParameters: FlightsSearchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsSearch200Response> {
+        const response = await this.flightsSearchRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    let urlPath = `/api/v1/flights/offers/{offerId}/revalidate`;
-    urlPath = urlPath.replace(
-      `{${'offerId'}}`,
-      encodeURIComponent(String(requestParameters['offerId'])),
-    );
+    /**
+     * Create a public flight share link
+     */
+    async flightsShareRaw(requestParameters: FlightsShareRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FlightsShare201Response>> {
+        if (requestParameters['offerId'] == null) {
+            throw new runtime.RequiredError(
+                'offerId',
+                'Required parameter "offerId" was null or undefined when calling flightsShare().'
+            );
+        }
 
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'POST',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides,
-    );
+        const queryParameters: any = {};
 
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      FlightsOffer200ResponseFromJSON(jsonValue),
-    );
-  }
+        const headerParameters: runtime.HTTPHeaders = {};
 
-  /**
-   * Revalidate availability and price before booking
-   */
-  async flightsRevalidate(
-    requestParameters: FlightsRevalidateRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsOffer200Response> {
-    const response = await this.flightsRevalidateRaw(
-      requestParameters,
-      initOverrides,
-    );
-    return await response.value();
-  }
+        if (requestParameters['acceptLanguage'] != null) {
+            headerParameters['Accept-Language'] = String(requestParameters['acceptLanguage']);
+        }
 
-  /**
-   * Search flights and return normalized offers
-   */
-  async flightsSearchRaw(
-    requestParameters: FlightsSearchRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<FlightsSearch200Response>> {
-    if (requestParameters['createFlightSearchRequestDto'] == null) {
-      throw new runtime.RequiredError(
-        'createFlightSearchRequestDto',
-        'Required parameter "createFlightSearchRequestDto" was null or undefined when calling flightsSearch().',
-      );
+
+        let urlPath = `/api/v1/flights/offers/{offerId}/share`;
+        urlPath = urlPath.replace(`{${"offerId"}}`, encodeURIComponent(String(requestParameters['offerId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FlightsShare201ResponseFromJSON(jsonValue));
     }
 
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    headerParameters['Content-Type'] = 'application/json';
-
-    if (requestParameters['acceptLanguage'] != null) {
-      headerParameters['Accept-Language'] = String(
-        requestParameters['acceptLanguage'],
-      );
+    /**
+     * Create a public flight share link
+     */
+    async flightsShare(requestParameters: FlightsShareRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FlightsShare201Response> {
+        const response = await this.flightsShareRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
-    let urlPath = `/api/v1/flights/searches`;
-
-    const response = await this.request(
-      {
-        path: urlPath,
-        method: 'POST',
-        headers: headerParameters,
-        query: queryParameters,
-        body: CreateFlightSearchRequestDtoToJSON(
-          requestParameters['createFlightSearchRequestDto'],
-        ),
-      },
-      initOverrides,
-    );
-
-    return new runtime.JSONApiResponse(response, jsonValue =>
-      FlightsSearch200ResponseFromJSON(jsonValue),
-    );
-  }
-
-  /**
-   * Search flights and return normalized offers
-   */
-  async flightsSearch(
-    requestParameters: FlightsSearchRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<FlightsSearch200Response> {
-    const response = await this.flightsSearchRaw(
-      requestParameters,
-      initOverrides,
-    );
-    return await response.value();
-  }
 }
 
 /**
- * @export
+ * @expor
  */
 export const FlightsFareRulesAcceptLanguageEnum = {
-  ru: 'ru',
-  uz: 'uz',
-  en: 'en',
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
-export type FlightsFareRulesAcceptLanguageEnum =
-  (typeof FlightsFareRulesAcceptLanguageEnum)[keyof typeof FlightsFareRulesAcceptLanguageEnum];
+export type FlightsFareRulesAcceptLanguageEnum = typeof FlightsFareRulesAcceptLanguageEnum[keyof typeof FlightsFareRulesAcceptLanguageEnum];
 /**
- * @export
+ * @expor
  */
 export const FlightsOfferAcceptLanguageEnum = {
-  ru: 'ru',
-  uz: 'uz',
-  en: 'en',
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
-export type FlightsOfferAcceptLanguageEnum =
-  (typeof FlightsOfferAcceptLanguageEnum)[keyof typeof FlightsOfferAcceptLanguageEnum];
+export type FlightsOfferAcceptLanguageEnum = typeof FlightsOfferAcceptLanguageEnum[keyof typeof FlightsOfferAcceptLanguageEnum];
 /**
- * @export
- */
-export const FlightsRevalidateAcceptLanguageEnum = {
-  ru: 'ru',
-  uz: 'uz',
-  en: 'en',
-} as const;
-export type FlightsRevalidateAcceptLanguageEnum =
-  (typeof FlightsRevalidateAcceptLanguageEnum)[keyof typeof FlightsRevalidateAcceptLanguageEnum];
-/**
- * @export
+ * @expor
  */
 export const FlightsSearchAcceptLanguageEnum = {
-  ru: 'ru',
-  uz: 'uz',
-  en: 'en',
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
 } as const;
-export type FlightsSearchAcceptLanguageEnum =
-  (typeof FlightsSearchAcceptLanguageEnum)[keyof typeof FlightsSearchAcceptLanguageEnum];
+export type FlightsSearchAcceptLanguageEnum = typeof FlightsSearchAcceptLanguageEnum[keyof typeof FlightsSearchAcceptLanguageEnum];
+/**
+ * @expor
+ */
+export const FlightsShareAcceptLanguageEnum = {
+    ru: 'ru',
+    uz: 'uz',
+    en: 'en'
+} as const;
+export type FlightsShareAcceptLanguageEnum = typeof FlightsShareAcceptLanguageEnum[keyof typeof FlightsShareAcceptLanguageEnum];

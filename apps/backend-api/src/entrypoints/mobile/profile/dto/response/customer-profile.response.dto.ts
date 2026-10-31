@@ -4,30 +4,30 @@ import { CurrencyCode, SupportedLocale } from '@shared/domain/enums';
 import { CustomerStatus } from '@modules/customers';
 
 export class CustomerProfileResponseDto extends EntityResponseDto {
-  @ApiPropertyOptional({nullable: true, type: String})
+  @ApiPropertyOptional({ nullable: true, type: String })
   phone!: string | null;
 
-  @ApiPropertyOptional({nullable: true, type: String})
+  @ApiPropertyOptional({ nullable: true, type: String })
   email!: string | null;
 
   @ApiProperty()
   firstName!: string;
 
-  @ApiPropertyOptional({nullable: true, type: String})
+  @ApiPropertyOptional({ nullable: true, type: String })
   lastName!: string | null;
 
-  @ApiPropertyOptional({nullable: true, type: String})
+  @ApiPropertyOptional({ nullable: true, type: String })
   middleName!: string | null;
 
-  @ApiProperty({enum: SupportedLocale})
+  @ApiProperty({ enum: SupportedLocale })
   locale!: SupportedLocale;
 
-  @ApiProperty({enum: CurrencyCode})
+  @ApiProperty({ enum: CurrencyCode })
   currency!: CurrencyCode;
 
-  @ApiProperty({example: 'Asia/Tashkent'})
+  @ApiProperty({ example: 'Asia/Tashkent' })
   timeZone!: string;
 
-  @ApiProperty({enum: CustomerStatus})
+  @ApiProperty({ enum: CustomerStatus })
   status!: CustomerStatus;
 }

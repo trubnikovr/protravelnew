@@ -24,10 +24,32 @@ export class FlightOffer extends DomainEntity<FlightOfferProperties> {
     });
   }
 
+  static restore(input: {
+    id: string;
+    searchId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    data: FlightOfferData;
+  }): FlightOffer {
+    return new FlightOffer({
+      ...input.data,
+      id: EntityIdValueObject.fromString(input.id),
+      searchId: EntityIdValueObject.fromString(input.searchId),
+      createdAt: DateTimeValueObject.fromDate(input.createdAt),
+      updatedAt: DateTimeValueObject.fromDate(input.updatedAt),
+    });
+  }
+
   get searchId(): EntityIdValueObject {
     return this.entityProperties.searchId;
   }
   get data(): FlightOfferData {
-    return this.entityProperties;
+    const { id, searchId, createdAt, updatedAt, ...data } =
+      this.entityProperties;
+    void id;
+    void searchId;
+    void createdAt;
+    void updatedAt;
+    return data;
   }
 }

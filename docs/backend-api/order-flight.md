@@ -23,11 +23,11 @@ POST /api/v1/flight-orders/{id}/cancel
 ```
 
 Creation requires `Idempotency-Key`. The key is unique per customer and a
-repeat returns the original order. Creation revalidates the offer, validates
-that selected traveler types match the searched passenger composition and
-stores immutable price, route and provider-reference snapshots.
-If revalidation changes amount or currency, creation returns `PRICE_CHANGED`
-with the new offer UUID and price instead of silently accepting it.
+repeat returns the original order. Creation loads the unexpired persisted
+offer, validates that selected traveler types match the searched passenger
+composition and stores immutable price, route and provider-reference
+snapshots. It does not repeat availability search or price revalidation before
+booking; `CREATEBR` uses the exact provider tokens selected in search.
 
 `book` loads selected traveler documents through the public
 `CustomerTravelersService` application API. Decrypted document numbers exist only in

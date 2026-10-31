@@ -13,9 +13,10 @@ import { RAW_RESPONSE_KEY } from '../decorators/raw-response.decorator';
 import { createResponseMeta } from '../request/request-context';
 
 @Injectable()
-export class ResponseEnvelopeInterceptor<T>
-  implements NestInterceptor<T, unknown>
-{
+export class ResponseEnvelopeInterceptor<T> implements NestInterceptor<
+  T,
+  unknown
+> {
   constructor(private readonly reflector: Reflector) {}
 
   intercept(
@@ -39,7 +40,11 @@ export class ResponseEnvelopeInterceptor<T>
         if (data instanceof PaginatedResult) {
           return {
             data: data.items,
-            meta: { ...meta, pagination: data.pagination },
+            meta: {
+              ...meta,
+              ...data.additionalMeta,
+              pagination: data.pagination,
+            },
           };
         }
         return {

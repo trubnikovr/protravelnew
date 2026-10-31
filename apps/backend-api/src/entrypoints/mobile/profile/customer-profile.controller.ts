@@ -18,6 +18,7 @@ import { CustomerProfileApiMapper } from './customer-profile-api.mapper';
 export class CustomerProfileController {
   constructor(private readonly customers: CustomersService) {}
 
+  /** @see GET /api/v1/users/me */
   @Get('me')
   @ApiOperation({ summary: 'Get current customer profile' })
   @ApiOkEnvelope(CustomerProfileResponseDto)
@@ -30,6 +31,7 @@ export class CustomerProfileController {
     return CustomerProfileApiMapper.toResponse(profile);
   }
 
+  /** @see PATCH /api/v1/users/me */
   @Patch('me')
   @ApiOperation({ summary: 'Update current customer profile' })
   @ApiOkEnvelope(CustomerProfileResponseDto)
@@ -38,6 +40,8 @@ export class CustomerProfileController {
     @Body() dto: UpdateCustomerProfileRequestDto,
   ): Promise<CustomerProfileResponseDto> {
     const updated = await this.customers.updateProfile(customer.id, dto);
-    return CustomerProfileApiMapper.toResponse(this.customers.toPublic(updated));
+    return CustomerProfileApiMapper.toResponse(
+      this.customers.toPublic(updated),
+    );
   }
 }

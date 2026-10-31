@@ -9,8 +9,7 @@ export class CustomerResponseDto extends EntityResponseDto {
   email!: string | null;
   @ApiProperty() firstName!: string;
   @ApiPropertyOptional({ nullable: true, type: String }) lastName!:
-    | string
-    | null;
+    string | null;
   @ApiProperty({ enum: SupportedLocale }) locale!: SupportedLocale;
   @ApiProperty({ enum: CurrencyCode }) currency!: CurrencyCode;
   @ApiProperty({ example: 'Europe/Moscow' }) timeZone!: string;

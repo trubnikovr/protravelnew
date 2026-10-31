@@ -17,7 +17,6 @@ import {
   useCustomerProfile,
   useUpdateCustomerProfile,
 } from '../model/useCustomerProfile';
-import { CustomerAvatar } from '../components/CustomerAvatar';
 
 type Props = NativeStackScreenProps<ProfileStackParamList, 'EditProfile'>;
 
@@ -76,9 +75,6 @@ export function EditProfileScreen({ navigation }: Props) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.avatar}>
-            <CustomerAvatar firstName={form.firstName} phone={form.phone} />
-          </View>
           <View style={styles.form}>
             <AppTextField
               label={`${t('common.lastName')} *`}
@@ -134,11 +130,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: theme.sizes.contentPadding,
-  },
-  avatar: {
-    alignSelf: 'center',
-    marginBottom: theme.spacing.md,
   },
   form: {
     backgroundColor: theme.colors.surface,

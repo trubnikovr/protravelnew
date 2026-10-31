@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
+  ImageBackground,
   Modal,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,7 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ToursStackParamList } from '../../../app/navigation/types';
 import { TourCard, tourLocation } from '../components/TourCard';
 import { useTours } from '../model/useTours';
-import { PrimaryButton, ScreenHeader } from '../../../shared/ui';
+import { FilterChoice, PrimaryButton, ScreenHeader, TravelStateCard } from '../../../shared/ui';
 import { theme, typography } from '../../../shared/theme/theme';
 
 type Props = NativeStackScreenProps<ToursStackParamList, 'TourCatalog'>;
@@ -75,6 +77,11 @@ export function ToursScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
+      <ImageBackground
+        imageStyle={styles.backgroundImage}
+        source={require('../../../shared/assets/images/tours-background.png')}
+        style={styles.background}
+      />
       <ScreenHeader
         right={
           <Pressable
@@ -90,24 +97,35 @@ export function ToursScreen({ navigation }: Props) {
       {catalog.isPending ? (
         <ActivityIndicator color={theme.colors.primary} style={styles.state} />
       ) : catalog.isError ? (
-        <View style={styles.state}>
-          <Text style={styles.stateText}>{t('home.loadError')}</Text>
-        </View>
+        <ScrollView
+          contentContainerStyle={styles.errorContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={catalog.isFetching}
+              onRefresh={() => catalog.refetch()}
+            />
+          }
+        >
+          <TravelStateCard
+            title={t('tours.catalogLoadError')}
+            message={t('common.connectionUnavailable')}
+            actionLabel={t('common.retry')}
+            onAction={() => catalog.refetch()}
+          />
+        </ScrollView>
       ) : (
         <ScrollView
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.resultHeader}>
-            <Text style={styles.resultCount}>
-              {t('tours.found', { count: tours.length })}
-            </Text>
-            {(filters.destination || filters.sort !== 'recommended') && (
+          {(filters.destination || filters.sort !== 'recommended') && (
+            <View style={styles.resultHeader}>
+              <View />
               <Pressable onPress={() => setFilters(initialFilters)}>
                 <Text style={styles.resetText}>{t('tours.reset')}</Text>
               </Pressable>
-            )}
-          </View>
+            </View>
+          )}
           {tours.length === 0 ? (
             <Text style={styles.empty}>{t('tours.empty')}</Text>
           ) : (
@@ -177,32 +195,32 @@ function TourFiltersSheet({
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.sectionTitle}>{t('tours.destination')}</Text>
             <View style={styles.chips}>
-              <FilterChip
-                active={!filters.destination}
+              <FilterChoice
                 label={t('tours.anyDestination')}
                 onPress={() => onChange({ ...filters, destination: null })}
+                selected={!filters.destination}
               />
               {destinations.map(destination => (
-                <FilterChip
-                  active={filters.destination?.value === destination.value}
+                <FilterChoice
                   key={destination.label}
                   label={destination.label}
                   onPress={() => onChange({ ...filters, destination })}
+                  selected={filters.destination?.value === destination.value}
                 />
               ))}
             </View>
 
             <Text style={styles.sectionTitle}>{t('tours.sort')}</Text>
             <View style={styles.chips}>
-              <FilterChip
-                active={filters.sort === 'recommended'}
+              <FilterChoice
                 label={t('tours.recommended')}
                 onPress={() => onChange({ ...filters, sort: 'recommended' })}
+                selected={filters.sort === 'recommended'}
               />
-              <FilterChip
-                active={filters.sort === 'price'}
+              <FilterChoice
                 label={t('tours.byPrice')}
                 onPress={() => onChange({ ...filters, sort: 'price' })}
+                selected={filters.sort === 'price'}
               />
             </View>
           </ScrollView>
@@ -213,39 +231,23 @@ function TourFiltersSheet({
   );
 }
 
-function FilterChip({
-  label,
-  active,
-  onPress,
-}: {
-  label: string;
-  active: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.chip, active && styles.chipActive]}
-    >
-      <Text style={[styles.chipText, active && styles.chipTextActive]}>
-        {label}
-      </Text>
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   safeArea: { backgroundColor: theme.colors.background, flex: 1 },
+  background: { ...StyleSheet.absoluteFill },
+  backgroundImage: { resizeMode: 'cover' },
   content: { padding: theme.sizes.contentPadding },
   state: { flex: 1, justifyContent: 'center' },
-  stateText: { ...typography.body, textAlign: 'center' },
+  errorContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: theme.sizes.contentPadding,
+  },
   resultHeader: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: theme.spacing.md,
   },
-  resultCount: { ...typography.bodySemibold },
   resetText: { ...typography.bodySmall, color: theme.colors.primary },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.sm },
   cell: { width: '48%' },
@@ -297,13 +299,4 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.lg,
     marginTop: theme.spacing.sm,
   },
-  chip: {
-    backgroundColor: theme.colors.divider,
-    borderRadius: theme.radii.pill,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.xs,
-  },
-  chipActive: { backgroundColor: theme.colors.primary },
-  chipText: { ...typography.bodySmall, color: theme.colors.text },
-  chipTextActive: { color: theme.colors.white },
 });

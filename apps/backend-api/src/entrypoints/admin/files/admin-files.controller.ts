@@ -37,6 +37,7 @@ export class AdminFilesController {
     private readonly config: ConfigService,
   ) {}
 
+  /** @see POST /api/v1/admin/files/images */
   @Post('images')
   @RequirePermissions(AdminPermission.TOURS_WRITE)
   @UseInterceptors(FileInterceptor('file'))

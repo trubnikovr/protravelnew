@@ -6,20 +6,20 @@ import {
   type TextInputProps,
   View,
 } from 'react-native';
-import {theme, typography} from '../theme/theme';
+import { theme, typography } from '../theme/theme';
 
 type Props = TextInputProps & {
   label: string;
   trailing?: React.ReactNode;
 };
 
-export function AppTextField({label, trailing, style, ...props}: Props) {
+export function AppTextField({ label, trailing, style, ...props }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputRow}>
         <TextInput
-          placeholderTextColor={theme.colors.textMuted}
+          placeholderTextColor={theme.colors.inputPlaceholder}
           style={[styles.input, style]}
           {...props}
         />
@@ -41,19 +41,19 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing.xs,
   },
   label: {
-    ...typography.caption,
-    color: theme.colors.textStrong,
+    ...typography.inputPlaceholder,
+    marginBottom: theme.sizes.inputLabelGap,
   },
   inputRow: {
     alignItems: 'center',
     flexDirection: 'row',
   },
   input: {
-    ...typography.body,
-    color: theme.colors.text,
+    ...typography.inputValue,
     flex: 1,
     margin: 0,
     minHeight: 34,
     padding: 0,
+    textAlignVertical: 'center',
   },
 });

@@ -34,7 +34,10 @@ import {
 import {
   TtbookingErrorMapper,
   TtbookingHttpError,
+  TtbookingResponseTooLargeError,
 } from '@app/integrations/ttbooking/ttbooking-error.mapper';
+import { AppLogger } from '@core/logging/app-logger';
+import { normalizeTtbookingBaggage } from './ttbooking-baggage';
 
 @Injectable()
 export class TtbookingFlightProvider implements FlightProviderPort {
@@ -42,11 +45,15 @@ export class TtbookingFlightProvider implements FlightProviderPort {
   constructor(
     private readonly config: ConfigService,
     private readonly errors: TtbookingErrorMapper,
-  ) {}
+    private readonly logger: AppLogger,
+  ) {
+    this.logger.setContext(TtbookingFlightProvider.name);
+  }
 
   async search(
     criteria: FlightSearchCriteria,
   ): Promise<FlightSearchProviderResult> {
+
     const response = await this.request<TtbookingFlightResponse>(
       TtbookingCommand.SEARCH_FLIGHTS_RELEASE,
       {
@@ -69,14 +76,45 @@ export class TtbookingFlightProvider implements FlightProviderPort {
         })),
       },
     );
-    return { offers: this.mapOffers(response, criteria.passengers) };
+    console.log(JSON.stringify( {
+      route: criteria.routes.map((route) => ({
+        date: `${route.departureDate}T00:00:00`,
+        locationBegin: { code: route.origin, name: '' },
+        locationEnd: { code: route.destination, name: '' },
+      })),
+      seats: criteria.passengers.map((passenger) => ({
+        count: passenger.count,
+        passengerType: TTBOOKING_PASSENGER_TYPE_BY_DOMAIN[passenger.type],
+      })),
+      serviceClass: this.toTtbookingCabin(criteria.cabinClass),
+      skipConnected: criteria.directOnly,
+      eticketsOnly: true,
+      mixedVendors: true,
+      preferredAirlines: criteria.preferredAirlines.map((code) => ({
+        code,
+        name: '',
+      })),
+    }, null, 2));
+    const offers = this.mapOffers(response, criteria.passengers);
+
+    this.logSearchShape(response, offers.length);
+
+    return { offers };
   }
 
-  async revalidate(offer: FlightOffer): Promise<FlightOfferData> {
+  async getFareRules(offer: FlightOffer): Promise<FlightFareRules> {
+    const url = this.config.get<string>('TTBOOKING_FARE_RULES_URL');
+    if (!url) throw this.errors.unavailable();
     const ref = offer.data.providerReference;
-    const response = await this.request<TtbookingFlightResponse>(
-      TtbookingCommand.SELECT_FLIGHT_RELEASE,
-      {
+    const response = await this.post<TtbookingRulesResponse>(url, {
+      context: {
+        login: this.config.getOrThrow<string>('TTBOOKING_USER_ID'),
+        password: this.config.getOrThrow<string>('TTBOOKING_PASSWORD'),
+        salePoint: this.config.getOrThrow<string>('TTBOOKING_AGENCY_ID'),
+        locale: 'ru',
+        respondType: 'JSON',
+      },
+      parameters: {
         token: ref.searchToken,
         flightsGroup: {
           flightGroup: [
@@ -85,58 +123,23 @@ export class TtbookingFlightProvider implements FlightProviderPort {
               itineraries: {
                 itinerary: ref.itineraries.map((item) => ({
                   token: item.itineraryToken,
-                  flights: { flight: [{ token: item.flightToken }] },
+                  flights: {
+                    flight: [
+                      {
+                        token: item.flightToken,
+                        segments: {
+                          segment: item.segmentTokens.map((token) => ({
+                            token,
+                          })),
+                        },
+                      },
+                    ],
+                  },
                 })),
               },
             },
           ],
         },
-      },
-    );
-    const result = this.mapOffers(response, offer.data.passengers)[0];
-    if (!result) throw this.errors.unavailable('FLIGHT_OFFER_UNAVAILABLE');
-    return result;
-  }
-
-  async getFareRules(offer: FlightOffer): Promise<FlightFareRules> {
-    const url = this.config.get<string>('TTBOOKING_FARE_RULES_URL');
-    if (!url) throw this.errors.unavailable();
-    const ref = offer.data.providerReference;
-    const response = await this.post<TtbookingRulesResponse>(url, {
-
-        context: {
-          login: this.config.getOrThrow<string>('TTBOOKING_USER_ID'),
-          password: this.config.getOrThrow<string>('TTBOOKING_PASSWORD'),
-          salePoint: this.config.getOrThrow<string>('TTBOOKING_AGENCY_ID'),
-          locale: 'ru',
-          respondType: 'JSON',
-        },
-        parameters: {
-          token: ref.searchToken,
-          flightsGroup: {
-            flightGroup: [
-              {
-                token: ref.groupToken,
-                itineraries: {
-                  itinerary: ref.itineraries.map((item) => ({
-                    token: item.itineraryToken,
-                    flights: {
-                      flight: [
-                        {
-                          token: item.flightToken,
-                          segments: {
-                            segment: item.segmentTokens.map((token) => ({
-                              token,
-                            })),
-                          },
-                        },
-                      ],
-                    },
-                  })),
-                },
-              },
-            ],
-          },
       },
     });
     return {
@@ -186,7 +189,6 @@ export class TtbookingFlightProvider implements FlightProviderPort {
 
   private async post<T>(url: string, body: unknown): Promise<T> {
     try {
-
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -195,16 +197,25 @@ export class TtbookingFlightProvider implements FlightProviderPort {
         },
         body: JSON.stringify(body),
         signal: AbortSignal.timeout(
-          this.config.get<number>('TTBOOKING_TIMEOUT_MS') ?? 30_000,
+          this.config.get<number>('TTBOOKING_TIMEOUT_MS') ?? 60_000,
         ),
       });
 
       if (!response.ok) throw new TtbookingHttpError(response.status);
-      return (await response.json()) as T;
+      return await this.readJson<T>(response);
     } catch (error) {
-
       throw this.errors.map(error);
     }
+  }
+
+  private async readJson<T>(response: Response): Promise<T> {
+    const maximum =
+      this.config.get<number>('TTBOOKING_MAX_RESPONSE_BYTES') ?? 10_485_760;
+    const declared = Number(response.headers.get('content-length') ?? 0);
+    if (declared > maximum) throw new TtbookingResponseTooLargeError();
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.byteLength > maximum) throw new TtbookingResponseTooLargeError();
+    return JSON.parse(buffer.toString('utf8')) as T;
   }
 
   private mapOffers(
@@ -212,11 +223,41 @@ export class TtbookingFlightProvider implements FlightProviderPort {
     passengers: FlightSearchCriteria['passengers'],
   ): FlightOfferData[] {
     const searchToken = response.respond?.token ?? '';
-    return (response.respond?.flightsGroup?.flightGroup ?? []).flatMap(
-      (group) =>
-        this.combinations(group.itineraries?.itinerary ?? []).map((flights) =>
-          this.mapOffer(searchToken, group, flights, passengers),
+    const maximum =
+      this.config.get<number>('FLIGHT_SEARCH_MAX_OFFERS') ?? 5_000;
+    const offers: FlightOfferData[] = [];
+    for (const group of response.respond?.flightsGroup?.flightGroup ?? []) {
+      for (const flights of this.combinations(
+        group.itineraries?.itinerary ?? [],
+      )) {
+        offers.push(this.mapOffer(searchToken, group, flights, passengers));
+        if (offers.length >= maximum) return offers;
+      }
+    }
+    return offers;
+  }
+
+  private logSearchShape(
+    response: TtbookingFlightResponse,
+    normalizedOffers: number,
+  ): void {
+    const groups = response.respond?.flightsGroup?.flightGroup ?? [];
+    const itineraries = groups.flatMap(
+      (group) => group.itineraries?.itinerary ?? [],
+    );
+    this.logger.info(
+      {
+        groupCount: groups.length,
+        itineraryCount: itineraries.length,
+        flightOptionCount: itineraries.reduce(
+          (total, itinerary) =>
+            total + (itinerary.flights?.flight?.length ?? 0),
+          0,
         ),
+        normalizedOffers,
+        hasRespond: Boolean(response.respond),
+      },
+      'TTBooking search response normalized',
     );
   }
 
@@ -275,7 +316,7 @@ export class TtbookingFlightProvider implements FlightProviderPort {
             durationMinutes: segment.travelDuration ?? 0,
             cabinClass: this.fromTtbookingCabin(segment.serviceClass),
             bookingClass: segment.bookingClass || null,
-            baggage: segment.baggage?.type || segment.baggage?.value || null,
+            baggage: normalizeTtbookingBaggage(segment.baggage),
           })),
         };
       }),

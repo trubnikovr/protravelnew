@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PaginatedResult } from '@core/http/contracts/api-response.contract';
 import {
   ApiArrayEnvelope,
@@ -22,6 +22,7 @@ import { FeaturedFlightLocationResponseDto } from '@entrypoints/common/reference
 export class ReferenceController {
   constructor(private readonly reference: ReferenceService) {}
 
+  /** @see GET /api/v1/reference/featured-flight-locations */
   @Get('featured-flight-locations')
   @ApiOperation({ summary: 'List featured flight locations' })
   @ApiArrayEnvelope(FeaturedFlightLocationResponseDto)
@@ -29,6 +30,7 @@ export class ReferenceController {
     return this.reference.listFeaturedFlightLocations();
   }
 
+  /** @see GET /api/v1/reference/suggest */
   @Get('suggest')
   @ApiOperation({ summary: 'Suggest countries, cities and airports' })
   @ApiArrayEnvelope(ReferenceSuggestionResponseDto)
@@ -47,12 +49,8 @@ export class ReferenceController {
     }));
   }
 
+  /** @see GET /api/v1/reference/countries */
   @Get('countries')
-  @ApiHeader({
-    name: 'Accept-Language',
-    required: false,
-    enum: SupportedLocale,
-  })
   @ApiOperation({
     summary: 'List localized countries for citizenship selection',
   })

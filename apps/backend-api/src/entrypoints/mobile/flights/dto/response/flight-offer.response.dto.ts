@@ -22,13 +22,16 @@ export class FlightSegmentResponseDto {
   @ApiProperty({ enum: FlightCabinClass }) cabinClass!: FlightCabinClass;
   @ApiPropertyOptional({ nullable: true }) bookingClass!: string | null;
   @ApiPropertyOptional({ nullable: true }) baggage!: string | null;
+  @ApiProperty({ example: 'Без багажа' }) baggageLabel!: string;
 }
 export class FlightItineraryResponseDto {
   @ApiProperty() durationMinutes!: number;
+  @ApiProperty({ example: 'Прямой' }) stopsLabel!: string;
   @ApiProperty({ type: [FlightSegmentResponseDto] })
   segments!: FlightSegmentResponseDto[];
 }
 export class FlightOfferResponseDto extends EntityResponseDto {
+  @ApiProperty({ example: 'до 20 кг · 1 место багажа' }) baggageLabel!: string;
   @ApiProperty() provider!: string;
   @ApiProperty() validatingCarrierCode!: string;
   @ApiProperty() validatingCarrierName!: string;

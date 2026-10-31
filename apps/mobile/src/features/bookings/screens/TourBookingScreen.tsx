@@ -105,7 +105,7 @@ export function TourBookingScreen({ navigation, route }: Props) {
       >
         <View style={styles.summaryCard}>
           <Text style={styles.tourTitle}>{data.content.title}</Text>
-          <Text style={styles.muted}>{data.price.formatted}</Text>
+          <Text style={styles.muted}>{data.price?.formatted ?? ''}</Text>
         </View>
 
         {requiresDate ? (
@@ -128,12 +128,16 @@ export function TourBookingScreen({ navigation, route }: Props) {
                         : ''}
                     </Text>
                     <Text style={styles.muted}>
-                      {departure.price.formatted}
-                      {departure.seatsAvailable != null
-                        ? ` · ${t('tourDetails.seats', {
-                            count: departure.seatsAvailable,
-                          })}`
-                        : ''}
+                      {[
+                        departure.price?.formatted,
+                        departure.seatsAvailable != null
+                          ? t('tourDetails.seats', {
+                              count: departure.seatsAvailable,
+                            })
+                          : null,
+                      ]
+                        .filter(Boolean)
+                        .join(' · ')}
                     </Text>
                   </View>
                   {selected ? (

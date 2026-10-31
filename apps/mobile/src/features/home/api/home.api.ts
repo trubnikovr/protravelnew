@@ -13,6 +13,7 @@ export type HomeTour = {
   duration: string;
   price: Money;
   imageUrl: string | null;
+  hotelCategory: number | null;
 };
 
 export type HomeDestination = {

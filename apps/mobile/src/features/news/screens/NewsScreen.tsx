@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ImageBackground,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -12,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { NewsStackParamList } from '../../../app/navigation/types';
-import { ScreenHeader } from '../../../shared/ui';
+import { ScreenHeader, TravelStateCard } from '../../../shared/ui';
 import { theme, typography } from '../../../shared/theme/theme';
 import { useNews } from '../model/useNews';
 import type { NewsArticle, NewsCategory } from '../api/news.api';
@@ -28,21 +29,26 @@ export function NewsScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
+      <ImageBackground
+        imageStyle={styles.backgroundImage}
+        source={require('../../../shared/assets/images/news-background.png')}
+        style={styles.background}
+      />
       <ScreenHeader title={t('news.title')} />
       <ScrollView
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[styles.content, error && !articles.length ? styles.errorContent : undefined]}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={refresh} />
         }
         showsVerticalScrollIndicator={false}
       >
         {error ? (
-          <View style={styles.state}>
-            <Text style={styles.stateText}>{t('news.loadError')}</Text>
-            <Pressable onPress={refresh} style={styles.retryButton}>
-              <Text style={styles.retryText}>{t('news.retry')}</Text>
-            </Pressable>
-          </View>
+          <TravelStateCard
+            title={t('news.loadError')}
+            message={t('common.connectionUnavailable')}
+            actionLabel={t('common.retry')}
+            onAction={refresh}
+          />
         ) : null}
         {!loading && !error && articles.length === 0 ? (
           <Text style={styles.stateText}>{t('news.empty')}</Text>
@@ -113,6 +119,12 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     flex: 1,
   },
+  background: {
+    ...StyleSheet.absoluteFill,
+  },
+  backgroundImage: {
+    resizeMode: 'cover',
+  },
   content: {
     padding: theme.sizes.contentPadding,
   },
@@ -167,21 +179,13 @@ const styles = StyleSheet.create({
   unreadDot: {
     backgroundColor: theme.colors.primary,
   },
-  state: {
-    alignItems: 'center',
-    marginBottom: theme.spacing.lg,
+  errorContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   stateText: {
     ...typography.body,
     color: theme.colors.textSecondary,
     textAlign: 'center',
-  },
-  retryButton: {
-    marginTop: theme.spacing.sm,
-    padding: theme.spacing.sm,
-  },
-  retryText: {
-    ...typography.bodySemibold,
-    color: theme.colors.primary,
   },
 });

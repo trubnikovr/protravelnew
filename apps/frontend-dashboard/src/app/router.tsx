@@ -19,6 +19,7 @@ import { TourBookingDetailScreen } from "@/screens/tour-bookings/ui/TourBookingD
 import { NewsScreen } from "@/screens/news/ui/NewsScreen";
 import { SystemMessagesScreen } from "@/screens/system-messages/ui/SystemMessagesScreen";
 import { FeaturedFlightLocationsScreen } from "@/screens/featured-flight-locations/ui/FeaturedFlightLocationsScreen";
+import { TravelFactsScreen } from "@/screens/travel-facts/ui/TravelFactsScreen";
 import { AppShell } from "@/widgets/app-shell/AppShell";
 
 interface RouterContext {
@@ -180,6 +181,16 @@ const systemMessagesRoute = createRoute({
   component: SystemMessagesScreen,
 });
 
+const travelFactsRoute = createRoute({
+  getParentRoute: () => authenticatedRoute,
+  path: "/travel-facts",
+  beforeLoad: async ({ context }) => {
+    const admin = await context.queryClient.ensureQueryData(currentAdminQueryOptions());
+    if (!admin.permissions.includes("content.read")) throw redirect({ to: "/" });
+  },
+  component: TravelFactsScreen,
+});
+
 const featuredFlightLocationsRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: "/featured-flight-locations",
@@ -198,6 +209,7 @@ const routeTree = rootRoute.addChildren([
     customerDetailRoute,
     newsRoute,
     systemMessagesRoute,
+    travelFactsRoute,
     featuredFlightLocationsRoute,
   ]),
 ]);

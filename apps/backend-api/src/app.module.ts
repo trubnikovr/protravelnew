@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CoreModule } from '@core/core.module';
@@ -32,7 +31,6 @@ import { CustomersModule } from '@modules/customers';
     CoreModule,
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
     ScheduleModule.forRoot(),
-    EventEmitterModule.forRoot(),
     BackendEntrypointModule,
     MobileEntrypointModule,
     CustomersModule,

@@ -5,8 +5,14 @@ import { DateTimeValueObject } from '@shared/domain/value-objects';
 import type { ApiResponseMeta } from '../contracts/api-response.contract';
 
 export function getTraceId(): string | undefined {
+  return getActiveSpanContext()?.traceId;
+}
+
+export function getActiveSpanContext():
+  { traceId: string; spanId: string } | undefined {
   const spanContext = trace.getSpan(context.active())?.spanContext();
-  return spanContext?.traceId;
+  if (!spanContext) return undefined;
+  return { traceId: spanContext.traceId, spanId: spanContext.spanId };
 }
 
 export function createResponseMeta(

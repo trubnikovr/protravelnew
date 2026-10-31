@@ -7,6 +7,7 @@ import { PaymentsService } from '@modules/payments';
 export class RaiffeisenWebhookController {
   constructor(private readonly payments: PaymentsService) {}
 
+  /** @see POST /api/v1/webhooks/payments/raiffeisen */
   @Post()
   @HttpCode(200)
   async payment(

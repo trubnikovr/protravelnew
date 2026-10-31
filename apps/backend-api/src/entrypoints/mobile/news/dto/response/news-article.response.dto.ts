@@ -10,7 +10,8 @@ export class NewsArticleResponseDto extends EntityResponseDto {
   summary!: string;
 
   @ApiProperty({
-    example: 'Рассказываем, на какие даты доступны билеты и как оформить поездку.',
+    example:
+      'Рассказываем, на какие даты доступны билеты и как оформить поездку.',
   })
   content!: string;
 

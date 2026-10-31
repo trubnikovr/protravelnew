@@ -8,9 +8,9 @@ All URIs are relative to *http://localhost*
 
 
 
-## systemMessagesList
+## systemMessagesLis
 
-> SystemMessagesList200Response systemMessagesList()
+> SystemMessagesList200Response systemMessagesList(acceptLanguage)
 
 List active messages displayed by mobile clients
 
@@ -27,21 +27,29 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new SystemMessagesApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies SystemMessagesListRequest;
+
   try {
-    const data = await api.systemMessagesList();
+    const data = await api.systemMessagesList(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

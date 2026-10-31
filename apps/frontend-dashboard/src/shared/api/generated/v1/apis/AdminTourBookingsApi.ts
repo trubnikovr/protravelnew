@@ -36,24 +36,29 @@ import {
 export interface AdminTourBookingsChangeStatusRequest {
   id: string;
   updateTourBookingStatusRequestDto: UpdateTourBookingStatusRequestDto;
+  acceptLanguage?: AdminTourBookingsChangeStatusAcceptLanguageEnum;
 }
 
 export interface AdminTourBookingsCreateRequest {
   createTourBookingRequestDto: CreateTourBookingRequestDto;
+  acceptLanguage?: AdminTourBookingsCreateAcceptLanguageEnum;
 }
 
 export interface AdminTourBookingsDeleteDocumentRequest {
   bookingId: string;
   documentId: string;
+  acceptLanguage?: AdminTourBookingsDeleteDocumentAcceptLanguageEnum;
 }
 
 export interface AdminTourBookingsDownloadDocumentRequest {
   bookingId: string;
   documentId: string;
+  acceptLanguage?: AdminTourBookingsDownloadDocumentAcceptLanguageEnum;
 }
 
 export interface AdminTourBookingsGetRequest {
   id: string;
+  acceptLanguage?: AdminTourBookingsGetAcceptLanguageEnum;
 }
 
 export interface AdminTourBookingsListRequest {
@@ -63,11 +68,13 @@ export interface AdminTourBookingsListRequest {
   sortDirection?: AdminTourBookingsListSortDirectionEnum;
   search?: string;
   status?: AdminTourBookingsListStatusEnum;
+  acceptLanguage?: AdminTourBookingsListAcceptLanguageEnum;
 }
 
 export interface AdminTourBookingsUploadDocumentRequest {
   id: string;
   file: Blob;
+  acceptLanguage?: AdminTourBookingsUploadDocumentAcceptLanguageEnum;
 }
 
 /**
@@ -82,6 +89,7 @@ export interface AdminTourBookingsApiInterface {
    * @summary Change tour booking status
    * @param {string} id
    * @param {UpdateTourBookingStatusRequestDto} updateTourBookingStatusRequestDto
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -103,6 +111,7 @@ export interface AdminTourBookingsApiInterface {
    *
    * @summary Create a tour booking
    * @param {CreateTourBookingRequestDto} createTourBookingRequestDto
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -125,6 +134,7 @@ export interface AdminTourBookingsApiInterface {
    * @summary Delete a tour booking document
    * @param {string} bookingId
    * @param {string} documentId
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -147,6 +157,7 @@ export interface AdminTourBookingsApiInterface {
    * @summary Download a private tour booking document
    * @param {string} bookingId
    * @param {string} documentId
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -168,6 +179,7 @@ export interface AdminTourBookingsApiInterface {
    *
    * @summary Get a tour booking
    * @param {string} id
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -194,6 +206,7 @@ export interface AdminTourBookingsApiInterface {
    * @param {'asc' | 'desc'} [sortDirection]
    * @param {string} [search]
    * @param {'pending' | 'confirmed' | 'awaiting_payment' | 'paid' | 'completed' | 'cancelled'} [status]
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -216,6 +229,7 @@ export interface AdminTourBookingsApiInterface {
    * @summary Upload a private document to a tour booking
    * @param {string} id
    * @param {Blob} file
+   * @param {'ru' | 'uz' | 'en'} [acceptLanguage] Response language. Defaults to ru.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AdminTourBookingsApiInterface
@@ -267,6 +281,12 @@ export class AdminTourBookingsApi
     const headerParameters: runtime.HTTPHeaders = {};
 
     headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
 
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
@@ -335,6 +355,12 @@ export class AdminTourBookingsApi
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
+
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
       const tokenString = await token("bearer", []);
@@ -402,6 +428,12 @@ export class AdminTourBookingsApi
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
 
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
@@ -473,6 +505,12 @@ export class AdminTourBookingsApi
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
+
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
       const tokenString = await token("bearer", []);
@@ -536,6 +574,12 @@ export class AdminTourBookingsApi
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
 
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
@@ -616,6 +660,12 @@ export class AdminTourBookingsApi
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
+
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
       const tokenString = await token("bearer", []);
@@ -680,6 +730,12 @@ export class AdminTourBookingsApi
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["acceptLanguage"] != null) {
+      headerParameters["Accept-Language"] = String(
+        requestParameters["acceptLanguage"]
+      );
+    }
 
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
@@ -749,6 +805,56 @@ export class AdminTourBookingsApi
 /**
  * @export
  */
+export const AdminTourBookingsChangeStatusAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsChangeStatusAcceptLanguageEnum =
+  (typeof AdminTourBookingsChangeStatusAcceptLanguageEnum)[keyof typeof AdminTourBookingsChangeStatusAcceptLanguageEnum];
+/**
+ * @export
+ */
+export const AdminTourBookingsCreateAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsCreateAcceptLanguageEnum =
+  (typeof AdminTourBookingsCreateAcceptLanguageEnum)[keyof typeof AdminTourBookingsCreateAcceptLanguageEnum];
+/**
+ * @export
+ */
+export const AdminTourBookingsDeleteDocumentAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsDeleteDocumentAcceptLanguageEnum =
+  (typeof AdminTourBookingsDeleteDocumentAcceptLanguageEnum)[keyof typeof AdminTourBookingsDeleteDocumentAcceptLanguageEnum];
+/**
+ * @export
+ */
+export const AdminTourBookingsDownloadDocumentAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsDownloadDocumentAcceptLanguageEnum =
+  (typeof AdminTourBookingsDownloadDocumentAcceptLanguageEnum)[keyof typeof AdminTourBookingsDownloadDocumentAcceptLanguageEnum];
+/**
+ * @export
+ */
+export const AdminTourBookingsGetAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsGetAcceptLanguageEnum =
+  (typeof AdminTourBookingsGetAcceptLanguageEnum)[keyof typeof AdminTourBookingsGetAcceptLanguageEnum];
+/**
+ * @export
+ */
 export const AdminTourBookingsListSortDirectionEnum = {
   asc: "asc",
   desc: "desc",
@@ -768,3 +874,23 @@ export const AdminTourBookingsListStatusEnum = {
 } as const;
 export type AdminTourBookingsListStatusEnum =
   (typeof AdminTourBookingsListStatusEnum)[keyof typeof AdminTourBookingsListStatusEnum];
+/**
+ * @export
+ */
+export const AdminTourBookingsListAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsListAcceptLanguageEnum =
+  (typeof AdminTourBookingsListAcceptLanguageEnum)[keyof typeof AdminTourBookingsListAcceptLanguageEnum];
+/**
+ * @export
+ */
+export const AdminTourBookingsUploadDocumentAcceptLanguageEnum = {
+  ru: "ru",
+  uz: "uz",
+  en: "en",
+} as const;
+export type AdminTourBookingsUploadDocumentAcceptLanguageEnum =
+  (typeof AdminTourBookingsUploadDocumentAcceptLanguageEnum)[keyof typeof AdminTourBookingsUploadDocumentAcceptLanguageEnum];

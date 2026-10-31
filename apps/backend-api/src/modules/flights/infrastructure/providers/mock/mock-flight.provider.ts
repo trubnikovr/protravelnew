@@ -6,7 +6,6 @@ import type {
 } from '../../../application/ports/flight-provider.port';
 import type {
   FlightFareRules,
-  FlightOffer,
   FlightOfferData,
   FlightSearchCriteria,
 } from '../../../domain';
@@ -18,13 +17,6 @@ export class MockFlightProvider implements FlightProviderPort {
   search(criteria: FlightSearchCriteria): Promise<FlightSearchProviderResult> {
     return Promise.resolve({
       offers: [this.createOffer(criteria, 0), this.createOffer(criteria, 1)],
-    });
-  }
-
-  revalidate(offer: FlightOffer): Promise<FlightOfferData> {
-    return Promise.resolve({
-      ...offer.data,
-      expiresAt: new Date(Date.now() + 20 * 60_000).toISOString(),
     });
   }
 

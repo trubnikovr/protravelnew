@@ -8,17 +8,21 @@ Name | Type
 ------------ | -------------
 `origin` | string
 `destination` | string
+`originAirports` | Array&lt;string&gt;
+`destinationAirports` | Array&lt;string&gt;
 `departureDate` | Date
 
 ## Example
 
-```typescript
+```typescrip
 import type { FlightRouteRequestDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "origin": MOW,
   "destination": IST,
+  "originAirports": ["SVO","DME","VKO"],
+  "destinationAirports": ["IST","SAW"],
   "departureDate": Tue Sep 15 05:00:00 GMT+05:00 2026,
 } satisfies FlightRouteRequestDto
 
@@ -28,7 +32,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as FlightRouteRequestDto
 console.log(exampleParsed)
 ```

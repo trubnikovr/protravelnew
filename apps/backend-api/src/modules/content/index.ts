@@ -11,3 +11,9 @@ export type {
   SystemMessageWriteData,
 } from './application/system-messages.repository';
 export { SystemMessage, SystemMessageType } from './domain/system-message';
+export { TravelFactsService } from './application/travel-facts.service';
+export type {
+  TravelFactUpdateData,
+  TravelFactWriteData,
+} from './application/travel-facts.repository';
+export { TravelFact } from './domain/travel-fact';

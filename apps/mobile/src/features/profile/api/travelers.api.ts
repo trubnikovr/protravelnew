@@ -1,11 +1,15 @@
 import {apiRequest} from '../../../shared/api/api-client';
 import type {
   CreateTravelerRequestDto,
+  CreateTravelerDocumentRequestDto,
+  UpdateTravelerRequestDto,
   TravelerDocumentResponseDto,
   TravelerResponseDto,
 } from '../../../shared/api/generated/v1/models';
 import {
   CreateTravelerRequestDtoToJSON,
+  CreateTravelerDocumentRequestDtoToJSON,
+  UpdateTravelerRequestDtoToJSON,
   TravelerResponseDtoFromJSON,
 } from '../../../shared/api/generated/v1/models';
 
@@ -26,6 +30,26 @@ export function createCustomerTraveler(
   return apiRequest<unknown>('/me/travelers', {
     method: 'POST',
     body: JSON.stringify(CreateTravelerRequestDtoToJSON(input)),
+  }).then(TravelerResponseDtoFromJSON);
+}
+
+export function createCustomerTravelerDocument(
+  travelerId: string,
+  input: CreateTravelerDocumentRequestDto,
+): Promise<CustomerTraveler> {
+  return apiRequest<unknown>(`/me/travelers/${travelerId}/documents`, {
+    method: 'POST',
+    body: JSON.stringify(CreateTravelerDocumentRequestDtoToJSON(input)),
+  }).then(TravelerResponseDtoFromJSON);
+}
+
+export function updateCustomerTraveler(
+  travelerId: string,
+  input: UpdateTravelerRequestDto,
+): Promise<CustomerTraveler> {
+  return apiRequest<unknown>(`/me/travelers/${travelerId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(UpdateTravelerRequestDtoToJSON(input)),
   }).then(TravelerResponseDtoFromJSON);
 }
 

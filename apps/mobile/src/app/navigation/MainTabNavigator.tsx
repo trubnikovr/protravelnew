@@ -1,5 +1,7 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
+import { ConnectionBanner } from '../../shared/ui/ConnectionBanner';
+import { BottomTabBar, createBottomTabNavigator, type BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import { useNewsUnreadStatus } from '../../features/news';
 import { theme, typography } from '../../shared/theme/theme';
@@ -19,13 +21,24 @@ import type { MainTabParamList } from './types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
+function MainTabBar(props: BottomTabBarProps) {
+  return (
+    <View>
+      <ConnectionBanner />
+      <BottomTabBar {...props} />
+    </View>
+  );
+}
+
 export function MainTabNavigator() {
   const { t } = useTranslation();
   const { hasUnread, unreadCount } = useNewsUnreadStatus();
 
   return (
     <Tab.Navigator
+      tabBar={MainTabBar}
       screenOptions={{
+        animation: 'shift',
         headerShown: false,
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.tabInactive,

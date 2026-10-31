@@ -7,11 +7,11 @@
 Name | Type
 ------------ | -------------
 `data` | [Array&lt;FlightOfferResponseDto&gt;](FlightOfferResponseDto.md)
-`meta` | [ApiResponseMetaDto](ApiResponseMetaDto.md)
+`meta` | [FlightsSearch200ResponseMeta](FlightsSearch200ResponseMeta.md)
 
 ## Example
 
-```typescript
+```typescrip
 import type { FlightsSearch200Response } from ''
 
 // TODO: Update the object below with actual values
@@ -26,7 +26,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as FlightsSearch200Response
 console.log(exampleParsed)
 ```

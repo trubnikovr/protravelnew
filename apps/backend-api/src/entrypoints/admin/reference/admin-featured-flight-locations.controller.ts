@@ -18,6 +18,7 @@ import { PermissionsGuard } from '../common/guards/permissions.guard';
 export class AdminFeaturedFlightLocationsController {
   constructor(private readonly reference: ReferenceService) {}
 
+  /** @see GET /api/v1/admin/featured-flight-locations */
   @Get()
   @RequirePermissions(AdminPermission.CONTENT_READ)
   @ApiArrayEnvelope(FeaturedFlightLocationResponseDto)
@@ -25,6 +26,7 @@ export class AdminFeaturedFlightLocationsController {
     return this.reference.listFeaturedFlightLocations(true);
   }
 
+  /** @see PUT /api/v1/admin/featured-flight-locations */
   @Put()
   @RequirePermissions(AdminPermission.CONTENT_WRITE)
   @ApiOperation({ summary: 'Replace mobile featured flight locations' })

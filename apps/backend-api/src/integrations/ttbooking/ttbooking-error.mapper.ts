@@ -7,9 +7,17 @@ export class TtbookingHttpError extends Error {
   }
 }
 
+export class TtbookingResponseTooLargeError extends Error {}
+
 @Injectable()
 export class TtbookingErrorMapper {
   map(error: unknown): AppHttpException {
+    if (error instanceof TtbookingResponseTooLargeError) {
+      return this.exception(
+        HttpStatus.BAD_GATEWAY,
+        'FLIGHT_PROVIDER_RESPONSE_TOO_LARGE',
+      );
+    }
     if (this.isTimeout(error)) {
       return this.exception(
         HttpStatus.GATEWAY_TIMEOUT,

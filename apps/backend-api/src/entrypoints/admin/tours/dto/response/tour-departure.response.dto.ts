@@ -13,9 +13,7 @@ export class TourDepartureResponseDto {
   arrivalAirportId!: string | null;
   @ApiProperty({ type: MoneyResponseDto }) price!: MoneyResponseDto;
   @ApiPropertyOptional({ type: Number, nullable: true }) seatsTotal!:
-    | number
-    | null;
+    number | null;
   @ApiPropertyOptional({ type: Number, nullable: true }) seatsAvailable!:
-    | number
-    | null;
+    number | null;
 }

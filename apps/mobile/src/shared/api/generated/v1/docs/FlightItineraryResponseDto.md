@@ -7,16 +7,18 @@
 Name | Type
 ------------ | -------------
 `durationMinutes` | number
+`stopsLabel` | string
 `segments` | [Array&lt;FlightSegmentResponseDto&gt;](FlightSegmentResponseDto.md)
 
 ## Example
 
-```typescript
+```typescrip
 import type { FlightItineraryResponseDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "durationMinutes": null,
+  "stopsLabel": Прямой,
   "segments": null,
 } satisfies FlightItineraryResponseDto
 
@@ -26,7 +28,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as FlightItineraryResponseDto
 console.log(exampleParsed)
 ```

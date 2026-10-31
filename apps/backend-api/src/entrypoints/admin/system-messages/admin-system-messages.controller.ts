@@ -37,18 +37,20 @@ import {
 export class AdminSystemMessagesController {
   constructor(private readonly messages: SystemMessagesService) {}
 
+  /** @see GET /api/v1/admin/system-messages */
   @Get()
   @RequirePermissions(AdminPermission.CONTENT_READ)
-  @ApiOperation({summary: 'List all mobile system messages'})
+  @ApiOperation({ summary: 'List all mobile system messages' })
   @ApiArrayEnvelope(SystemMessageResponseDto)
   async list(): Promise<SystemMessageResponseDto[]> {
     const items = await this.messages.listAll();
     return items.map((item) => SystemMessageApiMapper.toResponse(item));
   }
 
+  /** @see POST /api/v1/admin/system-messages */
   @Post()
   @RequirePermissions(AdminPermission.CONTENT_WRITE)
-  @ApiOperation({summary: 'Create a mobile system message'})
+  @ApiOperation({ summary: 'Create a mobile system message' })
   @ApiEnvelope(SystemMessageResponseDto, HttpStatus.CREATED)
   async create(
     @Body() dto: CreateSystemMessageRequestDto,
@@ -57,9 +59,10 @@ export class AdminSystemMessagesController {
     return SystemMessageApiMapper.toResponse(message);
   }
 
+  /** @see PATCH /api/v1/admin/system-messages/:id */
   @Patch(':id')
   @RequirePermissions(AdminPermission.CONTENT_WRITE)
-  @ApiOperation({summary: 'Update or activate a mobile system message'})
+  @ApiOperation({ summary: 'Update or activate a mobile system message' })
   @ApiOkEnvelope(SystemMessageResponseDto)
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -70,10 +73,11 @@ export class AdminSystemMessagesController {
     return SystemMessageApiMapper.toResponse(message);
   }
 
+  /** @see DELETE /api/v1/admin/system-messages/:id */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.CONTENT_WRITE)
-  @ApiOperation({summary: 'Delete a mobile system message'})
+  @ApiOperation({ summary: 'Delete a mobile system message' })
   async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     if (!(await this.messages.delete(id))) this.notFound();
   }

@@ -29,6 +29,17 @@ Operational mobile banners use the shared OpenAPI contract:
 `GET /api/v1/system-messages` returns active `info`/`error` records, while the
 admin API owns creation and activation. Mobile never hardcodes outage text.
 
+Destination-aware travel facts use the same content boundary. Admin CRUD lives
+under `/api/v1/admin/travel-facts`; mobile independently requests a bounded set
+of published facts from `/api/v1/travel-facts` and rotates them locally while
+flight search is running.
+
+Flight sharing uses the versioned mobile API to create a 30-day public snapshot
+and returns a share URL. The backend serves that URL as responsive HTML, so a
+recipient can view itinerary details without the mobile app or an account.
+Only public flight details are retained; passenger and provider booking data
+remain private.
+
 The published tours catalog is another shared v1 contract boundary:
 `GET /api/v1/tours` owns filtering/sorting and `GET /api/v1/tours/:id` owns
 full customer-facing content. Mobile consumes generated v1 models rather than

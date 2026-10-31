@@ -10,6 +10,7 @@ import { HomeApiMapper } from './home-api.mapper';
 export class HomeController {
   constructor(private readonly home: HomeService) {}
 
+  /** @see GET /api/v1/home */
   @Get()
   @ApiOperation({ summary: 'Get curated content for the mobile home screen' })
   @ApiOkEnvelope(HomeResponseDto)

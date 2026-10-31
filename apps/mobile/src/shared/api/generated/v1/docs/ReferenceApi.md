@@ -40,7 +40,7 @@ async function example() {
     sortDirection: sortDirection_example,
     // string (optional)
     search: search_example,
-    // 'ru' | 'uz' | 'en' (optional)
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
     acceptLanguage: acceptLanguage_example,
   } satisfies ReferenceCountriesRequest;
 
@@ -52,7 +52,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -66,7 +66,7 @@ example().catch(console.error);
 | **sortBy** | `name`, `code` |  | [Optional] [Defaults to `&#39;name&#39;`] [Enum: name, code] |
 | **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
 | **search** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **acceptLanguage** | `ru`, `uz`, `en` |  | [Optional] [Defaults to `undefined`] [Enum: ru, uz, en] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -92,7 +92,7 @@ No authorization required
 
 ## referenceFeaturedFlightLocations
 
-> ReferenceFeaturedFlightLocations200Response referenceFeaturedFlightLocations()
+> ReferenceFeaturedFlightLocations200Response referenceFeaturedFlightLocations(acceptLanguage)
 
 List featured flight locations
 
@@ -109,21 +109,29 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new ReferenceApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies ReferenceFeaturedFlightLocationsRequest;
+
   try {
-    const data = await api.referenceFeaturedFlightLocations();
+    const data = await api.referenceFeaturedFlightLocations(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -147,9 +155,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## referenceSuggest
+## referenceSugges
 
-> ReferenceSuggest200Response referenceSuggest(q, types, countryId, limit)
+> ReferenceSuggest200Response referenceSuggest(q, types, countryId, limit, acceptLanguage)
 
 Suggest countries, cities and airports
 
@@ -175,6 +183,8 @@ async function example() {
     countryId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // number (optional)
     limit: 8.14,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies ReferenceSuggestRequest;
 
   try {
@@ -185,7 +195,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -198,6 +208,7 @@ example().catch(console.error);
 | **types** | `country`, `city`, `airport` |  | [Optional] [Enum: country, city, airport] |
 | **countryId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

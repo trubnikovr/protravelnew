@@ -4,11 +4,7 @@ import { performance } from 'node:perf_hooks';
 import type { HealthComponentResult } from '@core/health/health-score.types';
 
 type ObservabilityKey =
-  | 'grafana'
-  | 'otelCollector'
-  | 'tempo'
-  | 'loki'
-  | 'prometheus';
+  'grafana' | 'otelCollector' | 'tempo' | 'loki' | 'prometheus';
 
 @Injectable()
 export class ObservabilityHealthService {

@@ -16,8 +16,7 @@ export class PublicTourDestinationResponseDto {
   @ApiProperty() countryCode!: string;
   @ApiProperty() countryName!: string;
   @ApiPropertyOptional({ type: String, nullable: true }) cityName!:
-    | string
-    | null;
+    string | null;
   @ApiPropertyOptional({ type: Number, nullable: true }) nights!: number | null;
 }
 
@@ -27,18 +26,15 @@ export class PublicTourDepartureResponseDto {
   returnDate!: string | null;
   @ApiProperty({ type: MoneyResponseDto }) price!: MoneyResponseDto;
   @ApiPropertyOptional({ type: Number, nullable: true }) seatsTotal!:
-    | number
-    | null;
+    number | null;
   @ApiPropertyOptional({ type: Number, nullable: true }) seatsAvailable!:
-    | number
-    | null;
+    number | null;
 }
 
 export class PublicTourPackageDetailsResponseDto {
   @ApiProperty() hotelName!: string;
   @ApiPropertyOptional({ type: Number, nullable: true }) hotelCategory!:
-    | number
-    | null;
+    number | null;
   @ApiProperty({ enum: TourMealType }) mealType!: TourMealType;
   @ApiProperty() transferIncluded!: boolean;
   @ApiProperty() insuranceIncluded!: boolean;
@@ -47,8 +43,7 @@ export class PublicTourPackageDetailsResponseDto {
 export class PublicTourExcursionDetailsResponseDto {
   @ApiProperty() guideLanguage!: string;
   @ApiPropertyOptional({ type: Number, nullable: true }) groupSizeMax!:
-    | number
-    | null;
+    number | null;
 }
 
 export class PublicTourProgramDayResponseDto {

@@ -18,6 +18,9 @@ attributes, program days, gallery, active dates, inclusions and exclusions.
 Administrative status, ordering and audit timestamps are intentionally absent
 from the mobile contract.
 
+Home tour cards also expose nullable `hotelCategory` from package details so
+the mobile client can render the hotel star badge configured by an admin.
+
 The v1 OpenAPI source is
 `packages/api-contract/v1/mobile.openapi.json`. Mobile converts responses with
 the generated v1 model serializers and caches catalog/detail queries with

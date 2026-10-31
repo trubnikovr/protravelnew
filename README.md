@@ -104,3 +104,17 @@ npm test
 ```
 
 Документация разделена по приложениям в `docs/`.
+
+## PM2 development
+
+Start backend watch mode, the dashboard dev server and React Native Metro
+in one command:
+
+```sh
+pm2 start ecosystem.config.cjs
+```
+
+The backend runs on port 3000, the dashboard on port 3001 and Metro on port
+8081. The backend reads `apps/backend-api/.env`. View processes with
+`pm2 status`, logs with `pm2 logs`, and stop them with
+`pm2 delete ecosystem.config.cjs`.

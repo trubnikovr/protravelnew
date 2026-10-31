@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PinoLogger } from 'nestjs-pino';
+import { AppLogger } from '@core/logging/app-logger';
 import { DomainEventPublisher } from '@core/events/domain-event.publisher';
 import { CurrencyCode } from '@shared/domain/enums';
 import {
@@ -40,8 +40,10 @@ export class PaymentsService {
     @Inject(PAYMENT_SUBJECT_READER)
     private readonly subjects: PaymentSubjectReaderPort,
     private readonly events: DomainEventPublisher,
-    private readonly logger: PinoLogger,
-  ) {}
+    private readonly logger: AppLogger,
+  ) {
+    this.logger.setContext(PaymentsService.name);
+  }
 
   async create(input: {
     customerId: string;
@@ -163,16 +165,13 @@ export class PaymentsService {
     );
 
     if (!changed) {
-
       return;
     }
 
-    await Promise.all(
-      [
-        this.repository.save(payment),
-        this.recordWebhook(webhook.eventKey, webhook.raw)
-      ]
-    )
+    await Promise.all([
+      this.repository.save(payment),
+      this.recordWebhook(webhook.eventKey, webhook.raw),
+    ]);
 
     try {
       await this.publishSucceeded(payment);
@@ -187,7 +186,6 @@ export class PaymentsService {
       );
       //throw error;
     }
-
   }
 
   private async recordWebhook(

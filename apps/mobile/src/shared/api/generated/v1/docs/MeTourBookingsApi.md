@@ -12,9 +12,9 @@ All URIs are relative to *http://localhost*
 
 ## customerTourBookingsCreate
 
-> CustomerTourBookingsCreate201Response customerTourBookingsCreate(createCustomerTourBookingRequestDto)
+> CustomerTourBookingsCreate201Response customerTourBookingsCreate(createCustomerTourBookingRequestDto, acceptLanguage)
 
-Create a tour booking request
+Create a tour booking reques
 
 ### Example
 
@@ -27,7 +27,7 @@ import type { CustomerTourBookingsCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -36,6 +36,8 @@ async function example() {
   const body = {
     // CreateCustomerTourBookingRequestDto
     createCustomerTourBookingRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTourBookingsCreateRequest;
 
   try {
@@ -46,7 +48,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -56,6 +58,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **createCustomerTourBookingRequestDto** | [CreateCustomerTourBookingRequestDto](CreateCustomerTourBookingRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -79,9 +82,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTourBookingsGet
+## customerTourBookingsGe
 
-> CustomerTourBookingsCreate201Response customerTourBookingsGet(id)
+> CustomerTourBookingsCreate201Response customerTourBookingsGet(id, acceptLanguage)
 
 Get own tour booking
 
@@ -96,7 +99,7 @@ import type { CustomerTourBookingsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -105,6 +108,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTourBookingsGetRequest;
 
   try {
@@ -115,7 +120,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -125,6 +130,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -148,9 +154,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTourBookingsList
+## customerTourBookingsLis
 
-> CustomerTourBookingsList200Response customerTourBookingsList(page, limit, sortBy, sortDirection)
+> CustomerTourBookingsList200Response customerTourBookingsList(page, limit, sortBy, sortDirection, acceptLanguage)
 
 List current customer tour bookings
 
@@ -165,7 +171,7 @@ import type { CustomerTourBookingsListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -180,6 +186,8 @@ async function example() {
     sortBy: sortBy_example,
     // 'asc' | 'desc' (optional)
     sortDirection: sortDirection_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies CustomerTourBookingsListRequest;
 
   try {
@@ -190,7 +198,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -203,6 +211,7 @@ example().catch(console.error);
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
 | **sortBy** | `string` |  | [Optional] [Defaults to `&#39;createdAt&#39;`] |
 | **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

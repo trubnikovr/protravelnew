@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost*
 
 ## imageTransformTransform
 
-> Blob imageTransformTransform(src, preset)
+> Blob imageTransformTransform(src, preset, acceptLanguage)
 
 Render a named uploaded-image preset and return cached WebP
 
@@ -32,6 +32,8 @@ async function example() {
     src: http://localhost:3000/api/v1/files/images/550e8400-e29b-41d4-a716-446655440000.jpg,
     // 'home-card'
     preset: home-card,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies ImageTransformTransformRequest;
 
   try {
@@ -42,7 +44,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -53,6 +55,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **src** | `string` |  | [Defaults to `undefined`] |
 | **preset** | `home-card` |  | [Defaults to `undefined`] [Enum: home-card] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

@@ -17,6 +17,7 @@ import { TransformImageRequestDto } from './dto/request/transform-image.request.
 export class ImageTransformController {
   constructor(private readonly images: ImageTransformationService) {}
 
+  /** @see GET /api/v1/files/image-transform */
   @Get()
   @RawResponse()
   @Throttle({ default: { limit: 30, ttl: 60_000 } })

@@ -19,11 +19,34 @@ The backend sends all telemetry only to the OpenTelemetry Collector using
 batch exporters. Export failures are handled in the background and do not
 change controller responses.
 
+In development, `pino-pretty` renders HTTP access logs as concise single-line
+messages (`METHOD URL STATUS DURATION`) and hides the expanded request/response
+objects from the terminal. This formatting is transport-only: OpenTelemetry
+still receives the original structured Pino record and exports it through the
+Collector to Loki. The repository does not currently use Grafana Alloy.
+
+Application code logs only through the transient `AppLogger` facade. The
+facade publishes an `application.log.v1` event and performs no logging I/O.
+An asynchronous infrastructure listener is the single writer to Pino, keeping
+the side effect outside application and domain services. HTTP access logging
+uses the same facade; `pino-http` retains request context and correlation but
+has its direct auto-logging disabled.
+Public flight-share tokens are redacted from access-log paths.
+
 ## Correlation
 
-Pino records contain `trace_id` and `span_id`. HTTP response metadata contains
-`traceId`, and Grafana's Loki data source defines a derived field linking the
-log trace ID to Tempo.
+Pino records produced inside an HTTP request contain the optional correlation
+fields `trace_id`, `span_id` and `requestId`. Authenticated requests also carry
+the verified JWT identity as `userId` and `actorType` (`customer` or `admin`);
+PII such as phone, email and names is not added. Public requests and background
+work may legitimately omit identity or trace fields.
+
+`HttpAccessLogInterceptor` captures this context once and stores it in
+`LogContext` backed by `AsyncLocalStorage`. `AppLogger` merges the current
+context into every application log event, so use cases must not add tracing
+fields to domain input or pass them through method signatures. HTTP response
+metadata contains `traceId`, and Grafana's Loki data source defines a derived
+field linking the log trace ID to Tempo.
 
 ## Health behavior
 

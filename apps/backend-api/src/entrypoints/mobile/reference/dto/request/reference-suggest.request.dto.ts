@@ -37,8 +37,8 @@ export class ReferenceSuggestRequestDto {
     Array.isArray(value)
       ? value.filter((item): item is string => typeof item === 'string')
       : typeof value === 'string'
-      ? value.split(',').filter(Boolean)
-      : [],
+        ? value.split(',').filter(Boolean)
+        : [],
   )
   @IsArray()
   @ArrayMaxSize(3)

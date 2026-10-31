@@ -12,6 +12,8 @@
     "dashboard:api:generate": "npm run api:generate --workspace @protravel/frontend-dashboard",
     "dashboard:dev": "npm run dev --workspace @protravel/frontend-dashboard",
     "d:d": "npm run dev --workspace @protravel/frontend-dashboard",
+    "b:d": "npm run start:dev --workspace @protravel/backend-api",
+    "m:s": "npm run start --workspace @protravel/mobile --",
     "dashboard:lint": "npm run lint --workspace @protravel/frontend-dashboard",
     "dashboard:test": "npm run test --workspace @protravel/frontend-dashboard",
     "dashboard:typecheck": "npm run typecheck --workspace @protravel/frontend-dashboard",
@@ -21,7 +23,7 @@
     "backend:db:migrate": "drizzle-kit migrate --config apps/backend-api/drizzle.config.ts",
     "backend:db:studio": "drizzle-kit studio --config apps/backend-api/drizzle.config.ts",
     "backend:dev": "npm run start:dev --workspace @protravel/backend-api",
-    "b:d": "npm run start:dev --workspace @protravel/backend-api",
+
     "backend:lint": "npm run lint --workspace @protravel/backend-api",
     "backend:seed:admin": "npm run seed:admin --workspace @protravel/backend-api",
     "backend:seed:demo": "npm run seed:demo --workspace @protravel/backend-api",
@@ -38,7 +40,7 @@
     "mobile:ios": "npm run ios --workspace @protravel/mobile --",
     "mobile:lint": "npm run lint --workspace @protravel/mobile",
     "mobile:start": "npm run start --workspace @protravel/mobile --",
-    "m:s": "npm run start --workspace @protravel/mobile --",
+
     "mobile:test": "npm run test --workspace @protravel/mobile -- --runInBand --watchman=false",
     "mobile:typecheck": "npm run typecheck --workspace @protravel/mobile",
     "lint": "npm run backend:lint && npm run mobile:lint && npm run dashboard:lint",

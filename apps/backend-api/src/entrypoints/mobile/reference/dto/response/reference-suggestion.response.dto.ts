@@ -9,9 +9,10 @@ export class ReferenceSuggestionResponseDto {
   @ApiProperty() name!: string;
   @ApiProperty({ format: 'uuid' }) countryId!: string;
   @ApiPropertyOptional({ type: String, nullable: true }) countryCode!:
-    | string
-    | null;
+    string | null;
   @ApiProperty() countryName!: string;
   @ApiPropertyOptional({ type: String, format: 'uuid', nullable: true })
   cityId!: string | null;
+  @ApiProperty({ type: [String], example: ['SVO', 'DME', 'VKO'] })
+  airportCodes!: string[];
 }

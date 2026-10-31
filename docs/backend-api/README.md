@@ -29,6 +29,8 @@
 - [Mobile system messages](system-messages.md) — operational info/error
   banners controlled by the backend.
 - [Mobile news](news.md) — reader state and administrative publishing.
+- [Travel facts](travel-facts.md) — destination-aware loading content and
+  administrative CRUD.
 - [Public tours](tours.md) — published mobile catalog, filters and full tour
   details.
 

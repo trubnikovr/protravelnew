@@ -15,7 +15,7 @@ Name | Type
 
 ## Example
 
-```typescript
+```typescrip
 import type { HealthComponentResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -34,7 +34,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as HealthComponentResponseDto
 console.log(exampleParsed)
 ```

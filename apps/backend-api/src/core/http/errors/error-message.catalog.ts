@@ -25,6 +25,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
     FLIGHT_PROVIDER_UNAVAILABLE:
       'Сервис поиска авиабилетов временно недоступен',
     FLIGHT_PROVIDER_TIMEOUT: 'Поиск авиабилетов занял слишком много времени',
+    FLIGHT_PROVIDER_RESPONSE_TOO_LARGE:
+      'Поставщик вернул слишком большой список авиабилетов',
     FLIGHT_PROVIDER_RATE_LIMITED:
       'Сервис поиска временно ограничил количество запросов',
     FLIGHT_PROVIDER_AUTH_FAILED: 'Ошибка подключения к поставщику авиабилетов',
@@ -57,6 +59,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
     FLIGHT_PROVIDER_UNAVAILABLE:
       'Aviachiptalarni qidirish xizmati vaqtincha ishlamayapti',
     FLIGHT_PROVIDER_TIMEOUT: "Aviachiptalarni qidirish juda ko'p vaqt oldi",
+    FLIGHT_PROVIDER_RESPONSE_TOO_LARGE:
+      'Yetkazib beruvchi juda katta aviachiptalar ro‘yxatini qaytardi',
     FLIGHT_PROVIDER_RATE_LIMITED:
       "Qidiruv xizmati so'rovlar sonini vaqtincha chekladi",
     FLIGHT_PROVIDER_AUTH_FAILED:
@@ -90,6 +94,8 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
     FLIGHT_PROVIDER_UNAVAILABLE:
       'The flight search service is temporarily unavailable',
     FLIGHT_PROVIDER_TIMEOUT: 'The flight search request timed out',
+    FLIGHT_PROVIDER_RESPONSE_TOO_LARGE:
+      'The provider returned too many flight results',
     FLIGHT_PROVIDER_RATE_LIMITED:
       'The flight search service temporarily limited requests',
     FLIGHT_PROVIDER_AUTH_FAILED: 'Could not connect to the flight provider',

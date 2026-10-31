@@ -14,10 +14,11 @@ Name | Type
 `countryCode` | string
 `countryName` | string
 `cityId` | string
+`airportCodes` | Array&lt;string&gt;
 
 ## Example
 
-```typescript
+```typescrip
 import type { ReferenceSuggestionResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -30,6 +31,7 @@ const example = {
   "countryCode": null,
   "countryName": null,
   "cityId": null,
+  "airportCodes": ["SVO","DME","VKO"],
 } satisfies ReferenceSuggestionResponseDto
 
 console.log(example)
@@ -38,7 +40,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an object
+// Parse the JSON string back to an objec
 const exampleParsed = JSON.parse(exampleJSON) as ReferenceSuggestionResponseDto
 console.log(exampleParsed)
 ```

@@ -10,9 +10,9 @@ All URIs are relative to *http://localhost*
 
 
 
-## newsList
+## newsLis
 
-> NewsList200Response newsList()
+> NewsList200Response newsList(acceptLanguage)
 
 List published news for the mobile application
 
@@ -29,21 +29,29 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new NewsApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies NewsListRequest;
+
   try {
-    const data = await api.newsList();
+    const data = await api.newsList(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -69,7 +77,7 @@ No authorization required
 
 ## newsMarkRead
 
-> NewsMarkRead200Response newsMarkRead(newsId)
+> NewsMarkRead200Response newsMarkRead(newsId, acceptLanguage)
 
 Mark a news article as read for this reader
 
@@ -89,6 +97,8 @@ async function example() {
   const body = {
     // string
     newsId: newsId_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies NewsMarkReadRequest;
 
   try {
@@ -99,7 +109,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -109,6 +119,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **newsId** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -134,7 +145,7 @@ No authorization required
 
 ## newsUnreadStatus
 
-> NewsUnreadStatus200Response newsUnreadStatus()
+> NewsUnreadStatus200Response newsUnreadStatus(acceptLanguage)
 
 Get unread news status for this reader
 
@@ -151,21 +162,29 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new NewsApi();
 
+  const body = {
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies NewsUnreadStatusRequest;
+
   try {
-    const data = await api.newsUnreadStatus();
+    const data = await api.newsUnreadStatus(body);
     console.log(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

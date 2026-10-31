@@ -14,7 +14,7 @@ All URIs are relative to *http://localhost*
 
 ## flightOrdersBook
 
-> FlightOrdersCreate201Response flightOrdersBook(id)
+> FlightOrdersCreate201Response flightOrdersBook(id, acceptLanguage)
 
 Create provider booking for a draft flight order
 
@@ -29,7 +29,7 @@ import type { FlightOrdersBookRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -38,6 +38,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightOrdersBookRequest;
 
   try {
@@ -48,7 +50,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -58,6 +60,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -83,7 +86,7 @@ example().catch(console.error);
 
 ## flightOrdersCancel
 
-> FlightOrdersCreate201Response flightOrdersCancel(id)
+> FlightOrdersCreate201Response flightOrdersCancel(id, acceptLanguage)
 
 Cancel a booked flight order
 
@@ -98,7 +101,7 @@ import type { FlightOrdersCancelRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -107,6 +110,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightOrdersCancelRequest;
 
   try {
@@ -117,7 +122,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -127,6 +132,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -152,7 +158,7 @@ example().catch(console.error);
 
 ## flightOrdersCreate
 
-> FlightOrdersCreate201Response flightOrdersCreate(idempotencyKey, createFlightOrderRequestDto)
+> FlightOrdersCreate201Response flightOrdersCreate(idempotencyKey, createFlightOrderRequestDto, acceptLanguage)
 
 Create draft flight order from validated offer
 
@@ -167,7 +173,7 @@ import type { FlightOrdersCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -178,6 +184,8 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreateFlightOrderRequestDto
     createFlightOrderRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightOrdersCreateRequest;
 
   try {
@@ -188,7 +196,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -199,6 +207,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
 | **createFlightOrderRequestDto** | [CreateFlightOrderRequestDto](CreateFlightOrderRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -222,9 +231,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## flightOrdersGet
+## flightOrdersGe
 
-> FlightOrdersCreate201Response flightOrdersGet(id)
+> FlightOrdersCreate201Response flightOrdersGet(id, acceptLanguage)
 
 Get current customer flight order
 
@@ -239,7 +248,7 @@ import type { FlightOrdersGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -248,6 +257,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightOrdersGetRequest;
 
   try {
@@ -258,7 +269,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -268,6 +279,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -293,7 +305,7 @@ example().catch(console.error);
 
 ## flightOrdersRefresh
 
-> FlightOrdersCreate201Response flightOrdersRefresh(id)
+> FlightOrdersCreate201Response flightOrdersRefresh(id, acceptLanguage)
 
 Refresh provider booking status
 
@@ -308,7 +320,7 @@ import type { FlightOrdersRefreshRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({ 
+  const config = new Configuration({
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -317,6 +329,8 @@ async function example() {
   const body = {
     // string
     id: id_example,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
   } satisfies FlightOrdersRefreshRequest;
 
   try {
@@ -327,7 +341,7 @@ async function example() {
   }
 }
 
-// Run the test
+// Run the tes
 example().catch(console.error);
 ```
 
@@ -337,6 +351,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 

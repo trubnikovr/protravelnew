@@ -38,6 +38,7 @@ import { UpdateCustomerRequestDto } from './dto/request/update-customer.request.
 export class AdminCustomersController {
   constructor(private readonly customers: CustomersService) {}
 
+  /** @see POST /api/v1/admin/customers */
   @Post()
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Create a customer account' })
@@ -50,6 +51,7 @@ export class AdminCustomersController {
     );
   }
 
+  /** @see GET /api/v1/admin/customers */
   @Get()
   @RequirePermissions(AdminPermission.USERS_READ)
   @ApiOperation({ summary: 'List customers' })
@@ -69,6 +71,7 @@ export class AdminCustomersController {
     );
   }
 
+  /** @see GET /api/v1/admin/customers/:customerId */
   @Get(':customerId')
   @RequirePermissions(AdminPermission.USERS_READ)
   @ApiOperation({ summary: 'Get a customer' })
@@ -81,6 +84,7 @@ export class AdminCustomersController {
     );
   }
 
+  /** @see PATCH /api/v1/admin/customers/:customerId/status */
   @Patch(':customerId/status')
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Block or activate a customer' })
@@ -94,6 +98,7 @@ export class AdminCustomersController {
     );
   }
 
+  /** @see PATCH /api/v1/admin/customers/:customerId */
   @Patch(':customerId')
   @RequirePermissions(AdminPermission.USERS_WRITE)
   @ApiOperation({ summary: 'Update a customer account' })
@@ -107,6 +112,7 @@ export class AdminCustomersController {
     );
   }
 
+  /** @see DELETE /api/v1/admin/customers/:customerId */
   @Delete(':customerId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @RequirePermissions(AdminPermission.USERS_WRITE)

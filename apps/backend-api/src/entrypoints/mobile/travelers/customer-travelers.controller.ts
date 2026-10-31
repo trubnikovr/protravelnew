@@ -40,6 +40,7 @@ import { CustomerTravelersService } from '@modules/customers/submodules/customer
 export class CustomerTravelersController {
   constructor(private readonly travelers: CustomerTravelersService) {}
 
+  /** @see GET /api/v1/me/travelers */
   @Get()
   @ApiOperation({ summary: 'List current customer and family travelers' })
   @ApiPaginatedEnvelope(TravelerResponseDto)
@@ -60,6 +61,7 @@ export class CustomerTravelersController {
     );
   }
 
+  /** @see POST /api/v1/me/travelers */
   @Post()
   @ApiOperation({ summary: 'Add current customer or a family traveler' })
   @ApiEnvelope(TravelerResponseDto, HttpStatus.CREATED)
@@ -72,6 +74,7 @@ export class CustomerTravelersController {
     );
   }
 
+  /** @see PATCH /api/v1/me/travelers/:travelerId */
   @Patch(':travelerId')
   @ApiOperation({ summary: 'Update own traveler' })
   @ApiOkEnvelope(TravelerResponseDto)
@@ -85,6 +88,7 @@ export class CustomerTravelersController {
     );
   }
 
+  /** @see DELETE /api/v1/me/travelers/:travelerId */
   @Delete(':travelerId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete own traveler and documents' })
@@ -95,6 +99,7 @@ export class CustomerTravelersController {
     await this.travelers.delete(customer.id, travelerId);
   }
 
+  /** @see POST /api/v1/me/travelers/:travelerId/documents */
   @Post(':travelerId/documents')
   @ApiOperation({ summary: 'Add encrypted document to own traveler' })
   @ApiEnvelope(TravelerResponseDto, HttpStatus.CREATED)
@@ -108,6 +113,7 @@ export class CustomerTravelersController {
     );
   }
 
+  /** @see PATCH /api/v1/me/travelers/:travelerId/documents/:documentId */
   @Patch(':travelerId/documents/:documentId')
   @ApiOperation({ summary: 'Update encrypted own traveler document' })
   @ApiOkEnvelope(TravelerResponseDto)
@@ -127,6 +133,7 @@ export class CustomerTravelersController {
     );
   }
 
+  /** @see DELETE /api/v1/me/travelers/:travelerId/documents/:documentId */
   @Delete(':travelerId/documents/:documentId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete own traveler document' })

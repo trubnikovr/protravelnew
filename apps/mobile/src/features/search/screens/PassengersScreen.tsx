@@ -31,12 +31,6 @@ export function PassengersScreen({ navigation, route }: Props) {
       hintKey: 'search.infantsHint',
       value: route.params.passengers.infants,
     },
-    {
-      id: 'seatInfants' as const,
-      labelKey: 'search.seatInfants',
-      hintKey: 'search.infantsHint',
-      value: route.params.passengers.seatInfants,
-    },
   ]);
 
   const update = (id: string, delta: number) => {

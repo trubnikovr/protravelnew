@@ -24,9 +24,17 @@ export function ApiArrayEnvelope(model: Type<unknown>) {
   );
 }
 
-export function ApiPaginatedEnvelope(model: Type<unknown>) {
+export function ApiPaginatedEnvelope(
+  model: Type<unknown>,
+  additionalMetaModel?: Type<unknown>,
+) {
   return applyDecorators(
-    ApiExtraModels(model, ApiResponseMetaDto, PaginationMetaResponseDto),
+    ApiExtraModels(
+      model,
+      ApiResponseMetaDto,
+      PaginationMetaResponseDto,
+      ...(additionalMetaModel ? [additionalMetaModel] : []),
+    ),
     ApiResponse({
       status: 200,
       schema: {
@@ -46,6 +54,9 @@ export function ApiPaginatedEnvelope(model: Type<unknown>) {
                   },
                 },
               },
+              ...(additionalMetaModel
+                ? [{ $ref: getSchemaPath(additionalMetaModel) }]
+                : []),
             ],
           },
         },
