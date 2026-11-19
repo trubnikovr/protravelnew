@@ -15,7 +15,7 @@ import {
 import { HomeNavigator } from './HomeNavigator';
 import { NewsNavigator } from './NewsNavigator';
 import { ProfileNavigator } from './ProfileNavigator';
-import { SearchNavigator } from './SearchNavigator';
+import { AviaNavigator } from './AviaNavigator';
 import { ToursNavigator } from './ToursNavigator';
 import type { MainTabParamList } from './types';
 
@@ -74,7 +74,7 @@ export function MainTabNavigator() {
         }}
       />
       <Tab.Screen
-        component={SearchNavigator}
+        component={AviaNavigator}
         name="Flights"
         options={{
           tabBarIcon: FlightsTabIcon,

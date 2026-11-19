@@ -123,6 +123,8 @@ export class AdminToursController {
       slug: dto.slug,
       status: dto.status,
       type: dto.type,
+      minTravelers: dto.minTravelers === undefined ? 1 : dto.minTravelers,
+      maxTravelers: dto.maxTravelers === undefined ? 2 : dto.maxTravelers,
       durationDays: dto.durationDays,
       durationNights: dto.durationNights,
       price: MoneyValueObject.create(dto.price.amount, dto.price.currency),
@@ -159,6 +161,8 @@ export class AdminToursController {
       ...(dto.slug !== undefined ? { slug: dto.slug } : {}),
       ...(dto.status !== undefined ? { status: dto.status } : {}),
       ...(dto.type !== undefined ? { type: dto.type } : {}),
+      ...(dto.minTravelers !== undefined ? { minTravelers: dto.minTravelers } : {}),
+      ...(dto.maxTravelers !== undefined ? { maxTravelers: dto.maxTravelers } : {}),
       ...(dto.durationDays !== undefined
         ? { durationDays: dto.durationDays }
         : {}),

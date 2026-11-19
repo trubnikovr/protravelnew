@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -23,7 +24,7 @@ export function SettingsScreen({navigation}: Props) {
   const updateProfile = useUpdateCustomerProfile();
   const [currency, setCurrency] = useState<ProfileCurrency>('RUB');
   const [timeZone, setTimeZone] = useState<string>('Asia/Tashkent');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!profile.data) return;
@@ -32,12 +33,12 @@ export function SettingsScreen({navigation}: Props) {
   }, [profile.data]);
 
   const save = async () => {
-    setError(false);
+    setError(null);
     try {
       await updateProfile.mutateAsync({currency, timeZone});
       navigation.goBack();
-    } catch {
-      setError(true);
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('profile.saveError')));
     }
   };
 
@@ -62,7 +63,7 @@ export function SettingsScreen({navigation}: Props) {
             value={timeZone}
           />
         </View>
-        {error ? <Text style={styles.error}>{t('profile.saveError')}</Text> : null}
+        {error ? <Text style={styles.error}>{error}</Text> : null}
         <View style={styles.footer}>
           <PrimaryButton
             loading={updateProfile.isPending}

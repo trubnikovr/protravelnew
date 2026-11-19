@@ -14,11 +14,15 @@ reader ports. Bridges under `src/integrations/customers-order-tour` and
 booking stores customer name/email and tour title snapshots, so later profile
 or catalog edits do not rewrite historical booking display data.
 
-Customer checkout additionally stores immutable snapshots of every selected
+Customer checkout additionally stores booking-specific snapshots of every selected
 traveler: source traveler ID, name, gender, birth date and citizenship. The
 source ID becomes null if a traveler is later deleted, while the booking
 snapshot remains intact. `TravelerForTourBookingContract` crosses the
 customers/order-tour boundary through a consumer-owned reader port.
+Administrators with `orders.write` can add missing traveler snapshots up to the
+booked count or edit existing snapshots. These changes do not alter the saved
+customer traveler profile. The booking row is locked during additions to enforce
+the count under concurrent requests.
 
 ## Customer API
 
@@ -29,13 +33,20 @@ customer:
 GET  /api/v1/me/tour-bookings
 GET  /api/v1/me/tour-bookings/{id}
 POST /api/v1/me/tour-bookings
+POST /api/v1/me/tour-bookings/price-quote
 ```
 
-Creation accepts tour ID, selected traveler IDs, optional departure date and
-notes. Customer identity and contact snapshots are resolved from the JWT-owned
+Creation accepts tour ID, traveler count, optional selected traveler IDs,
+departure date and notes. For older clients, omitted count is derived from the
+selected IDs. The number of IDs cannot exceed the count. Customer identity and contact snapshots are resolved from the JWT-owned
 customer record. The service validates traveler ownership, tour publication,
 departure membership, current seats and price, calculates the total on the
 server and creates a `pending` request.
+
+The price-quote endpoint accepts a tour, optional departure and traveler count,
+then returns the current total as `MoneyResponseDto`. It uses the same tour
+reader and availability checks as checkout so the client can display the
+server-formatted total before submitting the request.
 
 ## Status lifecycle
 
@@ -62,6 +73,8 @@ GET    /api/v1/admin/tour-bookings
 GET    /api/v1/admin/tour-bookings/{id}
 POST   /api/v1/admin/tour-bookings
 PATCH  /api/v1/admin/tour-bookings/{id}/status
+POST   /api/v1/admin/tour-bookings/{id}/travelers
+PATCH  /api/v1/admin/tour-bookings/{id}/travelers/{travelerId}
 POST   /api/v1/admin/tour-bookings/{id}/documents
 GET    /api/v1/admin/tour-bookings/{id}/documents/{documentId}/download
 DELETE /api/v1/admin/tour-bookings/{id}/documents/{documentId}

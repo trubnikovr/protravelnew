@@ -1,13 +1,15 @@
 # AdminSystemMessagesApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://localhost*
 
-| Method                                                                               | HTTP request                                  | Description                                |
-| ------------------------------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------ |
-| [**adminSystemMessagesCreate**](AdminSystemMessagesApi.md#adminsystemmessagescreate) | **POST** /api/v1/admin/system-messages        | Create a mobile system message             |
-| [**adminSystemMessagesDelete**](AdminSystemMessagesApi.md#adminsystemmessagesdelete) | **DELETE** /api/v1/admin/system-messages/{id} | Delete a mobile system message             |
-| [**adminSystemMessagesList**](AdminSystemMessagesApi.md#adminsystemmessageslist)     | **GET** /api/v1/admin/system-messages         | List all mobile system messages            |
-| [**adminSystemMessagesUpdate**](AdminSystemMessagesApi.md#adminsystemmessagesupdate) | **PATCH** /api/v1/admin/system-messages/{id}  | Update or activate a mobile system message |
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**adminSystemMessagesCreate**](AdminSystemMessagesApi.md#adminsystemmessagescreate) | **POST** /api/v1/admin/system-messages | Create a mobile system message |
+| [**adminSystemMessagesDelete**](AdminSystemMessagesApi.md#adminsystemmessagesdelete) | **DELETE** /api/v1/admin/system-messages/{id} | Delete a mobile system message |
+| [**adminSystemMessagesList**](AdminSystemMessagesApi.md#adminsystemmessageslist) | **GET** /api/v1/admin/system-messages | List all mobile system messages |
+| [**adminSystemMessagesUpdate**](AdminSystemMessagesApi.md#adminsystemmessagesupdate) | **PATCH** /api/v1/admin/system-messages/{id} | Update or activate a mobile system message |
+
+
 
 ## adminSystemMessagesCreate
 
@@ -26,7 +28,7 @@ import type { AdminSystemMessagesCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -53,10 +55,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                              | Type                                                              | Description                        | Notes                                                      |
-| --------------------------------- | ----------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **createSystemMessageRequestDto** | [CreateSystemMessageRequestDto](CreateSystemMessageRequestDto.md) |                                    |                                                            |
-| **acceptLanguage**                | `ru`, `uz`, `en`                                                  | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **createSystemMessageRequestDto** | [CreateSystemMessageRequestDto](CreateSystemMessageRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -71,13 +74,14 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **201**     |             | -                |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminSystemMessagesDelete
 
@@ -88,12 +92,15 @@ Delete a mobile system message
 ### Example
 
 ```ts
-import { Configuration, AdminSystemMessagesApi } from "";
-import type { AdminSystemMessagesDeleteRequest } from "";
+import {
+  Configuration,
+  AdminSystemMessagesApi,
+} from '';
+import type { AdminSystemMessagesDeleteRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -120,9 +127,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**             | `string`         |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -138,13 +146,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **204**     |             | -                |
+|-------------|-------------|------------------|
+| **204** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminSystemMessagesList
 
@@ -155,12 +164,15 @@ List all mobile system messages
 ### Example
 
 ```ts
-import { Configuration, AdminSystemMessagesApi } from "";
-import type { AdminSystemMessagesListRequest } from "";
+import {
+  Configuration,
+  AdminSystemMessagesApi,
+} from '';
+import type { AdminSystemMessagesListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -185,8 +197,9 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -202,13 +215,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminSystemMessagesUpdate
 
@@ -227,7 +241,7 @@ import type { AdminSystemMessagesUpdateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -256,11 +270,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                              | Type                                                              | Description                        | Notes                                                      |
-| --------------------------------- | ----------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**                            | `string`                                                          |                                    | [Defaults to `undefined`]                                  |
-| **updateSystemMessageRequestDto** | [UpdateSystemMessageRequestDto](UpdateSystemMessageRequestDto.md) |                                    |                                                            |
-| **acceptLanguage**                | `ru`, `uz`, `en`                                                  | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **updateSystemMessageRequestDto** | [UpdateSystemMessageRequestDto](UpdateSystemMessageRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -275,10 +290,11 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+

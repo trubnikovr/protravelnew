@@ -26,7 +26,7 @@ import type { CustomerProfileMeRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -45,7 +45,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -95,7 +95,7 @@ import type { CustomerProfileUpdateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -116,7 +116,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 

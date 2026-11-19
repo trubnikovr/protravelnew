@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -79,7 +80,7 @@ export function ToursScreen({ navigation }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <ImageBackground
         imageStyle={styles.backgroundImage}
-        source={require('../../../shared/assets/images/tours-background.png')}
+        source={require('../../../shared/assets/images/tours-background-v2.png')}
         style={styles.background}
       />
       <ScreenHeader
@@ -108,7 +109,7 @@ export function ToursScreen({ navigation }: Props) {
         >
           <TravelStateCard
             title={t('tours.catalogLoadError')}
-            message={t('common.connectionUnavailable')}
+            message={getApiErrorMessage(catalog.error, t('common.connectionUnavailable'))}
             actionLabel={t('common.retry')}
             onAction={() => catalog.refetch()}
           />
@@ -234,7 +235,7 @@ function TourFiltersSheet({
 const styles = StyleSheet.create({
   safeArea: { backgroundColor: theme.colors.background, flex: 1 },
   background: { ...StyleSheet.absoluteFill },
-  backgroundImage: { resizeMode: 'cover' },
+  backgroundImage: { resizeMode: 'cover', opacity: 0.72 },
   content: { padding: theme.sizes.contentPadding },
   state: { flex: 1, justifyContent: 'center' },
   errorContent: {

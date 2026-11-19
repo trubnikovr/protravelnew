@@ -21,6 +21,8 @@ export interface TourWriteData {
   slug: string;
   status: TourStatus;
   type: TourType;
+  minTravelers: number | null;
+  maxTravelers: number | null;
   durationDays: number;
   durationNights: number;
   price: MoneyValueObject;

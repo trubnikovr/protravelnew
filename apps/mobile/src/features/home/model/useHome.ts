@@ -23,6 +23,7 @@ type HomeState = {
   hotTours: TourCardModel[];
   loading: boolean;
   error: boolean;
+  errorCause: unknown;
   refresh: () => Promise<void>;
 };
 
@@ -59,7 +60,7 @@ function mapDestinations(items: HomeDestination[]): DestinationCardModel[] {
 }
 
 export function useHome(): HomeState {
-  const {data, isError, isPending, refetch} = useQuery({
+  const {data, error, isError, isPending, refetch} = useQuery({
     queryKey: homeQueryKey,
     queryFn: getHomeContent,
   });
@@ -75,9 +76,10 @@ export function useHome(): HomeState {
       ),
       hotTours: mapTours(data?.hotTours ?? [], true),
       loading: isPending,
-      error: isError,
+      error: isError && !data,
+      errorCause: error,
       refresh,
     }),
-    [data, isError, isPending, refresh],
+    [data, error, isError, isPending, refresh],
   );
 }

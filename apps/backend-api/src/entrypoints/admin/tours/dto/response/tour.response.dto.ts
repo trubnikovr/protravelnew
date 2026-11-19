@@ -14,6 +14,8 @@ export class TourResponseDto extends EntityResponseDto {
   @ApiProperty() slug!: string;
   @ApiProperty({ enum: TourStatus }) status!: TourStatus;
   @ApiProperty({ enum: TourType }) type!: TourType;
+  @ApiPropertyOptional({ type: Number, nullable: true }) minTravelers!: number | null;
+  @ApiPropertyOptional({ type: Number, nullable: true }) maxTravelers!: number | null;
   @ApiProperty() durationDays!: number;
   @ApiProperty() durationNights!: number;
   @ApiProperty({ type: MoneyResponseDto }) price!: MoneyResponseDto;

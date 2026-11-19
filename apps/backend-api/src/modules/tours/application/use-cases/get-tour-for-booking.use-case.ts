@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import type { TourForBookingContract } from '@shared/contracts';
 import { TourStatus } from '../../domain/tour.types';
 import { ToursService } from '../tours.service';
@@ -15,6 +15,10 @@ export class GetTourForBookingUseCase {
   ): Promise<TourForBookingContract | null> {
     const tour = await this.tours.findById(tourId);
     if (!tour || tour.status !== TourStatus.PUBLISHED) return null;
+    if ((tour.minTravelers !== null && travelersCount < tour.minTravelers) ||
+        (tour.maxTravelers !== null && travelersCount > tour.maxTravelers)) {
+      throw new BadRequestException({ code: 'TOUR_TRAVELER_COUNT_INVALID', message: 'Traveler count is outside tour limits' });
+    }
     const departure = departureDate
       ? (tour.departures.find(
           (item) => item.departureDate.toString() === departureDate,

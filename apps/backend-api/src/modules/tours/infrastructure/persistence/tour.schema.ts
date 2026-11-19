@@ -43,6 +43,8 @@ export const tours = pgTable(
     slug: varchar('slug', { length: 160 }).notNull(),
     status: tourStatus('status').notNull().default('draft'),
     type: tourType('type').notNull(),
+    minTravelers: integer('min_travelers'),
+    maxTravelers: integer('max_travelers'),
     durationDays: integer('duration_days').notNull(),
     durationNights: integer('duration_nights').notNull(),
     basePriceAmount: numeric('base_price_amount', {

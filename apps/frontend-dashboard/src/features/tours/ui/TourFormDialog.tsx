@@ -48,6 +48,8 @@ interface TourFormValues {
   type: TourType;
   destinations: SelectedDestination[];
   departures: CreateTourRequestDto["departures"];
+  minTravelers: string;
+  maxTravelers: string;
   durationDays: string;
   durationNights: string;
   amount: string;
@@ -117,6 +119,8 @@ function defaultValues(tour?: TourResponseDto | null): TourFormValues {
         seatsTotal: item.seatsTotal,
         seatsAvailable: item.seatsAvailable,
       })) ?? [],
+    minTravelers: tour ? String(tour.minTravelers ?? "") : "1",
+    maxTravelers: tour ? String(tour.maxTravelers ?? "") : "2",
     durationDays: String(tour?.durationDays ?? 1),
     durationNights: String(tour?.durationNights ?? 0),
     amount: tour?.price.amount ?? "",
@@ -164,6 +168,12 @@ function validateTourForm(value: TourFormValues, t: TFunction) {
   }
   if (!value.destinations.length)
     errors.destinations = t("destinationRequired");
+  for (const key of ["minTravelers", "maxTravelers"] as const) {
+    if (value[key] && !isIntegerInRange(value[key], 1, 100)) errors[key] = t("travelersInvalid");
+  }
+  if (value.minTravelers && value.maxTravelers && Number(value.minTravelers) > Number(value.maxTravelers)) {
+    errors.maxTravelers = t("travelersRangeInvalid");
+  }
   if (!isIntegerInRange(value.durationDays, 1, 365)) {
     errors.durationDays = t("daysInvalid");
   }
@@ -201,6 +211,8 @@ function toPayload(value: TourFormValues): CreateTourRequestDto {
     slug: value.slug.trim(),
     status: value.status,
     type: value.type,
+    minTravelers: value.minTravelers ? Number(value.minTravelers) : null,
+    maxTravelers: value.maxTravelers ? Number(value.maxTravelers) : null,
     durationDays: Number(value.durationDays),
     durationNights: Number(value.durationNights),
     price: { amount: value.amount, currency: value.currency },
@@ -405,6 +417,16 @@ export function TourFormDialog({
         </section>
 
         <section className="grid gap-4 rounded-xl border bg-card p-5 md:grid-cols-2 lg:grid-cols-4">
+          {(["minTravelers", "maxTravelers"] as const).map((name) => (
+            <form.Field key={name} name={name}>
+              {(field) => (
+                <Field label={t(name)} error={validationErrors[name]}>
+                  <Input type="number" min={1} max={100} value={field.state.value}
+                    onChange={(event) => { field.handleChange(event.target.value); clearError("minTravelers"); clearError("maxTravelers"); }} />
+                </Field>
+              )}
+            </form.Field>
+          ))}
           <form.Field name="durationDays">
             {(field) => (
               <Field

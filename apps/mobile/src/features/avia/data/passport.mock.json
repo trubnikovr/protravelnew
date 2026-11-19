@@ -1,0 +1,14 @@
+{
+  "firstName": "Rustam",
+  "lastName": "Trubnikov",
+  "middleName": "Takhirovich",
+  "birthDate": "14.06.1986",
+  "citizenship": "UZ",
+  "number": "FA8241277",
+  "issuingCountry": "UZ",
+  "expiresAt": "15.05.2035",
+  "firstNameLatin": "RUSTAM",
+  "lastNameLatin": "TRUBNIKOV",
+  "phone": "+998900000000",
+  "email": "traveler@example.com"
+}

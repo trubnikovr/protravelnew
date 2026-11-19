@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost*
 
 
 
-## newsLis
+## newsList
 
 > NewsList200Response newsList(acceptLanguage)
 
@@ -42,7 +42,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -109,7 +109,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -175,7 +175,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 

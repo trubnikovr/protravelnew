@@ -13,7 +13,7 @@ Name | Type
 
 ## Example
 
-```typescrip
+```typescript
 import type { PaginationMetaResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -30,7 +30,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as PaginationMetaResponseDto
 console.log(exampleParsed)
 ```

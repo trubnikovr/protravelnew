@@ -57,9 +57,16 @@ export interface ReferenceSuggestInput {
 }
 
 export interface FeaturedFlightLocation {
-  code: string;
+  cityId: string;
   name: string;
   countryName: string;
+  airportCodes: string[];
+  sortOrder: number;
+  isActive: boolean;
+}
+
+export interface ReplaceFeaturedFlightLocation {
+  cityId: string;
   sortOrder: number;
   isActive: boolean;
 }
@@ -202,30 +209,18 @@ export class ReferenceService {
       .select({
         featured: featuredFlightLocations,
         city: cities,
-        airport: airports,
         country: countries,
       })
       .from(featuredFlightLocations)
-      .innerJoin(
-        countries,
-        sql`lower(${countries.nameRu}) = lower(${featuredFlightLocations.countryName})`,
-      )
-      .leftJoin(
-        cities,
-        and(
-          eq(cities.countryId, countries.id),
-          sql`lower(${cities.nameRu}) = lower(${featuredFlightLocations.name})`,
-        ),
-      )
-      .leftJoin(airports, eq(airports.iataCode, featuredFlightLocations.code))
+      .innerJoin(cities, eq(cities.id, featuredFlightLocations.cityId))
+      .innerJoin(countries, eq(countries.id, cities.countryId))
       .where(
         and(
           eq(featuredFlightLocations.isActive, true),
           input.countryId ? eq(countries.id, input.countryId) : undefined,
           or(
-            ilike(featuredFlightLocations.code, pattern),
-            ilike(featuredFlightLocations.name, pattern),
-            ilike(featuredFlightLocations.countryName, pattern),
+            ilike(cities.nameRu, pattern),
+            ilike(countries.nameRu, pattern),
           ),
         ),
       )
@@ -233,34 +228,19 @@ export class ReferenceService {
       .limit(input.limit);
 
     return rows.flatMap(
-      ({ featured, city, airport, country }): ReferenceSuggestion[] => {
-        if (city && input.types.includes('city')) {
+      ({ city, country }): ReferenceSuggestion[] => {
+        if (input.types.includes('city')) {
           return [
             {
               type: 'city',
               id: city.id,
-              code: featured.code,
-              name: featured.name,
+              code: null,
+              name: city.nameRu,
               countryId: country.id,
               countryCode: country.isoCode,
               countryName: country.nameRu,
               cityId: city.id,
               airportCodes: [],
-            },
-          ];
-        }
-        if (airport && input.types.includes('airport')) {
-          return [
-            {
-              type: 'airport',
-              id: airport.id,
-              code: featured.code,
-              name: featured.name,
-              countryId: country.id,
-              countryCode: country.isoCode,
-              countryName: country.nameRu,
-              cityId: airport.cityId,
-              airportCodes: [featured.code],
             },
           ];
         }
@@ -272,30 +252,50 @@ export class ReferenceService {
   async listFeaturedFlightLocations(
     includeInactive = false,
   ): Promise<FeaturedFlightLocation[]> {
-    return this.database
+    const rows = await this.database
       .select({
-        code: featuredFlightLocations.code,
-        name: featuredFlightLocations.name,
-        countryName: featuredFlightLocations.countryName,
+        cityId: cities.id,
+        name: cities.nameRu,
+        countryName: countries.nameRu,
         sortOrder: featuredFlightLocations.sortOrder,
         isActive: featuredFlightLocations.isActive,
       })
       .from(featuredFlightLocations)
+      .innerJoin(cities, eq(cities.id, featuredFlightLocations.cityId))
+      .innerJoin(countries, eq(countries.id, cities.countryId))
       .where(
         includeInactive
           ? undefined
           : eq(featuredFlightLocations.isActive, true),
       )
       .orderBy(asc(featuredFlightLocations.sortOrder));
+    if (!rows.length) return [];
+    const airportRows = await this.database
+      .select({ cityId: airports.cityId, code: airports.iataCode })
+      .from(airports)
+      .where(inArray(airports.cityId, rows.map((row) => row.cityId)));
+    const codesByCity = new Map<string, string[]>();
+    for (const airport of airportRows) {
+      if (!airport.cityId) continue;
+      codesByCity.set(airport.cityId, [
+        ...(codesByCity.get(airport.cityId) ?? []),
+        airport.code,
+      ]);
+    }
+    return rows.map((row) => ({
+      ...row,
+      airportCodes: codesByCity.get(row.cityId) ?? [],
+    }));
   }
 
   async replaceFeaturedFlightLocations(
-    items: FeaturedFlightLocation[],
+    items: ReplaceFeaturedFlightLocation[],
   ): Promise<FeaturedFlightLocation[]> {
+    const uniqueItems = [...new Map(items.map((item) => [item.cityId, item])).values()];
     await this.database.transaction(async (transaction) => {
       await transaction.delete(featuredFlightLocations);
-      if (items.length)
-        await transaction.insert(featuredFlightLocations).values(items);
+      if (uniqueItems.length)
+        await transaction.insert(featuredFlightLocations).values(uniqueItems);
     });
     return this.listFeaturedFlightLocations(true);
   }

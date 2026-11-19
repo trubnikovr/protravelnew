@@ -1,0 +1,58 @@
+### Direct TTBooking flight search (generates the timestamp and MD5 signature)
+< {%
+const required = ["ttbookingBaseUrl", "ttbookingAgencyId", "ttbookingUserId", "ttbookingPassword"];
+for (const name of required) {
+  if (!request.environment.get(name)) throw new Error(`Set ${name} in the HTTP Client environment`);
+}
+
+const now = new Date();
+const localTime = new Date(now.getTime() + 5 * 60 * 60 * 1000);
+const time = localTime.toISOString().replace(/\.\d{3}Z$/, "+05:00");
+const agency = request.environment.get("ttbookingAgencyId");
+const user = request.environment.get("ttbookingUserId");
+const password = request.environment.get("ttbookingPassword");
+const signature = [
+  `agency=${agency}`,
+  `password=${password}`,
+  `time=${time}`,
+  `user=${user}`,
+].join("&");
+const hash = crypto.md5().updateWithText(signature).digest().toHex();
+
+const departure = new Date();
+departure.setUTCDate(departure.getUTCDate() + 30);
+const departureDate = departure.toISOString().slice(0, 10);
+request.variables.set("ttbookingTime", time);
+request.variables.set("ttbookingHash", hash);
+request.variables.set("ttbookingDepartureDate", departureDate);
+%}
+POST {{ttbookingBaseUrl}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "context": {
+    "agency": {{ttbookingAgencyId}},
+    "user": {{ttbookingUserId}},
+    "time": "{{ttbookingTime}}",
+    "hash": "{{ttbookingHash}}",
+    "locale": "ru",
+    "command": "SEARCHFR"
+  },
+  "parameters": {
+    "route": [
+      {
+        "date": "{{ttbookingDepartureDate}}T00:00:00",
+        "locationBegin": { "code": "SVO", "name": "" },
+        "locationEnd": { "code": "LED", "name": "" }
+      }
+    ],
+    "seats": [{ "count": 1, "passengerType": "ADULT" }],
+    "serviceClass": "ECONOMY",
+    "skipConnected": false,
+    "eticketsOnly": true,
+    "mixedVendors": true,
+    "preferredAirlines": []
+  }
+}
+{% if (response.body) { const body = typeof response.body === "string" ? JSON.parse(response.body) : response.body; console.log(JSON.stringify({ status: response.status, error: body.error ?? body.respond?.error ?? body.errors ?? null, flightsGroup: body.respond?.flightsGroup ?? null }, null, 2)); } %}

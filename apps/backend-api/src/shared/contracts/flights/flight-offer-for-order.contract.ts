@@ -9,11 +9,11 @@ export interface FlightPassengerGroupContract {
 
 export interface FlightProviderReferenceContract {
   searchToken: string;
-  groupToken: string;
+  groupToken: string | number;
   itineraries: Array<{
-    itineraryToken: string;
-    flightToken: string;
-    segmentTokens: string[];
+    itineraryToken: string | number;
+    flightToken: string | number;
+    segmentTokens: Array<string | number>;
   }>;
 }
 

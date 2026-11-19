@@ -9,11 +9,11 @@ All URIs are relative to *http://localhost*
 
 
 
-## toursGe
+## toursGet
 
 > ToursGet200Response toursGet(id, acceptLanguage)
 
-Get a published tour with full customer conten
+Get a published tour with full customer content
 
 ### Example
 
@@ -43,7 +43,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -77,7 +77,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## toursLis
+## toursList
 
 > ToursList200Response toursList(page, limit, destination, sort, acceptLanguage)
 
@@ -117,7 +117,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 

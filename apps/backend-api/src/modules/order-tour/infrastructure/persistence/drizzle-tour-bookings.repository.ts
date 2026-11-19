@@ -5,6 +5,7 @@ import { DRIZZLE_DB } from '@core/database/database.constants';
 import type { Database } from '@core/database/database.types';
 import type {
   AddTourBookingDocumentData,
+  BookingTravelerData,
   PersistTourBookingData,
   TourBookingListFilter,
   TourBookingListResult,
@@ -26,6 +27,21 @@ import {
 @Injectable()
 export class DrizzleTourBookingsRepository implements TourBookingsRepository {
   constructor(@Inject(DRIZZLE_DB) private readonly database: Database) {}
+
+  async saveTraveler(bookingId: string, travelerId: string | null, data: BookingTravelerData): Promise<'saved' | 'full' | 'not_found'> {
+    return this.database.transaction(async (tx) => {
+      const [booking] = await tx.select().from(tourBookings).where(eq(tourBookings.id, bookingId)).for('update');
+      if (!booking) return 'not_found';
+      if (travelerId) {
+        const updated = await tx.update(tourBookingTravelers).set(data).where(and(eq(tourBookingTravelers.bookingId, bookingId), eq(tourBookingTravelers.id, travelerId))).returning({ id: tourBookingTravelers.id });
+        return updated.length ? 'saved' : 'not_found';
+      }
+      const [total] = await tx.select({ value: count() }).from(tourBookingTravelers).where(eq(tourBookingTravelers.bookingId, bookingId));
+      if (total.value >= booking.travelersCount) return 'full';
+      await tx.insert(tourBookingTravelers).values({ bookingId, ...data });
+      return 'saved';
+    });
+  }
 
   async create(data: PersistTourBookingData): Promise<TourBooking> {
     const bookingId = await this.database.transaction(async (transaction) => {

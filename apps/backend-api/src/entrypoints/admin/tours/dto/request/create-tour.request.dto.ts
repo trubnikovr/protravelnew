@@ -43,6 +43,20 @@ export class CreateTourRequestDto {
   @IsEnum(TourType)
   type!: TourType;
 
+  @ApiPropertyOptional({ type: Number, nullable: true, minimum: 1, maximum: 100 })
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  minTravelers?: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true, minimum: 1, maximum: 100 })
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  maxTravelers?: number | null;
+
   @ApiProperty({ minimum: 1, maximum: 365 })
   @IsInt()
   @Min(1)

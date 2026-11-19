@@ -22,6 +22,13 @@ PDF page 1 for category and offer-card layout.
 Recommended tours, popular destinations and hot tours are loaded together
 from `GET /api/v1/home`. Product categories remain local navigation actions.
 The screen handles loading, empty, error/retry and content states.
+Initial loading uses a pulsing `HomeSkeleton` with the three section headings
+and two placeholder cards per row. It matches the content's horizontal insets,
+section spacing and fixed cover heights, reserving room for tour details and
+prices instead of collapsing the page to a spinner. Background refreshes keep
+the existing content visible, including if a refresh fails. Pulling down on
+Home refreshes both the home content and active system messages, with a native
+refresh indicator until both requests finish.
 The error state uses a compact branded travel emblem above its message: a
 white takeoff-plane icon and route trail on the purple gradient, followed by
 the retry action.
@@ -75,3 +82,6 @@ The `home` TanStack Query owns the Home request and maps API DTOs to card view
 models. Details use their own versioned generated DTO and TanStack Query cache.
 The cache remains fresh for one minute, is retained for 30 minutes while
 inactive, and refreshes in the background when Home receives focus again.
+
+API failures use the shared [error-message catalog](../api-errors.md) in the
+existing error UI, preserving backend machine codes for specific guidance.

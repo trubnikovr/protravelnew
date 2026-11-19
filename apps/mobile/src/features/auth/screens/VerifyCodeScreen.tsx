@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet, Text, View} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -35,8 +36,8 @@ export function VerifyCodeScreen({navigation, route}: Props) {
     try {
       const session = await verifyCode.mutateAsync(code);
       signIn(session, phone);
-    } catch {
-      setError(t('auth.verifyError'));
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('auth.verifyError')));
     }
   };
 

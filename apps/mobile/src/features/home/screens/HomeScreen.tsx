@@ -1,7 +1,8 @@
-import React from 'react';
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
+import React, { useState } from 'react';
 import {
-  ActivityIndicator,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -23,6 +24,7 @@ import {
 import { SectionHeader, TravelStateIcon } from '../../../shared/ui';
 import { categories } from '../data/home';
 import { useHome } from '../model/useHome';
+import { HomeSkeleton } from '../components/HomeSkeleton';
 import type {
   HomeStackParamList,
   MainTabParamList,
@@ -41,20 +43,38 @@ export function HomeScreen() {
   const { t } = useTranslation();
   const home = useHome();
   const systemMessages = useSystemMessages();
+  const [refreshing, setRefreshing] = useState(false);
   useRefreshOnFocus(home.refresh);
   useRefreshOnFocus(systemMessages.refresh);
 
   const openFlights = () =>
     navigation.navigate('Flights', {
-      screen: 'SearchForm',
+      screen: 'AviaSearchForm',
     });
   const openTours = () =>
     navigation.navigate('Tours', { screen: 'TourCatalog' });
+  const refresh = async () => {
+    setRefreshing(true);
+    try {
+      await Promise.all([home.refresh(), systemMessages.refresh()]);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <ScrollView
+        alwaysBounceVertical
         contentContainerStyle={styles.content}
+        refreshControl={
+          <RefreshControl
+            colors={[theme.colors.primary]}
+            onRefresh={refresh}
+            refreshing={refreshing}
+            tintColor={theme.colors.primary}
+          />
+        }
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.categoryList}>
@@ -73,16 +93,13 @@ export function HomeScreen() {
         <SystemMessagesBanner messages={systemMessages.messages} />
 
         {home.loading ? (
-          <ActivityIndicator
-            color={theme.colors.primary}
-            style={styles.state}
-          />
+          <HomeSkeleton />
         ) : home.error ? (
           <View style={styles.state}>
             <View style={styles.errorIcon}>
               <TravelStateIcon />
             </View>
-            <Text style={styles.stateText}>{t('home.loadError')}</Text>
+            <Text style={styles.stateText}>{getApiErrorMessage(home.errorCause, t('home.loadError'))}</Text>
             <Pressable onPress={home.refresh} style={styles.retryButton}>
               <Text style={styles.retryText}>{t('common.retry')}</Text>
             </Pressable>

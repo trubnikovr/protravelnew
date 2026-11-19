@@ -5,6 +5,7 @@ import {
   integer,
   numeric,
   pgTable,
+  primaryKey,
   timestamp,
   uniqueIndex,
   uuid,
@@ -91,9 +92,9 @@ export const airports = pgTable(
 export const featuredFlightLocations = pgTable(
   'featured_flight_locations',
   {
-    code: varchar('code', { length: 3 }).primaryKey(),
-    name: varchar('name', { length: 255 }).notNull(),
-    countryName: varchar('country_name', { length: 180 }).notNull(),
+    cityId: uuid('city_id')
+      .notNull()
+      .references(() => cities.id, { onDelete: 'cascade' }),
     sortOrder: integer('sort_order').notNull().default(0),
     isActive: boolean('is_active').notNull().default(true),
     createdAt: timestamp('created_at', { withTimezone: true })
@@ -103,7 +104,10 @@ export const featuredFlightLocations = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [index('featured_flight_locations_order_idx').on(table.sortOrder)],
+  (table) => [
+    primaryKey({ columns: [table.cityId] }),
+    index('featured_flight_locations_order_idx').on(table.sortOrder),
+  ],
 );
 
 export type CountryRecord = typeof countries.$inferSelect;

@@ -404,6 +404,8 @@ export class DrizzleToursRepository implements ToursRepository {
       slug: data.slug,
       status: data.status,
       type: data.type,
+      minTravelers: data.minTravelers,
+      maxTravelers: data.maxTravelers,
       durationDays: data.durationDays,
       durationNights: data.durationNights,
       basePriceAmount: data.price.amount,
@@ -423,6 +425,8 @@ export class DrizzleToursRepository implements ToursRepository {
         ? { status: data.status, publishedAt: this.publishedAt(data.status) }
         : {}),
       ...(data.type !== undefined ? { type: data.type } : {}),
+      ...(data.minTravelers !== undefined ? { minTravelers: data.minTravelers } : {}),
+      ...(data.maxTravelers !== undefined ? { maxTravelers: data.maxTravelers } : {}),
       ...(data.durationDays !== undefined
         ? { durationDays: data.durationDays }
         : {}),

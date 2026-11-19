@@ -14,7 +14,7 @@ export class CustomerTourBookingApiMapper {
       totalPrice: {
         amount: booking.totalPrice.amount,
         currency: booking.totalPrice.currency,
-        formatted: booking.totalPrice.format(),
+        formatted: booking.totalPrice.formatWhole(),
       },
       notes: booking.notes,
       travelers: booking.travelers,

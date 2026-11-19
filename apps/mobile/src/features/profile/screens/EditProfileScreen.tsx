@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -29,7 +30,7 @@ export function EditProfileScreen({ navigation }: Props) {
     phone: '',
     email: '',
   });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const profile = useCustomerProfile();
   const updateProfile = useUpdateCustomerProfile();
 
@@ -49,7 +50,7 @@ export function EditProfileScreen({ navigation }: Props) {
   };
 
   const save = async () => {
-    setError(false);
+    setError(null);
     try {
       await updateProfile.mutateAsync({
         firstName: form.firstName.trim(),
@@ -58,8 +59,8 @@ export function EditProfileScreen({ navigation }: Props) {
         email: form.email.trim() || null,
       });
       navigation.goBack();
-    } catch {
-      setError(true);
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('profile.saveError')));
     }
   };
 
@@ -107,7 +108,7 @@ export function EditProfileScreen({ navigation }: Props) {
             />
           </View>
           {error ? (
-            <Text style={styles.error}>{t('profile.saveError')}</Text>
+            <Text style={styles.error}>{error}</Text>
           ) : null}
           <PrimaryButton
             disabled={!form.firstName.trim() || !form.lastName.trim()}

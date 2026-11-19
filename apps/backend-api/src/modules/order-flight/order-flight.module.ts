@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FlightsOrderBridgeModule } from '@app/integrations/flights-order/flights-order-bridge.module';
 import { CustomerTravelersModule } from '@modules/customers/submodules/customer-travelers';
+import { CustomersModule } from '@modules/customers';
 import { FLIGHT_BOOKING_PROVIDER } from './application/flight-booking-provider.port';
 import { FLIGHT_ORDER_REPOSITORY } from './application/flight-order.repository';
 import { BookFlightOrderUseCase } from './application/use-cases/book-flight-order.use-case';
@@ -12,6 +13,7 @@ import { GetFlightOrderNotificationContextUseCase } from './application/use-case
 import { RefreshFlightOrderUseCase } from './application/use-cases/refresh-flight-order.use-case';
 import { GetFlightOrderForPaymentUseCase } from './application/use-cases/get-flight-order-for-payment.use-case';
 import { UpdateFlightOrderPaymentStatusUseCase } from './application/use-cases/update-flight-order-payment-status.use-case';
+import { ListFlightOrdersUseCase } from './application/use-cases/list-flight-orders.use-case';
 import { DrizzleFlightOrderRepository } from './infrastructure/persistence/drizzle-flight-order.repository';
 import { TtbookingFlightBookingProvider } from './infrastructure/providers/ttbooking-flight-booking.provider';
 import { MockFlightBookingProvider } from './infrastructure/providers/mock-flight-booking.provider';
@@ -26,9 +28,10 @@ const useCases = [
   CancelFlightOrderUseCase,
   GetFlightOrderForPaymentUseCase,
   UpdateFlightOrderPaymentStatusUseCase,
+  ListFlightOrdersUseCase,
 ];
 @Module({
-  imports: [FlightsOrderBridgeModule, CustomerTravelersModule],
+  imports: [FlightsOrderBridgeModule, CustomerTravelersModule, CustomersModule],
   providers: [
     ...useCases,
     DrizzleFlightOrderRepository,

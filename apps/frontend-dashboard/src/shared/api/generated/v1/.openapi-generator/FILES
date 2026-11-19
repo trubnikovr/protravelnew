@@ -49,6 +49,7 @@ docs/AdminTravelFactsApi.md
 docs/AdminTravelFactsCreate201Response.md
 docs/AdminTravelFactsList200Response.md
 docs/ApiResponseMetaDto.md
+docs/BookingTravelerRequestDto.md
 docs/CreateAdminNewsRequestDto.md
 docs/CreateCustomerRequestDto.md
 docs/CreateSystemMessageRequestDto.md
@@ -127,6 +128,7 @@ models/AdminTravelFactResponseDto.ts
 models/AdminTravelFactsCreate201Response.ts
 models/AdminTravelFactsList200Response.ts
 models/ApiResponseMetaDto.ts
+models/BookingTravelerRequestDto.ts
 models/CreateAdminNewsRequestDto.ts
 models/CreateCustomerRequestDto.ts
 models/CreateSystemMessageRequestDto.ts

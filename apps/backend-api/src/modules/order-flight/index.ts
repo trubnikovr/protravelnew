@@ -9,3 +9,4 @@ export { RefreshFlightOrderUseCase } from './application/use-cases/refresh-fligh
 export { CancelFlightOrderUseCase } from './application/use-cases/cancel-flight-order.use-case';
 export { GetFlightOrderForPaymentUseCase } from './application/use-cases/get-flight-order-for-payment.use-case';
 export { UpdateFlightOrderPaymentStatusUseCase } from './application/use-cases/update-flight-order-payment-status.use-case';
+export { ListFlightOrdersUseCase } from './application/use-cases/list-flight-orders.use-case';

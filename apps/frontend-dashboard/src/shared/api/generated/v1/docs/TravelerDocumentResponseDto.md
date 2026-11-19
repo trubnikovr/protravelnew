@@ -1,20 +1,22 @@
+
 # TravelerDocumentResponseDto
+
 
 ## Properties
 
-| Name                 | Type   |
-| -------------------- | ------ |
-| `id`                 | string |
-| `createdAt`          | Date   |
-| `updatedAt`          | Date   |
-| `type`               | string |
-| `maskedNumber`       | string |
-| `issuingCountryCode` | string |
-| `issuedAt`           | Date   |
-| `expiresAt`          | Date   |
-| `firstNameLatin`     | string |
-| `lastNameLatin`      | string |
-| `fileId`             | string |
+Name | Type
+------------ | -------------
+`id` | string
+`createdAt` | Date
+`updatedAt` | Date
+`type` | string
+`maskedNumber` | string
+`issuingCountryCode` | string
+`issuedAt` | Date
+`expiresAt` | Date
+`firstNameLatin` | string
+`lastNameLatin` | string
+`fileId` | string
 
 ## Example
 
@@ -48,3 +50,5 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

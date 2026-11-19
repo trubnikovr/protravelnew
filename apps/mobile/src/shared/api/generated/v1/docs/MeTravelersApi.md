@@ -14,7 +14,7 @@ All URIs are relative to *http://localhost*
 
 
 
-## customerTravelersAddDocumen
+## customerTravelersAddDocument
 
 > CustomerTravelersCreate201Response customerTravelersAddDocument(travelerId, createTravelerDocumentRequestDto, acceptLanguage)
 
@@ -31,7 +31,7 @@ import type { CustomerTravelersAddDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -54,7 +54,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -106,7 +106,7 @@ import type { CustomerTravelersCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -127,7 +127,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -178,7 +178,7 @@ import type { CustomerTravelersDeleteRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -199,7 +199,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -233,11 +233,11 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTravelersDeleteDocumen
+## customerTravelersDeleteDocument
 
 > customerTravelersDeleteDocument(travelerId, documentId, acceptLanguage)
 
-Delete own traveler documen
+Delete own traveler document
 
 ### Example
 
@@ -250,7 +250,7 @@ import type { CustomerTravelersDeleteDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -273,7 +273,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -308,7 +308,7 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTravelersLis
+## customerTravelersList
 
 > CustomerTravelersList200Response customerTravelersList(page, limit, sortBy, sortDirection, acceptLanguage)
 
@@ -325,7 +325,7 @@ import type { CustomerTravelersListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -352,7 +352,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -406,7 +406,7 @@ import type { CustomerTravelersUpdateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -429,7 +429,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -464,11 +464,11 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTravelersUpdateDocumen
+## customerTravelersUpdateDocument
 
 > CustomerTravelersCreate201Response customerTravelersUpdateDocument(travelerId, documentId, updateTravelerDocumentRequestDto, acceptLanguage)
 
-Update encrypted own traveler documen
+Update encrypted own traveler document
 
 ### Example
 
@@ -481,7 +481,7 @@ import type { CustomerTravelersUpdateDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -506,7 +506,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 

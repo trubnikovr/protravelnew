@@ -47,7 +47,7 @@ export class HomeApiMapper {
     return {
       amount: tour.price.amount,
       currency: tour.price.currency,
-      formatted: tour.price.format(),
+      formatted: tour.price.formatWhole(),
     };
   }
 }

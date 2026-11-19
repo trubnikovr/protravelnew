@@ -41,3 +41,8 @@ generated request, response or endpoint types manually.
 
 When a request changes API contracts, document it under Backend API and expose
 the contract through `packages`; do not define a dashboard-only API shape.
+# Проверки
+
+Не создавайте и не запускайте тесты без отдельного указания пользователя.
+Проверки типов, линтер и сборка остаются допустимыми.
+

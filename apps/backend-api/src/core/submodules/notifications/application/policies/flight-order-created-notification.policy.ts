@@ -24,9 +24,10 @@ export class FlightOrderCreatedNotificationPolicy {
       event.aggregateId,
     );
     if (!context) throw new Error('Flight order notification context missing');
+    if (!context.contact.email) return;
     await this.notifications.requestEmail({
       eventId: event.eventId,
-      recipient: context.contact,
+      recipient: { ...context.contact, email: context.contact.email },
       template: 'flight-order-created',
       variables: { orderId: event.aggregateId },
     });

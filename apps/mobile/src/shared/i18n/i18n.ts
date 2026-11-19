@@ -1,6 +1,10 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {resources} from './resources';
+import {LocaleConfig} from 'react-native-calendars';
+
+LocaleConfig.locales.ru = resources.ru.translation.calendarLocale;
+LocaleConfig.defaultLocale = 'ru';
 
 export const supportedLanguages = [
   {code: 'ru', label: 'Русский'},

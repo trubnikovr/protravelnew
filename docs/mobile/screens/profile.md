@@ -12,7 +12,9 @@ PDF pages 42 and 54–64.
 - Profile stack: `Settings`.
 - Profile stack: `Travelers`.
 - Profile stack: `AddTraveler`.
+- Profile stack: `TravelerDetails`.
 - Profile stack: `Bookings`.
+- Profile stack: `FlightBookings`.
 
 For a guest, the Profile tab renders the customer authorization stack instead
 of profile routes. A successful phone/SMS login replaces it with
@@ -24,9 +26,10 @@ of profile routes. A successful phone/SMS login replaces it with
 - overview has no screen header, avatar badge or displayed customer name;
 - edit account details without a circular avatar; the form is vertically centered;
 - currency and time-zone settings;
-- personal travellers list;
+- personal travelers list with add, edit and delete actions;
+- traveler details with encrypted passport/document data management;
 - add-traveller form with document and contact data; citizenship is selected from the country reference and saved as its ISO alpha-2 code;
-- bookings shortcut;
+- separate shortcuts to flight orders and tour bookings;
 - logout action.
 
 The overview contact details, account menu beginning with “Изменить данные”
@@ -44,7 +47,10 @@ standard backgrounds.
 ## Actions
 
 - Profile menu items open their typed root-stack screens.
-- “Бронирования” opens `Bookings` inside the authenticated Profile stack.
+- “Авиабилеты” opens `FlightBookings`; “Брони туров” opens `Bookings` inside
+  the authenticated Profile stack.
+- “Персональные данные” opens the traveler list. Each traveler can be edited,
+  removed, and given encrypted document records.
 - “Добавить человека” opens `AddTraveler`.
 - Save actions persist through the backend and return to the previous screen.
 - First name and last name are required when the customer saves profile data.
@@ -59,3 +65,11 @@ before introducing profile-specific components.
 Shared: `ScreenHeader`, `PrimaryButton`, `AppTextField`.
 
 Feature-owned: `TravelerCard`.
+
+In development (`__DEV__`), AddTraveler starts with editable sample data
+from `features/profile/data/traveler.mock.json`, including when opened from
+tour booking. Production keeps the empty form and default UZ citizenship.
+Prefilling does not save anything until the user submits the form.
+
+API failures use the shared [error-message catalog](../api-errors.md) in the
+existing error UI, preserving backend machine codes for specific guidance.

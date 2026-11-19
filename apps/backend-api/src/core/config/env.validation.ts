@@ -43,6 +43,16 @@ export const envValidationSchema = Joi.object({
   DEFAULT_LOCALE: Joi.string().valid('ru', 'uz', 'en').default('ru'),
   DEFAULT_CURRENCY: Joi.string().valid('RUB', 'USD', 'EUR').default('RUB'),
   APP_TIME_ZONE: Joi.string().default('Asia/Tashkent'),
+  SMS_PROVIDER: Joi.string().valid('mock', 'smspilot').default('mock').when('NODE_ENV', {
+    is: 'production',
+    then: Joi.valid('smspilot').required(),
+  }),
+  SMSPILOT_API_KEY: Joi.string().allow('').default('').when('SMS_PROVIDER', {
+    is: 'smspilot',
+    then: Joi.required().disallow(''),
+  }),
+  SMSPILOT_FROM: Joi.string().allow('').default(''),
+  SMSPILOT_TIMEOUT_MS: Joi.number().integer().min(1000).max(60000).default(15000),
   PAYMENT_PROVIDER: Joi.string().valid('mock', 'raiffeisen').default('mock'),
   PAYMENT_RETURN_URL: Joi.string().default('protravel://payments/result'),
   RAIFFEISEN_BASE_URL: Joi.string().uri().default('https://pay-test.raif.ru'),

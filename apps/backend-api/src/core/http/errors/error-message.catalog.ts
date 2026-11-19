@@ -31,7 +31,14 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
       'Сервис поиска временно ограничил количество запросов',
     FLIGHT_PROVIDER_AUTH_FAILED: 'Ошибка подключения к поставщику авиабилетов',
     FLIGHT_OFFER_UNAVAILABLE: 'Предложение больше недоступно',
+    OFFER_EXPIRED: 'Срок действия предложения истёк. Повторите поиск и выберите рейс заново.',
+    PRICE_CHANGED: 'Цена рейса изменилась. Повторите поиск и выберите актуальное предложение.',
     FLIGHT_BOOKING_FAILED: 'Не удалось создать бронирование авиабилета',
+    FLIGHT_CONTACT_EMAIL_REQUIRED: 'Укажите действующую электронную почту в профиле',
+    FLIGHT_CONTACT_PHONE_REQUIRED: 'Укажите действующий номер телефона в профиле',
+    FLIGHT_BOOKING_PHONE_MUST_DIFFER: 'Авиакомпания требует разные номера телефона покупателя и пассажира. Обратитесь в поддержку для оформления.',
+    FLIGHT_BOOKING_PASSPORT_DATA_INVALID: 'Проверьте паспортные данные пассажиров и попробуйте снова.',
+    FLIGHT_BOOKING_ALREADY_ATTEMPTED: 'Бронирование уже выполняется или требует проверки. Обратитесь в поддержку, прежде чем повторить попытку.',
     FLIGHT_OFFER_NOT_FOUND: 'Предложение авиабилета не найдено',
   },
   [SupportedLocale.UZ]: {
@@ -66,7 +73,11 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
     FLIGHT_PROVIDER_AUTH_FAILED:
       'Aviachiptalar yetkazib beruvchisiga ulanishda xatolik yuz berdi',
     FLIGHT_OFFER_UNAVAILABLE: 'Taklif endi mavjud emas',
+    OFFER_EXPIRED: 'Taklif muddati tugadi. Qidiruvni takrorlang va reysni qayta tanlang.',
+    PRICE_CHANGED: 'Reys narxi o‘zgardi. Qidiruvni takrorlang va joriy taklifni tanlang.',
     FLIGHT_BOOKING_FAILED: 'Aviachiptani bron qilib bo‘lmadi',
+    FLIGHT_BOOKING_PHONE_MUST_DIFFER: 'Aviakompaniya xaridor va yo‘lovchi telefon raqamlari har xil bo‘lishini talab qiladi. Yordam xizmatiga murojaat qiling.',
+    FLIGHT_BOOKING_PASSPORT_DATA_INVALID: 'Yo‘lovchilarning pasport ma’lumotlarini tekshirib, qayta urinib ko‘ring.',
     FLIGHT_OFFER_NOT_FOUND: 'Aviachipta taklifi topilmadi',
   },
   [SupportedLocale.EN]: {
@@ -100,7 +111,11 @@ const messages: Record<SupportedLocale, Record<string, string>> = {
       'The flight search service temporarily limited requests',
     FLIGHT_PROVIDER_AUTH_FAILED: 'Could not connect to the flight provider',
     FLIGHT_OFFER_UNAVAILABLE: 'The flight offer is no longer available',
+    OFFER_EXPIRED: 'The offer has expired. Search again and select a flight.',
+    PRICE_CHANGED: 'The flight price has changed. Search again and select a current offer.',
     FLIGHT_BOOKING_FAILED: 'Could not create the flight booking',
+    FLIGHT_BOOKING_PHONE_MUST_DIFFER: 'The airline requires different phone numbers for the buyer and passenger. Contact support to complete the booking.',
+    FLIGHT_BOOKING_PASSPORT_DATA_INVALID: 'Check the passengers’ passport details and try again.',
     FLIGHT_OFFER_NOT_FOUND: 'Flight offer not found',
   },
 };

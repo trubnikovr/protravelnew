@@ -30,8 +30,9 @@ export class FlightSearchAggregator {
   }
 
   async search(criteria: FlightSearchCriteria): Promise<FlightOfferData[]> {
-    const providerRequests = this.expand(criteria);
-    const results = await this.runLimited(providerRequests);
+    const airportSearches = this.buildAirportSearches(criteria);
+    const results = await this.searchAirportCombinations(airportSearches);
+
     const offers = results.flatMap((result) =>
       result.status === 'fulfilled' ? result.value.offers : [],
     );
@@ -39,56 +40,56 @@ export class FlightSearchAggregator {
       (result): result is PromiseRejectedResult => result.status === 'rejected',
     );
 
-    if (!offers.length && failures.length === providerRequests.length) {
+    if (!offers.length && failures.length === airportSearches.length) {
       throw failures[0].reason;
     }
     if (failures.length) {
       this.logger.warn('Some airport combinations failed', {
         failedSearches: failures.length,
-        totalSearches: providerRequests.length,
+        totalSearches: airportSearches.length,
       });
     }
     return this.deduplicate(offers);
   }
 
-  private async runLimited(
-    providerRequests: FlightSearchCriteria[],
+  private async searchAirportCombinations(
+    airportSearches: FlightSearchCriteria[],
   ): Promise<PromiseSettledResult<FlightSearchProviderResult>[]> {
     const limit = pLimit(FlightSearchAggregator.CONCURRENCY);
     return Promise.allSettled(
-      providerRequests.map((criteria) =>
+      airportSearches.map((criteria) =>
         limit(() => this.provider.search(criteria)),
       ),
     );
   }
 
-  private expand(criteria: FlightSearchCriteria): FlightSearchCriteria[] {
-    const routeSets = criteria.routes.map((route) => ({
+  private buildAirportSearches(criteria: FlightSearchCriteria): FlightSearchCriteria[] {
+    const airportChoices = criteria.routes.map((route) => ({
       route,
-      origins: this.codes(route.origin, route.originAirports),
-      destinations: this.codes(route.destination, route.destinationAirports),
+      origins: this.airportCodes(route.origin, route.originAirports),
+      destinations: this.airportCodes(route.destination, route.destinationAirports),
     }));
     const combinations: FlightRouteLeg[][] = [];
 
-    const visit = (index: number, selected: FlightRouteLeg[]): void => {
+    const buildRouteCombinations = (index: number, selected: FlightRouteLeg[]): void => {
       if (combinations.length > FlightSearchAggregator.MAX_COMBINATIONS) return;
-      if (index === routeSets.length) {
+      if (index === airportChoices.length) {
         combinations.push(selected);
         return;
       }
 
-      const current = routeSets[index];
+      const current = airportChoices[index];
       const outbound = selected[0];
       if (
         index === 1 &&
-        routeSets.length === 2 &&
+        airportChoices.length === 2 &&
         outbound &&
         current.origins.includes(outbound.destination) &&
         current.destinations.includes(outbound.origin)
       ) {
-        visit(2, [
+        buildRouteCombinations(2, [
           ...selected,
-          this.route(
+          this.airportRoute(
             outbound.destination,
             outbound.origin,
             current.route.departureDate,
@@ -99,15 +100,15 @@ export class FlightSearchAggregator {
 
       for (const origin of current.origins) {
         for (const destination of current.destinations) {
-          visit(index + 1, [
+          buildRouteCombinations(index + 1, [
             ...selected,
-            this.route(origin, destination, current.route.departureDate),
+            this.airportRoute(origin, destination, current.route.departureDate),
           ]);
         }
       }
     };
 
-    visit(0, []);
+    buildRouteCombinations(0, []);
     if (combinations.length > FlightSearchAggregator.MAX_COMBINATIONS) {
       throw new AppHttpException(
         HttpStatus.BAD_REQUEST,
@@ -118,7 +119,7 @@ export class FlightSearchAggregator {
     return combinations.map((routes) => ({ ...criteria, routes }));
   }
 
-  private route(
+  private airportRoute(
     origin: string,
     destination: string,
     departureDate: string,
@@ -126,7 +127,7 @@ export class FlightSearchAggregator {
     return { origin, destination, departureDate };
   }
 
-  private codes(primary: string, alternatives?: string[]): string[] {
+  private airportCodes(primary: string, alternatives?: string[]): string[] {
     return [...new Set(alternatives?.length ? alternatives : [primary])];
   }
 

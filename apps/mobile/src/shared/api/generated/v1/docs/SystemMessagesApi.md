@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 
 
 
-## systemMessagesLis
+## systemMessagesList
 
 > SystemMessagesList200Response systemMessagesList(acceptLanguage)
 
@@ -40,7 +40,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 

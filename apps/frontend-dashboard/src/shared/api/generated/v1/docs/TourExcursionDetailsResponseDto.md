@@ -1,34 +1,36 @@
+
 # TourExcursionDetailsResponseDto
+
 
 ## Properties
 
-| Name            | Type   |
-| --------------- | ------ |
-| `guideLanguage` | string |
-| `groupSizeMax`  | number |
+Name | Type
+------------ | -------------
+`guideLanguage` | string
+`groupSizeMax` | number
 
 ## Example
 
 ```typescript
-import type { TourExcursionDetailsResponseDto } from "";
+import type { TourExcursionDetailsResponseDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  guideLanguage: null,
-  groupSizeMax: null,
-} satisfies TourExcursionDetailsResponseDto;
+  "guideLanguage": null,
+  "groupSizeMax": null,
+} satisfies TourExcursionDetailsResponseDto
 
-console.log(example);
+console.log(example)
 
 // Convert the instance to a JSON string
-const exampleJSON: string = JSON.stringify(example);
-console.log(exampleJSON);
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(
-  exampleJSON
-) as TourExcursionDetailsResponseDto;
-console.log(exampleParsed);
+const exampleParsed = JSON.parse(exampleJSON) as TourExcursionDetailsResponseDto
+console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

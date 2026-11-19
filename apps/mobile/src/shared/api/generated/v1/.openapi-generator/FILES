@@ -36,9 +36,9 @@ docs/CustomerTourBookingResponseDto.md
 docs/CustomerTourBookingTravelerResponseDto.md
 docs/CustomerTourBookingsCreate201Response.md
 docs/CustomerTourBookingsList200Response.md
+docs/CustomerTourBookingsPriceQuote200Response.md
 docs/CustomerTravelersCreate201Response.md
 docs/CustomerTravelersList200Response.md
-docs/CustomerTravelersList200ResponseMeta.md
 docs/FeaturedFlightLocationResponseDto.md
 docs/FilesApi.md
 docs/FlightAirlineFilterOptionResponseDto.md
@@ -56,7 +56,9 @@ docs/FlightOrderOfferSnapshotResponseDto.md
 docs/FlightOrderResponseDto.md
 docs/FlightOrderTravelerRequestDto.md
 docs/FlightOrdersApi.md
-docs/FlightOrdersCreate201Response.md
+docs/FlightOrdersCreateLegacy201Response.md
+docs/FlightOrdersList200Response.md
+docs/FlightOrdersList200ResponseMeta.md
 docs/FlightPassengerRequestDto.md
 docs/FlightPriceFilterResponseDto.md
 docs/FlightRouteRequestDto.md
@@ -114,6 +116,7 @@ docs/SystemHealthApi.md
 docs/SystemMessageResponseDto.md
 docs/SystemMessagesApi.md
 docs/SystemMessagesList200Response.md
+docs/TourBookingPriceQuoteRequestDto.md
 docs/ToursApi.md
 docs/ToursGet200Response.md
 docs/ToursList200Response.md
@@ -147,9 +150,9 @@ models/CustomerTourBookingResponseDto.ts
 models/CustomerTourBookingTravelerResponseDto.ts
 models/CustomerTourBookingsCreate201Response.ts
 models/CustomerTourBookingsList200Response.ts
+models/CustomerTourBookingsPriceQuote200Response.ts
 models/CustomerTravelersCreate201Response.ts
 models/CustomerTravelersList200Response.ts
-models/CustomerTravelersList200ResponseMeta.ts
 models/FeaturedFlightLocationResponseDto.ts
 models/FlightAirlineFilterOptionResponseDto.ts
 models/FlightBaggageFilterResponseDto.ts
@@ -165,7 +168,9 @@ models/FlightOrderContactRequestDto.ts
 models/FlightOrderOfferSnapshotResponseDto.ts
 models/FlightOrderResponseDto.ts
 models/FlightOrderTravelerRequestDto.ts
-models/FlightOrdersCreate201Response.ts
+models/FlightOrdersCreateLegacy201Response.ts
+models/FlightOrdersList200Response.ts
+models/FlightOrdersList200ResponseMeta.ts
 models/FlightPassengerRequestDto.ts
 models/FlightPriceFilterResponseDto.ts
 models/FlightRouteRequestDto.ts
@@ -214,6 +219,7 @@ models/ReferenceSuggestionResponseDto.ts
 models/RefreshCustomerTokenRequestDto.ts
 models/SystemMessageResponseDto.ts
 models/SystemMessagesList200Response.ts
+models/TourBookingPriceQuoteRequestDto.ts
 models/ToursGet200Response.ts
 models/ToursList200Response.ts
 models/TravelFactResponseDto.ts

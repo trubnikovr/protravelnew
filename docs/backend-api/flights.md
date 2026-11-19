@@ -11,7 +11,7 @@ mobile controller → application use case → FlightProviderPort
 ## API and orchestration
 
 ```text
-POST /api/v1/flights/searches
+POST /api/v1/flights/search
 GET  /api/v1/flights/offers/{offerId}
 GET  /api/v1/flights/offers/{offerId}/fare-rules
 POST /api/v1/flights/offers/{offerId}/share
@@ -31,7 +31,7 @@ sequenceDiagram
     participant OfferRepository
     participant FlightProvider
 
-    Mobile->>API: POST /flights/searches
+    Mobile->>API: POST /flights/search
     API->>FlightProvider: Search flights
     FlightProvider-->>API: Provider offers
     API->>OfferRepository: Save normalized offers
@@ -69,20 +69,25 @@ already localized `label` selected from `Accept-Language`. The backend promotes
 the cheapest offer first and the fastest distinct offer second before
 pagination. If one offer is both cheapest and fastest, it receives both
 highlights. Clients display these labels and do not calculate highlights. The
-domain owns the stable highlight type and selection rules; the mobile API
-entrypoint catalog owns localized presentation labels, which are applied by
-`FlightApiMapper` rather than the controller or domain.
+domain owns the stable highlight type and selection rules; the flights
+application service owns localized presentation labels, which are applied by
+`FlightApiMapper`.
 
 The cache key is a SHA-256 hash of routes, cabin class and canonically sorted
 passenger groups plus the provider name. Filters, sorting, `page` and `limit`
 are excluded, so changing result filters reuses the same raw provider response
 instead of starting another TTBooking search. Cache hits receive fresh
 ProTravel offer UUIDs for the requested page,
-which are saved for revalidation and booking. Redis failures are handled as
-cache misses and do not make provider search unavailable.
-Empty cached arrays are treated as cache misses, and empty provider results are
-not cached. This ensures that pull-to-refresh can retry the provider instead of
-replaying an empty result for the full cache TTL. Search diagnostics record only
+which are saved for revalidation and booking. The global core `CacheManager`
+uses a Redis lock per key so simultaneous searches across replicas wait for one
+provider operation. The owner renews its lease and atomically writes the result
+only while it still owns the lock; waiting is bounded to 15 minutes. A failed
+owner releases the lock so another request can retry. Requests in the same
+process also share the in-flight operation. When Redis is unavailable the
+search still runs, but cross-replica deduplication cannot be guaranteed.
+Empty results are cached for two seconds to share the response with concurrent
+requests while allowing a subsequent refresh; nonempty results live five minutes.
+Search diagnostics record only
 provider name, route/filter names and aggregate group/itinerary/offer counts;
 provider tokens and raw response bodies are never logged.
 
@@ -227,8 +232,8 @@ localizes their safe messages from `Accept-Language`; raw provider payloads,
 URLs and transport messages are never returned to clients.
 
 Flight offer and segment responses include a required localized `baggageLabel`.
-The API mapper owns baggage wording, plural forms and the deduplicated offer
-summary; raw `baggage` remains available for compatibility. Unknown allowances
+The flights application service owns baggage wording, plural forms and the
+deduplicated offer summary; raw `baggage` remains available for compatibility. Unknown allowances
 are labeled as pending rather than interpreted as no baggage. Mobile renders
 these strings verbatim without PC/KG parsing or local fallback copy.
 

@@ -39,6 +39,7 @@ export class ToursService {
   }
 
   async create(data: TourWriteData): Promise<Tour> {
+    this.validateTravelerLimits(data.minTravelers, data.maxTravelers);
     await this.validateDestinations(data.destinations);
     try {
       const tour = await this.repository.create(data);
@@ -52,6 +53,14 @@ export class ToursService {
   }
 
   async update(id: string, data: TourUpdateData): Promise<Tour | null> {
+    if (data.minTravelers !== undefined || data.maxTravelers !== undefined) {
+      const existing = await this.repository.findById(id);
+      if (!existing) return null;
+      this.validateTravelerLimits(
+        data.minTravelers === undefined ? existing.minTravelers : data.minTravelers,
+        data.maxTravelers === undefined ? existing.maxTravelers : data.maxTravelers,
+      );
+    }
     if (data.destinations) await this.validateDestinations(data.destinations);
     try {
       const tour = await this.repository.update(id, data);
@@ -72,6 +81,12 @@ export class ToursService {
     const deleted = await this.repository.delete(id);
     if (deleted) this.events.publish(new TourDeletedDomainEvent(id, {}));
     return deleted;
+  }
+
+  private validateTravelerLimits(min: number | null, max: number | null): void {
+    if (min !== null && max !== null && min > max) {
+      throw new BadRequestException({ code: 'TOUR_TRAVELER_LIMITS_INVALID', message: 'Minimum travelers exceeds maximum' });
+    }
   }
 
   private rethrowConflict(error: unknown): never {

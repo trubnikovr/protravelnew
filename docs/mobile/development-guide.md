@@ -2,7 +2,8 @@
 
 ## Product context
 
-ProTravel is a bare React Native travel application for iOS and Android.
+Caravantur is a bare React Native travel application for iOS and Android.
+The Android application ID and iOS bundle identifier are `com.caravantur`.
 The visual source of truth is `design/Travel Mobile App.pdf`. The matching
 `design/Travel Mobile App.fig` archive is used only to retrieve original
 raster assets.
@@ -94,9 +95,8 @@ Rules:
 
 ## Verification
 
-Временно тесты мобильного приложения не добавляем и не запускаем до отдельного
-указания пользователя. Существующие тесты сохраняем. Проверки TypeScript и ESLint
-остаются обязательными.
+Тесты не создаём и не запускаем без отдельного указания пользователя.
+Проверки TypeScript и ESLint остаются обязательными.
 
 Use Node from the repository-root `.nvmrc` and JDK 17 for Android. The Android
 npm script validates the active Java runtime, discovers JDK 17 automatically on

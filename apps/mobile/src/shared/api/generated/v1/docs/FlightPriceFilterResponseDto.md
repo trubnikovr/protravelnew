@@ -8,16 +8,20 @@ Name | Type
 ------------ | -------------
 `min` | string
 `max` | string
+`minFormatted` | string
+`maxFormatted` | string
 
 ## Example
 
-```typescrip
+```typescript
 import type { FlightPriceFilterResponseDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "min": 1200000,
   "max": 6800000,
+  "minFormatted": 12 000 руб.,
+  "maxFormatted": 68 000 руб.,
 } satisfies FlightPriceFilterResponseDto
 
 console.log(example)
@@ -26,7 +30,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as FlightPriceFilterResponseDto
 console.log(exampleParsed)
 ```

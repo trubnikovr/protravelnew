@@ -9,7 +9,7 @@ All URIs are relative to *http://localhost*
 
 
 
-## travelFactsLis
+## travelFactsList
 
 > TravelFactsList200Response travelFactsList(destinationCode, limit, acceptLanguage)
 
@@ -45,7 +45,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -84,7 +84,7 @@ No authorization required
 
 > TravelFactsRandom200Response travelFactsRandom(destinationCode, acceptLanguage)
 
-Get a random published travel fac
+Get a random published travel fact
 
 ### Example
 
@@ -114,7 +114,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 

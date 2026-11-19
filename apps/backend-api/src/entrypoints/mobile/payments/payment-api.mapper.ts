@@ -11,7 +11,7 @@ export class PaymentApiMapper {
       amount: {
         amount: payment.amount.amount,
         currency: payment.amount.currency,
-        formatted: payment.amount.format(),
+        formatted: payment.amount.formatWhole(),
       },
       provider: payment.provider,
       paymentUrl: payment.paymentUrl,

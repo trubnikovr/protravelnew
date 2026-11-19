@@ -484,7 +484,7 @@
         ]
       }
     },
-    "/api/v1/flights/searches": {
+    "/api/v1/flights/search": {
       "post": {
         "operationId": "Flights_search",
         "parameters": [
@@ -560,6 +560,88 @@
           }
         },
         "summary": "Search flights and return normalized offers",
+        "tags": [
+          "flights"
+        ]
+      }
+    },
+    "/api/v1/flights/searches": {
+      "post": {
+        "deprecated": true,
+        "operationId": "Flights_searchLegacy",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFlightSearchRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FlightOfferResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        },
+                        {
+                          "$ref": "#/components/schemas/FlightSearchMetaResponseDto"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Search flights (legacy route)",
         "tags": [
           "flights"
         ]
@@ -951,6 +1033,194 @@
       }
     },
     "/api/v1/flight-orders": {
+      "get": {
+        "operationId": "FlightOrders_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortDirection",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FlightOrderResponseDto"
+                      }
+                    },
+                    "meta": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/ApiResponseMetaDto"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "pagination"
+                          ],
+                          "properties": {
+                            "pagination": {
+                              "$ref": "#/components/schemas/PaginationMetaResponseDto"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List current customer flight orders",
+        "tags": [
+          "flight-orders"
+        ]
+      },
+      "post": {
+        "deprecated": true,
+        "operationId": "FlightOrders_createLegacy",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFlightOrderRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/FlightOrderResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Book a flight and create the flight order (legacy route)",
+        "tags": [
+          "flight-orders"
+        ]
+      }
+    },
+    "/api/v1/flight-orders/create-flight-order": {
       "post": {
         "operationId": "FlightOrders_create",
         "parameters": [
@@ -1017,7 +1287,7 @@
             "bearer": []
           }
         ],
-        "summary": "Create draft flight order from validated offer",
+        "summary": "Book a flight and create the flight order",
         "tags": [
           "flight-orders"
         ]
@@ -1776,6 +2046,71 @@
         "summary": "Delete own traveler document",
         "tags": [
           "me/travelers"
+        ]
+      }
+    },
+    "/api/v1/me/tour-bookings/price-quote": {
+      "post": {
+        "operationId": "CustomerTourBookings_priceQuote",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TourBookingPriceQuoteRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/MoneyResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Calculate current tour booking total",
+        "tags": [
+          "me/tour-bookings"
         ]
       }
     },
@@ -3294,6 +3629,10 @@
               "EUR"
             ]
           },
+          "formatted": {
+            "type": "string",
+            "example": "25 000 руб."
+          },
           "electronicTicket": {
             "type": "boolean"
           },
@@ -3316,6 +3655,7 @@
           "itineraries",
           "totalAmount",
           "currency",
+          "formatted",
           "electronicTicket",
           "requiresLatinNames",
           "expiresAt"
@@ -3365,11 +3705,23 @@
             "type": "string",
             "nullable": true,
             "example": "6800000"
+          },
+          "minFormatted": {
+            "type": "string",
+            "nullable": true,
+            "example": "12 000 руб."
+          },
+          "maxFormatted": {
+            "type": "string",
+            "nullable": true,
+            "example": "68 000 руб."
           }
         },
         "required": [
           "min",
-          "max"
+          "max",
+          "minFormatted",
+          "maxFormatted"
         ]
       },
       "FlightStopsFilterOptionResponseDto": {
@@ -3794,7 +4146,7 @@
           },
           "formatted": {
             "type": "string",
-            "example": "125 000,00 RUB"
+            "example": "125 000 руб."
           }
         },
         "required": [
@@ -4016,6 +4368,10 @@
               "EUR"
             ]
           },
+          "formatted": {
+            "type": "string",
+            "example": "25 000 руб."
+          },
           "offerExpiresAt": {
             "type": "string",
             "format": "date-time"
@@ -4027,6 +4383,7 @@
           "itineraries",
           "totalAmount",
           "currency",
+          "formatted",
           "offerExpiresAt"
         ]
       },
@@ -4115,7 +4472,6 @@
         },
         "required": [
           "name",
-          "email",
           "countryCode",
           "areaCode",
           "phone"
@@ -4155,7 +4511,13 @@
             "format": "uuid"
           },
           "contact": {
-            "$ref": "#/components/schemas/FlightOrderContactRequestDto"
+            "deprecated": true,
+            "description": "Ignored; contact details are loaded from the customer profile.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FlightOrderContactRequestDto"
+              }
+            ]
           },
           "travelers": {
             "type": "array",
@@ -4166,7 +4528,6 @@
         },
         "required": [
           "offerId",
-          "contact",
           "travelers"
         ]
       },
@@ -4547,6 +4908,29 @@
           }
         }
       },
+      "TourBookingPriceQuoteRequestDto": {
+        "type": "object",
+        "properties": {
+          "tourId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "travelersCount": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "required": [
+          "tourId",
+          "travelersCount"
+        ]
+      },
       "CustomerTourBookingTravelerResponseDto": {
         "type": "object",
         "properties": {
@@ -4680,6 +5064,12 @@
               "format": "uuid"
             }
           },
+          "travelersCount": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Required when no travelers are selected"
+          },
           "departureDate": {
             "type": "string",
             "format": "date",
@@ -4692,8 +5082,7 @@
           }
         },
         "required": [
-          "tourId",
-          "travelerIds"
+          "tourId"
         ]
       },
       "PaymentResponseDto": {
@@ -4800,9 +5189,9 @@
       "FeaturedFlightLocationResponseDto": {
         "type": "object",
         "properties": {
-          "code": {
+          "cityId": {
             "type": "string",
-            "example": "TAS"
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -4812,6 +5201,16 @@
             "type": "string",
             "example": "Узбекистан"
           },
+          "airportCodes": {
+            "example": [
+              "TAS",
+              "UGC"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "sortOrder": {
             "type": "number"
           },
@@ -4820,9 +5219,10 @@
           }
         },
         "required": [
-          "code",
+          "cityId",
           "name",
           "countryName",
+          "airportCodes",
           "sortOrder",
           "isActive"
         ]
@@ -5045,6 +5445,14 @@
               "excursion"
             ]
           },
+          "minTravelers": {
+            "type": "number",
+            "nullable": true
+          },
+          "maxTravelers": {
+            "type": "number",
+            "nullable": true
+          },
           "durationDays": {
             "type": "number"
           },
@@ -5201,6 +5609,14 @@
               "package",
               "excursion"
             ]
+          },
+          "minTravelers": {
+            "type": "number",
+            "nullable": true
+          },
+          "maxTravelers": {
+            "type": "number",
+            "nullable": true
           },
           "durationDays": {
             "type": "number"

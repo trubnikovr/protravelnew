@@ -8,18 +8,20 @@ Name | Type
 ------------ | -------------
 `tourId` | string
 `travelerIds` | Array&lt;string&gt;
+`travelersCount` | number
 `departureDate` | Date
 `notes` | string
 
 ## Example
 
-```typescrip
+```typescript
 import type { CreateCustomerTourBookingRequestDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "tourId": null,
   "travelerIds": null,
+  "travelersCount": null,
   "departureDate": null,
   "notes": null,
 } satisfies CreateCustomerTourBookingRequestDto
@@ -30,7 +32,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as CreateCustomerTourBookingRequestDto
 console.log(exampleParsed)
 ```

@@ -63,7 +63,7 @@ Money is represented as an object:
 {
   "amount": "125050",
   "currency": "USD",
-  "formatted": "1,250.50 USD"
+  "formatted": "1 251 долл. США"
 }
 ```
 
@@ -72,8 +72,9 @@ Money is represented as an object:
 floating-point rounding and JSON number precision loss. The database stores
 the same integer value as `numeric(..., scale: 0)`.
 
-`formatted` is presentation convenience only. Consumers must use `amount` and
-`currency` for calculations and may format them for their active locale.
+`formatted` is presentation-only, localized by the backend and rounded to a
+whole currency unit. The mobile client displays it as-is. Consumers use
+`amount` and `currency` for calculations; `amount` retains exact minor units.
 
 ## Date, time and time-zone policy
 

@@ -16,8 +16,10 @@ fields are never copied into customer domain events.
 1. `POST /api/v1/auth/login` accepts an E.164 phone number.
 2. `RequestCustomerLoginCodeUseCase` creates a five-minute challenge and calls
    `CustomerSmsSenderPort`.
-3. The current mock SMS adapter returns `developmentCode: "4322"` in the
-   login response. No external SMS is sent.
+3. With `SMS_PROVIDER=smspilot`, the backend generates a random four-digit code
+   and sends it through SMSPilot over HTTPS. The code is not returned to the
+   client. With `SMS_PROVIDER=mock`, no SMS is sent and the login response
+   contains `developmentCode: "4322"` for local development.
 4. `POST /api/v1/auth/verify` accepts `verificationId` and `code`.
 5. `VerifyCustomerLoginCodeUseCase` consumes the challenge, finds the customer
    by phone or creates one, then returns access and refresh tokens.
@@ -29,9 +31,15 @@ or blocked customers and exposes current names through `AuthenticatedCustomer`
 without embedding mutable profile data in the JWT. Admin tokens use a different
 strategy, scope and secret.
 
-The in-memory challenge repository is temporary and is not suitable for
-multiple replicas. Replace it with Redis together with a real SMS adapter,
-attempt limits and provider delivery tracking before production.
+Configure `SMSPILOT_API_KEY` as a secret, optionally set `SMSPILOT_FROM` to an
+approved sender name, and use `SMSPILOT_TIMEOUT_MS` to control the request
+timeout. See https://smspilot.ru/apikey.php?tab=api1. An accepted request does
+not guarantee delivery; delivery tracking is not implemented.
+
+Each challenge permits five incorrect verification attempts. The in-memory
+challenge repository is temporary and is not suitable for multiple replicas or
+process restarts. Replace it with shared storage and add per-phone sending
+limits and delivery tracking before production.
 
 `developmentCode` belongs only to the mock adapter. A production SMS adapter
 must return no code to the client.

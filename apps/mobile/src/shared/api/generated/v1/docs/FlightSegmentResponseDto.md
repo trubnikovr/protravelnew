@@ -15,13 +15,13 @@ Name | Type
 `arrivalLocal` | string
 `durationMinutes` | number
 `cabinClass` | string
-`bookingClass` | objec
-`baggage` | objec
+`bookingClass` | object
+`baggage` | object
 `baggageLabel` | string
 
 ## Example
 
-```typescrip
+```typescript
 import type { FlightSegmentResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -46,7 +46,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as FlightSegmentResponseDto
 console.log(exampleParsed)
 ```

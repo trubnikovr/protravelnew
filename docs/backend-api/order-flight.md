@@ -6,8 +6,8 @@ expiry and cancellation rules differ by product. A generic `orders` domain is
 not used.
 
 ```text
-Flight offer → draft → booking → booked → payment_pending → paid
-                         ↘ failed        └───────────────→ cancelled
+Flight offer → provider booking → booked → payment_pending → paid
+                                      └──────────────────→ cancelled
 ```
 
 ## Mobile API
@@ -15,19 +15,60 @@ Flight offer → draft → booking → booked → payment_pending → paid
 All endpoints require customer JWT authentication:
 
 ```text
-POST /api/v1/flight-orders
+GET  /api/v1/flight-orders?page=1&limit=20
+POST /api/v1/flight-orders/create-flight-order
 GET  /api/v1/flight-orders/{id}
 POST /api/v1/flight-orders/{id}/book
 POST /api/v1/flight-orders/{id}/refresh
 POST /api/v1/flight-orders/{id}/cancel
 ```
 
-Creation requires `Idempotency-Key`. The key is unique per customer and a
-repeat returns the original order. Creation loads the unexpired persisted
-offer, validates that selected traveler types match the searched passenger
-composition and stores immutable price, route and provider-reference
-snapshots. It does not repeat availability search or price revalidation before
-booking; `CREATEBR` uses the exact provider tokens selected in search.
+The list endpoint returns only orders owned by the authenticated customer,
+ordered newest first, with standard pagination metadata.
+
+The former `POST /api/v1/flight-orders` creation route remains available for
+older clients and is deprecated.
+
+Booking logs record the idempotency check, offer and traveler validation,
+attempt reservation, provider booking and order persistence as separate steps
+with durations and safe error codes. TTBooking `SELECTFR` and `CREATEBR` are
+logged individually. Request context links these entries; passenger details,
+contact details, booking tokens and raw provider payloads are excluded.
+
+Creation requires `Idempotency-Key`. Creation loads the unexpired persisted
+offer, validates passenger composition and ownership, and reserves a technical
+attempt keyed by customer and idempotency key before contacting the provider.
+The order is stored only after provider booking succeeds. A repeat returns an
+existing order or reports an earlier attempt that needs verification; it does
+not repeat an uncertain provider operation. Before booking, `SELECTFR` rechecks
+the chosen flight. `CREATEBR`
+uses the tokens returned by that selection. An unavailable flight stops the
+booking. If the selected price changed, booking continues and the normalized
+selected amount is stored in the order and used for payment.
+Offer expiry is independently checked on the server using Temporal instants;
+client-side countdowns do not replace this check.
+The mismatch log records both normalized integer amounts, the configured
+currency and multiplier, without passenger data or provider tokens. Currency
+is currently configured, not validated against TTBooking `fareCurrency`.
+TTBooking group, itinerary, flight and segment tokens may be strings or
+numbers. Numeric zero is a valid token and is forwarded without conversion.
+An explicit `BOOKING_NOT_CONFIRMED` response reporting identical buyer and
+passenger phones maps to `FLIGHT_BOOKING_PHONE_MUST_DIFFER`; the customer is
+directed to support. Raw provider messages are not sent to the client.
+For a confirmed rejection containing the generic provider data-validation
+message, the API returns `FLIGHT_BOOKING_PASSPORT_DATA_INVALID` and asks the
+customer to check passport data. A specific phone rejection takes precedence.
+
+Flight order responses keep `totalAmount` as an integer minor-unit string and
+`currency` as a separate code for calculations. `formatted` is generated from
+`MoneyValueObject`, localized by the backend, rounded to a whole currency unit
+and is presentation-only;
+clients should display it instead of concatenating the raw amount and currency.
+
+Contact details are loaded from the authenticated customer's profile. A valid
+email and international phone number are required before contacting TTBooking.
+The legacy `contact` request field is optional and ignored. The backend stores
+a contact snapshot on the order and sends `customer.phoneNumber` to TTBooking.
 
 `book` loads selected traveler documents through the public
 `CustomerTravelersService` application API. Decrypted document numbers exist only in
@@ -51,6 +92,7 @@ and `documentId`; ownership is checked against the authenticated customer.
 mock adapter supports the complete state flow. The TTBooking adapter maps:
 
 - `CREATEBR` — create the booking;
+- `SELECTFR` — recheck the selected flight and obtain booking tokens;
 - `LOADBOOKING` — refresh remote status;
 - `CANCELBOOKING` — cancel an unissued booking.
 

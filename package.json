@@ -8,6 +8,7 @@
     "apps/frontend-dashboard"
   ],
   "scripts": {
+    "dev": "node scripts/dev.mjs",
     "dashboard:build": "npm run build --workspace @protravel/frontend-dashboard",
     "dashboard:api:generate": "npm run api:generate --workspace @protravel/frontend-dashboard",
     "dashboard:dev": "npm run dev --workspace @protravel/frontend-dashboard",
@@ -23,11 +24,11 @@
     "backend:db:migrate": "drizzle-kit migrate --config apps/backend-api/drizzle.config.ts",
     "backend:db:studio": "drizzle-kit studio --config apps/backend-api/drizzle.config.ts",
     "backend:dev": "npm run start:dev --workspace @protravel/backend-api",
-
     "backend:lint": "npm run lint --workspace @protravel/backend-api",
     "backend:seed:admin": "npm run seed:admin --workspace @protravel/backend-api",
     "backend:seed:demo": "npm run seed:demo --workspace @protravel/backend-api",
     "backend:seed:reference": "npm run seed:reference --workspace @protravel/backend-api",
+    "backend:customer:delete-travelers": "npm run customer:delete-travelers --workspace @protravel/backend-api --",
     "backend:start": "npm run start --workspace @protravel/backend-api",
     "backend:test": "npm run test --workspace @protravel/backend-api",
     "backend:typecheck": "npm run typecheck --workspace @protravel/backend-api",

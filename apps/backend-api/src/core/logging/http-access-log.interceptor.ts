@@ -21,6 +21,13 @@ function safeRequestUrl(url: string): string {
   return url.replace(/(\/flights\/shares\/)[^/?#]+/g, '$1[redacted]');
 }
 
+function operationDescription(method: string, url: string): string | undefined {
+  if (method === 'POST' && ['/api/v1/flight-orders', '/api/v1/flight-orders/create-flight-order'].includes(url.split('?')[0])) {
+    return 'Book flight and create order';
+  }
+  return undefined;
+}
+
 @Injectable()
 export class HttpAccessLogInterceptor implements NestInterceptor {
   constructor(
@@ -75,9 +82,11 @@ export class HttpAccessLogInterceptor implements NestInterceptor {
     response.once('finish', () => {
       const responseTime = Math.round(performance.now() - startedAt);
       const url = safeRequestUrl(request.originalUrl);
+      const operation = operationDescription(request.method, url);
       this.logger.info(
         {
           ...context,
+          ...(operation ? { operation } : {}),
           method: request.method,
           url,
           statusCode: response.statusCode,
@@ -85,7 +94,9 @@ export class HttpAccessLogInterceptor implements NestInterceptor {
           remoteAddress: request.ip,
           userAgent: request.headers['user-agent'],
         },
-        `${request.method} ${url} ${response.statusCode} ${responseTime}ms`,
+        `${operation ? `${operation} — ` : ''}${request.method} ${url} ${
+          response.statusCode
+        } ${responseTime}ms`,
       );
     });
   }

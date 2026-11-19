@@ -7,6 +7,7 @@ import {
 import { DomainEventPublisher } from '@core/events/domain-event.publisher';
 import { CustomerTravelersService } from '@modules/customers/submodules/customer-travelers';
 import type { FlightOrder } from '../../domain/flight-order';
+import { FlightOrderStatus } from '../../domain/flight-order.types';
 import {
   FlightOrderBookedDomainEvent,
   FlightOrderBookingFailedDomainEvent,
@@ -33,6 +34,7 @@ export class BookFlightOrderUseCase {
 
   async execute(customerId: string, orderId: string): Promise<FlightOrder> {
     const order = await this.requireOrder(customerId, orderId);
+    if (order.status === FlightOrderStatus.BOOKED) return order;
     this.startBooking(order);
     await this.orders.save(order);
     return this.performBooking(customerId, order);

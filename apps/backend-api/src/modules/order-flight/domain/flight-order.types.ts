@@ -17,7 +17,7 @@ export enum FlightOrderStatus {
 
 export interface FlightOrderContact {
   name: string;
-  email: string;
+  email?: string;
   countryCode: string;
   areaCode: string;
   phone: string;
@@ -41,6 +41,7 @@ export interface FlightOrderOfferSnapshot {
 }
 
 export interface FlightBookingResult {
+  totalAmount?: string;
   providerBookingToken: string;
   recordLocator: string | null;
   expiresAt: string | null;

@@ -2272,6 +2272,160 @@
         ]
       }
     },
+    "/api/v1/admin/tour-bookings/{id}/travelers": {
+      "post": {
+        "operationId": "AdminTourBookings_addTraveler",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingTravelerRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TourBookingResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Add traveler details to a booking",
+        "tags": [
+          "admin/tour-bookings"
+        ]
+      }
+    },
+    "/api/v1/admin/tour-bookings/{id}/travelers/{travelerId}": {
+      "patch": {
+        "operationId": "AdminTourBookings_updateTraveler",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "travelerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "description": "Response language. Defaults to ru.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ru",
+                "uz",
+                "en"
+              ],
+              "default": "ru"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingTravelerRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TourBookingResponseDto"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMetaDto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Edit traveler details in a booking",
+        "tags": [
+          "admin/tour-bookings"
+        ]
+      }
+    },
     "/api/v1/admin/tour-bookings/{id}/documents": {
       "post": {
         "operationId": "AdminTourBookings_uploadDocument",
@@ -3399,7 +3553,7 @@
           },
           "formatted": {
             "type": "string",
-            "example": "125 000,00 RUB"
+            "example": "125 000 руб."
           }
         },
         "required": [
@@ -3788,9 +3942,9 @@
       "FeaturedFlightLocationResponseDto": {
         "type": "object",
         "properties": {
-          "code": {
+          "cityId": {
             "type": "string",
-            "example": "TAS"
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -3800,6 +3954,16 @@
             "type": "string",
             "example": "Узбекистан"
           },
+          "airportCodes": {
+            "example": [
+              "TAS",
+              "UGC"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "sortOrder": {
             "type": "number"
           },
@@ -3808,9 +3972,10 @@
           }
         },
         "required": [
-          "code",
+          "cityId",
           "name",
           "countryName",
+          "airportCodes",
           "sortOrder",
           "isActive"
         ]
@@ -4332,6 +4497,14 @@
               "excursion"
             ]
           },
+          "minTravelers": {
+            "type": "number",
+            "nullable": true
+          },
+          "maxTravelers": {
+            "type": "number",
+            "nullable": true
+          },
           "durationDays": {
             "type": "number"
           },
@@ -4677,6 +4850,18 @@
               "excursion"
             ]
           },
+          "minTravelers": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "maxTravelers": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 100
+          },
           "durationDays": {
             "type": "number",
             "minimum": 1,
@@ -4810,6 +4995,18 @@
               "package",
               "excursion"
             ]
+          },
+          "minTravelers": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "maxTravelers": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 100
           },
           "durationDays": {
             "type": "number",
@@ -5341,6 +5538,43 @@
           "status"
         ]
       },
+      "BookingTravelerRequestDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "unspecified"
+            ]
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "citizenshipCountryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "gender"
+        ]
+      },
       "CreateSystemMessageRequestDto": {
         "type": "object",
         "properties": {
@@ -5506,15 +5740,9 @@
       "FeaturedFlightLocationRequestDto": {
         "type": "object",
         "properties": {
-          "code": {
+          "cityId": {
             "type": "string",
-            "example": "TAS"
-          },
-          "name": {
-            "type": "string"
-          },
-          "countryName": {
-            "type": "string"
+            "format": "uuid"
           },
           "sortOrder": {
             "type": "number"
@@ -5524,9 +5752,7 @@
           }
         },
         "required": [
-          "code",
-          "name",
-          "countryName",
+          "cityId",
           "sortOrder",
           "isActive"
         ]

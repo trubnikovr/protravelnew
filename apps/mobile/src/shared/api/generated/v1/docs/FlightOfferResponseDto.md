@@ -16,13 +16,14 @@ Name | Type
 `itineraries` | [Array&lt;FlightItineraryResponseDto&gt;](FlightItineraryResponseDto.md)
 `totalAmount` | string
 `currency` | string
+`formatted` | string
 `electronicTicket` | boolean
 `requiresLatinNames` | boolean
 `expiresAt` | Date
 
 ## Example
 
-```typescrip
+```typescript
 import type { FlightOfferResponseDto } from ''
 
 // TODO: Update the object below with actual values
@@ -37,6 +38,7 @@ const example = {
   "itineraries": null,
   "totalAmount": 2500000,
   "currency": null,
+  "formatted": 25 000 руб.,
   "electronicTicket": null,
   "requiresLatinNames": null,
   "expiresAt": null,
@@ -48,7 +50,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as FlightOfferResponseDto
 console.log(exampleParsed)
 ```

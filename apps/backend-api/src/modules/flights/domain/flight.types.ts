@@ -90,11 +90,11 @@ export interface FlightFareRules {
 
 export interface FlightProviderReference {
   searchToken: string;
-  groupToken: string;
+  groupToken: string | number;
   itineraries: Array<{
-    itineraryToken: string;
-    flightToken: string;
-    segmentTokens: string[];
+    itineraryToken: string | number;
+    flightToken: string | number;
+    segmentTokens: Array<string | number>;
   }>;
 }
 
@@ -113,7 +113,7 @@ export interface FlightOfferData {
 }
 
 export interface FlightSearchFilters {
-  price: { min: string | null; max: string | null };
+  price: { min: string | null; max: string | null; currency: CurrencyCode | null };
   stops: Array<{ value: number; count: number }>;
   airlines: Array<{ code: string; name: string; count: number }>;
   baggage: { included: number; notIncluded: number };

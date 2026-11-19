@@ -7,6 +7,8 @@ import {
   ProfileScreen,
   SettingsScreen,
   TravelersScreen,
+  TravelerDetailsScreen,
+  FlightBookingsScreen,
 } from '../../features/profile';
 import { useAuthSession } from '../../features/auth';
 import { BookingsScreen } from '../../features/bookings';
@@ -38,7 +40,9 @@ export function ProfileNavigator() {
       <Stack.Screen component={SettingsScreen} name="Settings" />
       <Stack.Screen component={TravelersScreen} name="Travelers" />
       <Stack.Screen component={AddTravelerScreen} name="AddTraveler" />
+      <Stack.Screen component={TravelerDetailsScreen} name="TravelerDetails" />
       <Stack.Screen component={BookingsScreen} name="Bookings" />
+      <Stack.Screen component={FlightBookingsScreen} name="FlightBookings" />
     </Stack.Navigator>
   );
 }

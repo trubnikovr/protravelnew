@@ -49,3 +49,6 @@ OTP-поле использует `textContentType="oneTimeCode"` на iOS и
 Сессия текущего mock-этапа хранится в памяти и сбрасывается после перезапуска
 приложения. До production access/refresh tokens нужно перенести в защищённое
 native-хранилище и подключить автоматическое обновление access token.
+
+API failures use the shared [error-message catalog](../api-errors.md) in the
+existing error UI, preserving backend machine codes for specific guidance.

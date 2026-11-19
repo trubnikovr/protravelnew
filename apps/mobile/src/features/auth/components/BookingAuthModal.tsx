@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -59,8 +60,8 @@ export function BookingAuthModal({
       const result = await requestCode.mutateAsync(normalized);
       setChallenge({ phone: normalized, ...result });
       setCode(result.developmentCode ?? '');
-    } catch {
-      setError(t('auth.sendError'));
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('auth.sendError')));
     }
   };
 
@@ -77,8 +78,8 @@ export function BookingAuthModal({
       });
       signIn(session, challenge.phone);
       onAuthenticated();
-    } catch {
-      setError(t('auth.verifyError'));
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('auth.verifyError')));
     }
   };
 

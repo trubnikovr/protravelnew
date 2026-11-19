@@ -1,5 +1,6 @@
 import type { FlightOrder } from '@modules/order-flight';
 import { FlightOrderResponseDto } from './dto/response/flight-order.response.dto';
+import { MoneyValueObject } from '@shared/domain/value-objects';
 
 export class FlightOrderApiMapper {
   static toResponse(order: FlightOrder): FlightOrderResponseDto {
@@ -21,14 +22,28 @@ export class FlightOrderApiMapper {
   }
 
   private static publicOffer(order: FlightOrder) {
+    return {
+      ...this.offerDetails(order),
+      formatted: this.formattedMoney(order),
+    };
+  }
+
+  private static offerDetails(order: FlightOrder) {
     const {
       providerReference: _providerReference,
       passengers: _passengers,
-      ...offer
+      ...details
     } = order.offerSnapshot;
     void _providerReference;
     void _passengers;
-    return offer;
+    return details;
+  }
+
+  private static formattedMoney(order: FlightOrder): string {
+    return MoneyValueObject.create(
+      order.offerSnapshot.totalAmount,
+      order.offerSnapshot.currency,
+    ).formatWhole();
   }
 
   private static booking(order: FlightOrder) {

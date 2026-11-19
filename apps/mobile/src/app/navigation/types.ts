@@ -36,14 +36,14 @@ export type FlightSearchSelection = {
   cabinClass: 'economy' | 'premium_economy' | 'business' | 'first';
 };
 
-export type SearchStackParamList = {
-  SearchForm: { passengers?: PassengerSelection } | undefined;
-  Passengers: {
+export type AviaStackParamList = {
+  AviaSearchForm: { passengers?: PassengerSelection } | undefined;
+  AviaPassengers: {
     passengers: PassengerSelection;
   };
-  SearchResults: FlightSearchSelection;
-  FlightDetails: { offerId: string; passengers: PassengerSelection };
-  FlightBooking: { offerId: string; passengers: PassengerSelection };
+  AviaSearchResults: FlightSearchSelection;
+  AviaDetails: { offerId: string; passengers: PassengerSelection };
+  AviaBooking: { offerId: string; passengers: PassengerSelection; expiresAt?: string };
 };
 
 export type ToursStackParamList = {
@@ -70,13 +70,15 @@ export type ProfileStackParamList = {
   Settings: undefined;
   Travelers: undefined;
   AddTraveler: undefined;
+  TravelerDetails: { travelerId: string };
   Bookings: undefined;
+  FlightBookings: undefined;
 };
 
 export type MainTabParamList = {
   Home: NavigatorScreenParams<HomeStackParamList> | undefined;
   News: NavigatorScreenParams<NewsStackParamList> | undefined;
-  Flights: NavigatorScreenParams<SearchStackParamList> | undefined;
+  Flights: NavigatorScreenParams<AviaStackParamList> | undefined;
   Tours: NavigatorScreenParams<ToursStackParamList> | undefined;
   Profile: NavigatorScreenParams<ProfileStackParamList> | undefined;
 };

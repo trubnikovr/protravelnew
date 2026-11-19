@@ -4,6 +4,7 @@ import {
   ArrayMinSize,
   IsArray,
   IsEmail,
+  IsOptional,
   IsEnum,
   IsString,
   IsUUID,
@@ -11,7 +12,7 @@ import {
   MaxLength,
   ValidateNested,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { FlightPassengerType } from '@modules/flights';
 
 export class FlightOrderContactRequestDto {
@@ -20,9 +21,10 @@ export class FlightOrderContactRequestDto {
   @MaxLength(160)
   name!: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsEmail()
-  email!: string;
+  email?: string;
 
   @ApiProperty({ example: '998' })
   @Matches(/^\d{1,4}$/)
@@ -56,10 +58,11 @@ export class CreateFlightOrderRequestDto {
   @IsUUID()
   offerId!: string;
 
-  @ApiProperty({ type: FlightOrderContactRequestDto })
+  @ApiPropertyOptional({ type: FlightOrderContactRequestDto, deprecated: true, description: 'Ignored; contact details are loaded from the customer profile.' })
+  @IsOptional()
   @ValidateNested()
   @Type(() => FlightOrderContactRequestDto)
-  contact!: FlightOrderContactRequestDto;
+  contact?: FlightOrderContactRequestDto;
 
   @ApiProperty({ type: [FlightOrderTravelerRequestDto] })
   @IsArray()

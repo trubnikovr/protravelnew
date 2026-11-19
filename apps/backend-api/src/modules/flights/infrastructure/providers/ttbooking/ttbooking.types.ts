@@ -3,7 +3,7 @@ export interface TtbookingDictionaryItem {
   name?: string;
 }
 export interface TtbookingSegment {
-  token?: string;
+  token?: string | number;
   serviceClass?: string;
   bookingClass?: string;
   carrier?: TtbookingDictionaryItem;
@@ -18,15 +18,15 @@ export interface TtbookingSegment {
   baggage?: { type?: string; value?: string; allow?: number };
 }
 export interface TtbookingFlight {
-  token?: string;
+  token?: string | number;
   segments?: { segment?: TtbookingSegment[] };
 }
 export interface TtbookingItinerary {
-  token?: string;
+  token?: string | number;
   flights?: { flight?: TtbookingFlight[] };
 }
 export interface TtbookingFlightGroup {
-  token?: string;
+  token?: string | number;
   carrier?: TtbookingDictionaryItem;
   eticket?: boolean;
   latinRegistration?: boolean;

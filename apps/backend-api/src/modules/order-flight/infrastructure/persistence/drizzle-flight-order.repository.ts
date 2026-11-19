@@ -1,17 +1,30 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { and, eq, type SQL } from 'drizzle-orm';
+import { and, count, desc, eq, type SQL } from 'drizzle-orm';
 import { DRIZZLE_DB } from '@core/database/database.constants';
 import type { Database } from '@core/database/database.types';
 import type { FlightOrderRepository } from '../../application/flight-order.repository';
 import type { FlightOrder } from '../../domain/flight-order';
 import { FlightOrderPersistenceMapper } from './flight-order-persistence.mapper';
-import { flightOrders } from './flight-order.schema';
+import { flightBookingAttempts, flightOrders } from './flight-order.schema';
 
 type FlightOrderInsert = typeof flightOrders.$inferInsert;
 
 @Injectable()
 export class DrizzleFlightOrderRepository implements FlightOrderRepository {
   constructor(@Inject(DRIZZLE_DB) private readonly database: Database) {}
+
+  async reserveBookingAttempt(customerId: string, key: string, requestHash: string): Promise<boolean> {
+    const inserted = await this.database.insert(flightBookingAttempts)
+      .values({ customerId, idempotencyKey: key, requestHash })
+      .onConflictDoNothing().returning({ customerId: flightBookingAttempts.customerId });
+    return inserted.length === 1;
+  }
+
+  async bookingAttemptHash(customerId: string, key: string): Promise<string | null> {
+    const [attempt] = await this.database.select({ hash: flightBookingAttempts.requestHash })
+      .from(flightBookingAttempts).where(and(eq(flightBookingAttempts.customerId, customerId), eq(flightBookingAttempts.idempotencyKey, key))).limit(1);
+    return attempt?.hash ?? null;
+  }
 
   async save(order: FlightOrder): Promise<void> {
     await this.database
@@ -30,6 +43,35 @@ export class DrizzleFlightOrderRepository implements FlightOrderRepository {
         eq(flightOrders.customerId, customerId),
       ),
     );
+  }
+
+  async listByCustomer(customerId: string, page: number, limit: number) {
+    const [records, total] = await Promise.all([
+      this.listCustomerRecords(customerId, page, limit),
+      this.countCustomerRecords(customerId),
+    ]);
+    return {
+      items: records.map((record) => FlightOrderPersistenceMapper.toDomain(record)),
+      total,
+    };
+  }
+
+  private listCustomerRecords(customerId: string, page: number, limit: number) {
+    return this.database
+      .select()
+      .from(flightOrders)
+      .where(eq(flightOrders.customerId, customerId))
+      .orderBy(desc(flightOrders.createdAt))
+      .limit(limit)
+      .offset((page - 1) * limit);
+  }
+
+  private async countCustomerRecords(customerId: string): Promise<number> {
+    const [result] = await this.database
+      .select({ total: count() })
+      .from(flightOrders)
+      .where(eq(flightOrders.customerId, customerId));
+    return result.total;
   }
 
   findByOrderId(orderId: string): Promise<FlightOrder | null> {
@@ -101,6 +143,8 @@ export class DrizzleFlightOrderRepository implements FlightOrderRepository {
   private toUpdate(order: FlightOrder): Partial<FlightOrderInsert> {
     return {
       status: order.status,
+      offerSnapshot: order.offerSnapshot,
+      totalAmount: order.offerSnapshot.totalAmount,
       ...this.bookingColumns(order),
       updatedAt: order.updatedAt.toDate(),
     };

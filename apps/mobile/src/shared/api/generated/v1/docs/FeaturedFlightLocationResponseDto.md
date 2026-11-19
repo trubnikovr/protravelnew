@@ -6,22 +6,24 @@
 
 Name | Type
 ------------ | -------------
-`code` | string
+`cityId` | string
 `name` | string
 `countryName` | string
+`airportCodes` | Array&lt;string&gt;
 `sortOrder` | number
 `isActive` | boolean
 
 ## Example
 
-```typescrip
+```typescript
 import type { FeaturedFlightLocationResponseDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "code": TAS,
+  "cityId": null,
   "name": Ташкент,
   "countryName": Узбекистан,
+  "airportCodes": ["TAS","UGC"],
   "sortOrder": null,
   "isActive": null,
 } satisfies FeaturedFlightLocationResponseDto
@@ -32,7 +34,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as FeaturedFlightLocationResponseDto
 console.log(exampleParsed)
 ```

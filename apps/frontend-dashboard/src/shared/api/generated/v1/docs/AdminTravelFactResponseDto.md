@@ -1,17 +1,19 @@
+
 # AdminTravelFactResponseDto
+
 
 ## Properties
 
-| Name              | Type                |
-| ----------------- | ------------------- |
-| `id`              | string              |
-| `createdAt`       | Date                |
-| `updatedAt`       | Date                |
-| `text`            | string              |
-| `countryCode`     | string              |
-| `destinationCode` | string              |
-| `tags`            | Array&lt;string&gt; |
-| `isPublished`     | boolean             |
+Name | Type
+------------ | -------------
+`id` | string
+`createdAt` | Date
+`updatedAt` | Date
+`text` | string
+`countryCode` | string
+`destinationCode` | string
+`tags` | Array&lt;string&gt;
+`isPublished` | boolean
 
 ## Example
 
@@ -42,3 +44,5 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

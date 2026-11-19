@@ -10,6 +10,8 @@ export class PublicTourApiMapper {
       id: tour.id.toString(),
       slug: tour.slug,
       type: tour.type,
+      minTravelers: tour.minTravelers,
+      maxTravelers: tour.maxTravelers,
       durationDays: tour.durationDays,
       durationNights: tour.durationNights,
       price: this.money(tour),
@@ -29,7 +31,7 @@ export class PublicTourApiMapper {
         price: {
           amount: item.price.amount,
           currency: item.price.currency,
-          formatted: item.price.format(),
+          formatted: item.price.formatWhole(),
         },
         seatsTotal: item.seatsTotal,
         seatsAvailable: item.seatsAvailable,
@@ -65,7 +67,7 @@ export class PublicTourApiMapper {
     return {
       amount: tour.price.amount,
       currency: tour.price.currency,
-      formatted: tour.price.format(),
+      formatted: tour.price.formatWhole(),
     };
   }
 }

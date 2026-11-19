@@ -4,6 +4,7 @@ import { EnsureCustomerExistsUseCase } from './application/use-cases/ensure-cust
 import { FindOrCreateCustomerForAuthenticationUseCase } from './application/use-cases/find-or-create-customer-for-authentication.use-case';
 import { GetCustomerForAuthenticationUseCase } from './application/use-cases/get-customer-for-authentication.use-case';
 import { GetCustomerForTourBookingUseCase } from './application/use-cases/get-customer-for-tour-booking.use-case';
+import { GetCustomerForFlightBookingUseCase } from './application/use-cases/get-customer-for-flight-booking.use-case';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { GetCustomerForTourBookingUseCase } from './application/use-cases/get-cu
     FindOrCreateCustomerForAuthenticationUseCase,
     GetCustomerForAuthenticationUseCase,
     GetCustomerForTourBookingUseCase,
+    GetCustomerForFlightBookingUseCase,
   ],
   exports: [
     CustomersService,
@@ -19,6 +21,7 @@ import { GetCustomerForTourBookingUseCase } from './application/use-cases/get-cu
     FindOrCreateCustomerForAuthenticationUseCase,
     GetCustomerForAuthenticationUseCase,
     GetCustomerForTourBookingUseCase,
+    GetCustomerForFlightBookingUseCase,
   ],
 })
 export class CustomersModule {}

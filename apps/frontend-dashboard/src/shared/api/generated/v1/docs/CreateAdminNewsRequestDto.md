@@ -1,14 +1,16 @@
+
 # CreateAdminNewsRequestDto
+
 
 ## Properties
 
-| Name          | Type    |
-| ------------- | ------- |
-| `title`       | string  |
-| `summary`     | string  |
-| `content`     | string  |
-| `category`    | string  |
-| `isPublished` | boolean |
+Name | Type
+------------ | -------------
+`title` | string
+`summary` | string
+`content` | string
+`category` | string
+`isPublished` | boolean
 
 ## Example
 
@@ -36,3 +38,5 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

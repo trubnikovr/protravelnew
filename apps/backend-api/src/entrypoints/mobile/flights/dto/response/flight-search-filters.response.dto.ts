@@ -6,6 +6,10 @@ export class FlightPriceFilterResponseDto {
   min!: string | null;
   @ApiProperty({ type: String, nullable: true, example: '6800000' })
   max!: string | null;
+  @ApiProperty({ type: String, nullable: true, example: '12 000 руб.' })
+  minFormatted!: string | null;
+  @ApiProperty({ type: String, nullable: true, example: '68 000 руб.' })
+  maxFormatted!: string | null;
 }
 
 export class FlightStopsFilterOptionResponseDto {

@@ -1,6 +1,6 @@
-import type { FlightShareSnapshot } from '@modules/flights';
-import { SupportedLocale } from '@shared/domain/enums';
-import { flightBaggageLabel } from './flight-baggage-label.catalog';
+import { flightBaggageLabel, type FlightShareSnapshot } from '@modules/flights';
+import { CurrencyCode, SupportedLocale } from '@shared/domain/enums';
+import { MoneyValueObject } from '@shared/domain/value-objects';
 
 function cabinClassLabel(value: string): string {
   return (
@@ -27,17 +27,10 @@ function escapeHtml(value: string): string {
 }
 
 function amountLabel(amount: string, currency: string): string {
-  const value = Number(amount) / 100;
   try {
-    return new Intl.NumberFormat('ru-RU', {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 0,
-    }).format(value);
+    return MoneyValueObject.create(amount, currency as CurrencyCode).formatWhole();
   } catch {
-    return `${new Intl.NumberFormat('ru-RU', {
-      maximumFractionDigits: 0,
-    }).format(value)} ${escapeHtml(currency)}`;
+    return `${amount} ${escapeHtml(currency)}`;
   }
 }
 

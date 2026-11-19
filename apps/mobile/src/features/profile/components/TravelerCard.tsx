@@ -1,16 +1,16 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {Trash2} from 'lucide-react-native';
+import {Pencil} from 'lucide-react-native';
 import {useTranslation} from 'react-i18next';
 import {theme, typography} from '../../../shared/theme/theme';
 import type {CustomerTraveler} from '../api/travelers.api';
 
 export function TravelerCard({
   traveler,
-  onDelete,
+  onEdit,
 }: {
   traveler: CustomerTraveler;
-  onDelete: () => void;
+  onEdit: () => void;
 }) {
   const {t} = useTranslation();
   const document = traveler.documents[0];
@@ -23,8 +23,8 @@ export function TravelerCard({
             .filter(Boolean)
             .join(' ')}
         </Text>
-        <Pressable hitSlop={theme.spacing.md} onPress={onDelete}>
-          <Trash2 color={theme.colors.danger} size={20} />
+        <Pressable accessibilityRole="button" accessibilityLabel={t('profile.editTraveler')} hitSlop={theme.spacing.md} onPress={onEdit}>
+          <Pencil color={theme.colors.primary} size={20} />
         </Pressable>
       </View>
       <Detail label={t('profile.gender')} value={t(`common.${traveler.gender}`)} />

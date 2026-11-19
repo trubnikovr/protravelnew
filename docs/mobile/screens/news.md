@@ -17,10 +17,13 @@ PDF page 67.
 - short `summary` text in feed cards and full `content` on the detail screen;
 - loading, error, empty and content states.
 
-The screen contains the section header and the news feed over a dedicated,
-low-contrast travel-editorial background. The background uses a world map and
-route-line motif, remains decorative and has no embedded text or promotional
-copy. It is exclusive to the News feed.
+The screen contains the section header and the news feed over
+`news-background-v2.png`: travelers reading in a seaside cafe, illustrated in
+the same blue/lavender, mustard and terracotta style as Profile and Tours.
+The background remains decorative and has no embedded text or promotional
+copy. It is exclusive to the News feed. It was generated using the Profile and
+Tours backgrounds as style references; the prompt is in
+`design/news-background-prompt.md`.
 
 Administrators create drafts and publish or unpublish feed items through the
 dashboard `/news` route backed by `/api/v1/admin/news`.
@@ -52,3 +55,9 @@ When the feed cannot load and no cached articles are available, show the same
 centered white state card as flight search: travel icon, error title, connection
 message and Retry action. The feed background and global bottom connection
 banner remain visible. Cached articles remain accessible after refresh errors.
+
+The illustrated background uses a softened 72% image opacity to keep text and
+news cards prominent, matching the light treatment on Profile.
+
+API failures use the shared [error-message catalog](../api-errors.md) in the
+existing error UI, preserving backend machine codes for specific guidance.

@@ -11,6 +11,9 @@ Before backend work, read:
 Backend owns API behavior, domain models, persistence, authentication,
 authorization, provider integrations, payments, background jobs and OpenAPI.
 
+Не создавайте и не запускайте тесты без отдельного указания пользователя.
+Проверки типов, линтер и сборка остаются допустимыми.
+
 When API behavior changes:
 
 - update backend docs and OpenAPI in the same change;
@@ -39,6 +42,11 @@ logging, database, queue and similar infrastructure through a dedicated core
 module and aggregate it in `CoreModule`; do not configure these concerns
 directly in `AppModule`.
 
+Use the global `CacheManager` from `core/cache` for shared Redis cache entries
+that need coordinated loading. Callers own key names and TTLs. Its distributed
+lock is a cache stampede control, not a transaction or a lock for irreversible
+operations; Redis outages fall back to loading without cross-replica exclusion.
+
 Notification queue payloads are encrypted with `NOTIFICATION_ENCRYPTION_KEY`
 (64 hexadecimal characters). A separate key is mandatory in production. Local
 development may fall back to `DOCUMENT_ENCRYPTION_KEY` while the notification
@@ -62,7 +70,6 @@ explicitly.
 - `npm run backend:db:check` — validate Drizzle
   migration history;
 - `npm run backend:db:studio` — start Drizzle Studio;
-- `npm run backend:test` — unit tests;
 - `npm run backend:build` — production compilation;
 - `npm run backend:db:migrate` — apply database migrations.
 - `npm run backend:seed:admin` — idempotently create the initial super-admin
@@ -76,6 +83,12 @@ explicitly.
   also publishes bundled destination-specific covers for Antalya, Dubai,
   Tbilisi and Baku into local image storage. Run migrations and the reference
   seed first.
+- `npm run backend:customer:delete-travelers -- --customer-id=<uuid>` or
+  `--phone=<number>` — preview the passenger and document rows belonging to a
+  customer. The command is dry-run by default. To delete, repeat with
+  `--confirm=<customer-uuid>` using the UUID printed by the preview. It removes
+  traveler document rows and travelers in one transaction; the customer and
+  order history remain.
 
 Only one record may have the `super_admin` role. PostgreSQL enforces this with
 a partial unique index. The domain exposes it as `isSuperAdmin`; this role

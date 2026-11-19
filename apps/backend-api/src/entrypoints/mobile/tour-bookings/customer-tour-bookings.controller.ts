@@ -1,5 +1,6 @@
 import {
   Body,
+  BadRequestException,
   Controller,
   Get,
   HttpStatus,
@@ -26,6 +27,8 @@ import { TourBookingsService } from '@modules/order-tour';
 import { CustomerTourBookingApiMapper } from './customer-tour-booking-api.mapper';
 import { CreateCustomerTourBookingRequestDto } from './dto/customer-tour-booking.request.dto';
 import { CustomerTourBookingResponseDto } from './dto/customer-tour-booking.response.dto';
+import { TourBookingPriceQuoteRequestDto } from './dto/tour-booking-price-quote.request.dto';
+import { MoneyResponseDto } from '@entrypoints/common/dto/response/money.response.dto';
 
 @ApiTags('me/tour-bookings')
 @ApiBearerAuth()
@@ -33,6 +36,25 @@ import { CustomerTourBookingResponseDto } from './dto/customer-tour-booking.resp
 @Controller('me/tour-bookings')
 export class CustomerTourBookingsController {
   constructor(private readonly bookings: TourBookingsService) {}
+
+  /** @see POST /api/v1/me/tour-bookings/price-quote */
+  @Post('price-quote')
+  @ApiOperation({ summary: 'Calculate current tour booking total' })
+  @ApiOkEnvelope(MoneyResponseDto)
+  async priceQuote(
+    @Body() dto: TourBookingPriceQuoteRequestDto,
+  ): Promise<MoneyResponseDto> {
+    const money = await this.bookings.quote(
+      dto.tourId,
+      dto.departureDate ?? null,
+      dto.travelersCount,
+    );
+    return {
+      amount: money.amount,
+      currency: money.currency,
+      formatted: money.formatWhole(),
+    };
+  }
 
   /** @see GET /api/v1/me/tour-bookings */
   @Get()
@@ -81,12 +103,16 @@ export class CustomerTourBookingsController {
     @CurrentCustomer() customer: AuthenticatedCustomer,
     @Body() dto: CreateCustomerTourBookingRequestDto,
   ): Promise<CustomerTourBookingResponseDto> {
+    const travelersCount = dto.travelersCount ?? dto.travelerIds?.length ?? 0;
+    if (!travelersCount || (dto.travelerIds?.length ?? 0) > travelersCount) {
+      throw new BadRequestException({ code: 'TOUR_BOOKING_TRAVELERS_INVALID', message: 'Invalid traveler count' });
+    }
     return CustomerTourBookingApiMapper.toResponse(
       await this.bookings.create({
         customerId: customer.id,
         tourId: dto.tourId,
         travelerIds: dto.travelerIds,
-        travelersCount: dto.travelerIds.length,
+        travelersCount,
         departureDate: dto.departureDate ?? null,
         notes: dto.notes?.trim() || null,
       }),

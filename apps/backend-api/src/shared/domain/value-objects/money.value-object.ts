@@ -12,6 +12,27 @@ const CURRENCY_FRACTION_DIGITS: Record<CurrencyCode, number> = {
   [CurrencyCode.EUR]: 2,
 };
 
+const WHOLE_CURRENCY_LABELS: Record<
+  SupportedLocale,
+  Record<CurrencyCode, string>
+> = {
+  [SupportedLocale.RU]: {
+    [CurrencyCode.RUB]: 'руб.',
+    [CurrencyCode.USD]: 'долл. США',
+    [CurrencyCode.EUR]: 'евро',
+  },
+  [SupportedLocale.UZ]: {
+    [CurrencyCode.RUB]: 'Rossiya rubli',
+    [CurrencyCode.USD]: 'AQSH dollari',
+    [CurrencyCode.EUR]: 'yevro',
+  },
+  [SupportedLocale.EN]: {
+    [CurrencyCode.RUB]: 'Russian rubles',
+    [CurrencyCode.USD]: 'US dollars',
+    [CurrencyCode.EUR]: 'euros',
+  },
+};
+
 export class MoneyValueObject {
   private constructor(
     private readonly amountValue: bigint,
@@ -48,6 +69,18 @@ export class MoneyValueObject {
         .formatToParts(1.1)
         .find(({ type }) => type === 'decimal')?.value ?? '.';
     return `${integerFormatted}${decimal}${fraction} ${this.currency}`;
+  }
+
+  formatWhole(locale: SupportedLocale = SupportedLocale.RU): string {
+    const fractionDigits = CURRENCY_FRACTION_DIGITS[this.currency];
+    const divider = 10n ** BigInt(fractionDigits);
+    const integer = this.amountValue / divider;
+    const remainder = this.amountValue % divider;
+    const rounded = remainder * 2n >= divider ? integer + 1n : integer;
+    const formatted = new Intl.NumberFormat(LOCALE_MAP[locale], {
+      maximumFractionDigits: 0,
+    }).format(rounded);
+    return `${formatted} ${WHOLE_CURRENCY_LABELS[locale][this.currency]}`;
   }
 
   toString(): string {

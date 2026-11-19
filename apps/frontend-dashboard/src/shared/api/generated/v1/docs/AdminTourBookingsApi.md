@@ -1,16 +1,95 @@
 # AdminTourBookingsApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://localhost*
 
-| Method                                                                                             | HTTP request                                                                    | Description                                 |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------- |
-| [**adminTourBookingsChangeStatus**](AdminTourBookingsApi.md#admintourbookingschangestatus)         | **PATCH** /api/v1/admin/tour-bookings/{id}/status                               | Change tour booking status                  |
-| [**adminTourBookingsCreate**](AdminTourBookingsApi.md#admintourbookingscreate)                     | **POST** /api/v1/admin/tour-bookings                                            | Create a tour booking                       |
-| [**adminTourBookingsDeleteDocument**](AdminTourBookingsApi.md#admintourbookingsdeletedocument)     | **DELETE** /api/v1/admin/tour-bookings/{bookingId}/documents/{documentId}       | Delete a tour booking document              |
-| [**adminTourBookingsDownloadDocument**](AdminTourBookingsApi.md#admintourbookingsdownloaddocument) | **GET** /api/v1/admin/tour-bookings/{bookingId}/documents/{documentId}/download | Download a private tour booking document    |
-| [**adminTourBookingsGet**](AdminTourBookingsApi.md#admintourbookingsget)                           | **GET** /api/v1/admin/tour-bookings/{id}                                        | Get a tour booking                          |
-| [**adminTourBookingsList**](AdminTourBookingsApi.md#admintourbookingslist)                         | **GET** /api/v1/admin/tour-bookings                                             | List tour bookings                          |
-| [**adminTourBookingsUploadDocument**](AdminTourBookingsApi.md#admintourbookingsuploaddocument)     | **POST** /api/v1/admin/tour-bookings/{id}/documents                             | Upload a private document to a tour booking |
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**adminTourBookingsAddTraveler**](AdminTourBookingsApi.md#admintourbookingsaddtraveler) | **POST** /api/v1/admin/tour-bookings/{id}/travelers | Add traveler details to a booking |
+| [**adminTourBookingsChangeStatus**](AdminTourBookingsApi.md#admintourbookingschangestatus) | **PATCH** /api/v1/admin/tour-bookings/{id}/status | Change tour booking status |
+| [**adminTourBookingsCreate**](AdminTourBookingsApi.md#admintourbookingscreate) | **POST** /api/v1/admin/tour-bookings | Create a tour booking |
+| [**adminTourBookingsDeleteDocument**](AdminTourBookingsApi.md#admintourbookingsdeletedocument) | **DELETE** /api/v1/admin/tour-bookings/{bookingId}/documents/{documentId} | Delete a tour booking document |
+| [**adminTourBookingsDownloadDocument**](AdminTourBookingsApi.md#admintourbookingsdownloaddocument) | **GET** /api/v1/admin/tour-bookings/{bookingId}/documents/{documentId}/download | Download a private tour booking document |
+| [**adminTourBookingsGet**](AdminTourBookingsApi.md#admintourbookingsget) | **GET** /api/v1/admin/tour-bookings/{id} | Get a tour booking |
+| [**adminTourBookingsList**](AdminTourBookingsApi.md#admintourbookingslist) | **GET** /api/v1/admin/tour-bookings | List tour bookings |
+| [**adminTourBookingsUpdateTraveler**](AdminTourBookingsApi.md#admintourbookingsupdatetraveler) | **PATCH** /api/v1/admin/tour-bookings/{id}/travelers/{travelerId} | Edit traveler details in a booking |
+| [**adminTourBookingsUploadDocument**](AdminTourBookingsApi.md#admintourbookingsuploaddocument) | **POST** /api/v1/admin/tour-bookings/{id}/documents | Upload a private document to a tour booking |
+
+
+
+## adminTourBookingsAddTraveler
+
+> AdminTourBookingsCreate201Response adminTourBookingsAddTraveler(id, bookingTravelerRequestDto, acceptLanguage)
+
+Add traveler details to a booking
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsAddTravelerRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AdminTourBookingsApi(config);
+
+  const body = {
+    // string
+    id: id_example,
+    // BookingTravelerRequestDto
+    bookingTravelerRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies AdminTourBookingsAddTravelerRequest;
+
+  try {
+    const data = await api.adminTourBookingsAddTraveler(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **bookingTravelerRequestDto** | [BookingTravelerRequestDto](BookingTravelerRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+### Return type
+
+[**AdminTourBookingsCreate201Response**](AdminTourBookingsCreate201Response.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsChangeStatus
 
@@ -29,7 +108,7 @@ import type { AdminTourBookingsChangeStatusRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -58,11 +137,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                  | Type                                                                      | Description                        | Notes                                                      |
-| ------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**                                | `string`                                                                  |                                    | [Defaults to `undefined`]                                  |
-| **updateTourBookingStatusRequestDto** | [UpdateTourBookingStatusRequestDto](UpdateTourBookingStatusRequestDto.md) |                                    |                                                            |
-| **acceptLanguage**                    | `ru`, `uz`, `en`                                                          | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **updateTourBookingStatusRequestDto** | [UpdateTourBookingStatusRequestDto](UpdateTourBookingStatusRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -77,13 +157,14 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsCreate
 
@@ -102,7 +183,7 @@ import type { AdminTourBookingsCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -129,10 +210,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                            | Type                                                          | Description                        | Notes                                                      |
-| ------------------------------- | ------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **createTourBookingRequestDto** | [CreateTourBookingRequestDto](CreateTourBookingRequestDto.md) |                                    |                                                            |
-| **acceptLanguage**              | `ru`, `uz`, `en`                                              | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **createTourBookingRequestDto** | [CreateTourBookingRequestDto](CreateTourBookingRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -147,13 +229,14 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **201**     |             | -                |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsDeleteDocument
 
@@ -164,12 +247,15 @@ Delete a tour booking document
 ### Example
 
 ```ts
-import { Configuration, AdminTourBookingsApi } from "";
-import type { AdminTourBookingsDeleteDocumentRequest } from "";
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsDeleteDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -198,10 +284,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **bookingId**      | `string`         |                                    | [Defaults to `undefined`]                                  |
-| **documentId**     | `string`         |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **bookingId** | `string` |  | [Defaults to `undefined`] |
+| **documentId** | `string` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -217,13 +304,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **204**     |             | -                |
+|-------------|-------------|------------------|
+| **204** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsDownloadDocument
 
@@ -234,12 +322,15 @@ Download a private tour booking document
 ### Example
 
 ```ts
-import { Configuration, AdminTourBookingsApi } from "";
-import type { AdminTourBookingsDownloadDocumentRequest } from "";
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsDownloadDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -268,10 +359,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **bookingId**      | `string`         |                                    | [Defaults to `undefined`]                                  |
-| **documentId**     | `string`         |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **bookingId** | `string` |  | [Defaults to `undefined`] |
+| **documentId** | `string` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -287,13 +379,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: `application/octet-stream`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsGet
 
@@ -304,12 +397,15 @@ Get a tour booking
 ### Example
 
 ```ts
-import { Configuration, AdminTourBookingsApi } from "";
-import type { AdminTourBookingsGetRequest } from "";
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -336,9 +432,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**             | `string`         |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -354,13 +451,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsList
 
@@ -371,12 +469,15 @@ List tour bookings
 ### Example
 
 ```ts
-import { Configuration, AdminTourBookingsApi } from "";
-import type { AdminTourBookingsListRequest } from "";
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -413,15 +514,16 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type                                                                         | Description                        | Notes                                                                                                         |
-| ------------------ | ---------------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **page**           | `number`                                                                     |                                    | [Optional] [Defaults to `1`]                                                                                  |
-| **limit**          | `number`                                                                     |                                    | [Optional] [Defaults to `20`]                                                                                 |
-| **sortBy**         | `string`                                                                     |                                    | [Optional] [Defaults to `&#39;createdAt&#39;`]                                                                |
-| **sortDirection**  | `asc`, `desc`                                                                |                                    | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc]                                                   |
-| **search**         | `string`                                                                     |                                    | [Optional] [Defaults to `undefined`]                                                                          |
-| **status**         | `pending`, `confirmed`, `awaiting_payment`, `paid`, `completed`, `cancelled` |                                    | [Optional] [Defaults to `undefined`] [Enum: pending, confirmed, awaiting_payment, paid, completed, cancelled] |
-| **acceptLanguage** | `ru`, `uz`, `en`                                                             | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en]                                                    |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **page** | `number` |  | [Optional] [Defaults to `1`] |
+| **limit** | `number` |  | [Optional] [Defaults to `20`] |
+| **sortBy** | `string` |  | [Optional] [Defaults to `&#39;createdAt&#39;`] |
+| **sortDirection** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
+| **search** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **status** | `pending`, `confirmed`, `awaiting_payment`, `paid`, `completed`, `cancelled` |  | [Optional] [Defaults to `undefined`] [Enum: pending, confirmed, awaiting_payment, paid, completed, cancelled] |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -436,13 +538,92 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## adminTourBookingsUpdateTraveler
+
+> AdminTourBookingsCreate201Response adminTourBookingsUpdateTraveler(id, travelerId, bookingTravelerRequestDto, acceptLanguage)
+
+Edit traveler details in a booking
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsUpdateTravelerRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AdminTourBookingsApi(config);
+
+  const body = {
+    // string
+    id: id_example,
+    // string
+    travelerId: travelerId_example,
+    // BookingTravelerRequestDto
+    bookingTravelerRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies AdminTourBookingsUpdateTravelerRequest;
+
+  try {
+    const data = await api.adminTourBookingsUpdateTraveler(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **travelerId** | `string` |  | [Defaults to `undefined`] |
+| **bookingTravelerRequestDto** | [BookingTravelerRequestDto](BookingTravelerRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+### Return type
+
+[**AdminTourBookingsCreate201Response**](AdminTourBookingsCreate201Response.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTourBookingsUploadDocument
 
@@ -453,12 +634,15 @@ Upload a private document to a tour booking
 ### Example
 
 ```ts
-import { Configuration, AdminTourBookingsApi } from "";
-import type { AdminTourBookingsUploadDocumentRequest } from "";
+import {
+  Configuration,
+  AdminTourBookingsApi,
+} from '';
+import type { AdminTourBookingsUploadDocumentRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -487,10 +671,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**             | `string`         |                                    | [Defaults to `undefined`]                                  |
-| **file**           | `Blob`           |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **file** | `Blob` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -506,10 +691,11 @@ example().catch(console.error);
 - **Content-Type**: `multipart/form-data`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **201**     |             | -                |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+

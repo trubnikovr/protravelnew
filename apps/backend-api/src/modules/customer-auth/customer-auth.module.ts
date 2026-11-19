@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { CustomerAuthCustomersBridgeModule } from '@app/integrations/customer-auth-customers/customer-auth-customers-bridge.module';
 import { CustomerAuthService } from './application/customer-auth.service';
@@ -11,6 +12,7 @@ import { CUSTOMER_LOGIN_CHALLENGE_REPOSITORY } from './application/customer-logi
 import { CUSTOMER_SMS_SENDER } from './application/customer-sms-sender.port';
 import { InMemoryCustomerLoginChallengeRepository } from './infrastructure/in-memory-customer-login-challenge.repository';
 import { MockCustomerSmsSender } from './infrastructure/mock-customer-sms.sender';
+import { SmspilotCustomerSmsSender } from './infrastructure/smspilot-customer-sms.sender';
 
 @Module({
   imports: [
@@ -28,7 +30,14 @@ import { MockCustomerSmsSender } from './infrastructure/mock-customer-sms.sender
       provide: CUSTOMER_LOGIN_CHALLENGE_REPOSITORY,
       useClass: InMemoryCustomerLoginChallengeRepository,
     },
-    { provide: CUSTOMER_SMS_SENDER, useClass: MockCustomerSmsSender },
+    MockCustomerSmsSender,
+    SmspilotCustomerSmsSender,
+    {
+      provide: CUSTOMER_SMS_SENDER,
+      inject: [ConfigService, MockCustomerSmsSender, SmspilotCustomerSmsSender],
+      useFactory: (config: ConfigService, mock: MockCustomerSmsSender, smspilot: SmspilotCustomerSmsSender) =>
+        config.get<string>('SMS_PROVIDER') === 'smspilot' ? smspilot : mock,
+    },
   ],
   exports: [
     CustomerAuthService,

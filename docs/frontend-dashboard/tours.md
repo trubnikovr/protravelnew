@@ -1,5 +1,10 @@
 # Tour management
 
+Creation and editing offer optional minimum and maximum traveler counts per
+booking. Empty fields remove the bound; values must be between 1 and 100 and
+the minimum must not exceed the maximum.
+New tours default to a minimum of one and a maximum of two travelers.
+
 The `/tours` administration module provides paginated catalog CRUD through the
 generated Admin OpenAPI client.
 

@@ -12,14 +12,14 @@ Name | Type
 
 ## Example
 
-```typescrip
+```typescript
 import type { MoneyResponseDto } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "amount": 12500000,
   "currency": null,
-  "formatted": 125 000,00 RUB,
+  "formatted": 125 000 руб.,
 } satisfies MoneyResponseDto
 
 console.log(example)
@@ -28,7 +28,7 @@ console.log(example)
 const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
-// Parse the JSON string back to an objec
+// Parse the JSON string back to an object
 const exampleParsed = JSON.parse(exampleJSON) as MoneyResponseDto
 console.log(exampleParsed)
 ```

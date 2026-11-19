@@ -5,6 +5,7 @@ export { EnsureCustomerExistsUseCase } from './application/use-cases/ensure-cust
 export { FindOrCreateCustomerForAuthenticationUseCase } from './application/use-cases/find-or-create-customer-for-authentication.use-case';
 export { GetCustomerForAuthenticationUseCase } from './application/use-cases/get-customer-for-authentication.use-case';
 export { GetCustomerForTourBookingUseCase } from './application/use-cases/get-customer-for-tour-booking.use-case';
+export { GetCustomerForFlightBookingUseCase } from './application/use-cases/get-customer-for-flight-booking.use-case';
 export {
   CustomersService,
   type CustomerProfileInput,

@@ -7,12 +7,13 @@
 - [Design system](design-system.md) — theme tokens and reusable UI.
 - [Design source](design-source.md) — PDF page map and asset policy.
 - [Localization](localization.md) — Russian-only product behavior.
+- [API errors](api-errors.md) — shared API error codes and customer messages.
 
 ## Screens
 
 - [Авторизация](screens/auth.md)
 - [Home](screens/home.md)
-- [Авиабилеты](screens/search.md)
+- [Авиабилеты](screens/avia.md)
 - [Туры](screens/tours.md)
 - [Bookings](screens/bookings.md)
 - [Profile](screens/profile.md)

@@ -1,10 +1,12 @@
 # AdminFilesApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://localhost*
 
-| Method                                                              | HTTP request                        | Description                                |
-| ------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------ |
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
 | [**adminFilesUploadImage**](AdminFilesApi.md#adminfilesuploadimage) | **POST** /api/v1/admin/files/images | Upload an image for administrative content |
+
+
 
 ## adminFilesUploadImage
 
@@ -15,12 +17,15 @@ Upload an image for administrative content
 ### Example
 
 ```ts
-import { Configuration, AdminFilesApi } from "";
-import type { AdminFilesUploadImageRequest } from "";
+import {
+  Configuration,
+  AdminFilesApi,
+} from '';
+import type { AdminFilesUploadImageRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -47,9 +52,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **file**           | `Blob`           |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **file** | `Blob` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -65,10 +71,11 @@ example().catch(console.error);
 - **Content-Type**: `multipart/form-data`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **201**     |             | -                |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+

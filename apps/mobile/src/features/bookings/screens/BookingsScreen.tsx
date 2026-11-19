@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -29,7 +30,7 @@ export function BookingsScreen() {
         <ActivityIndicator color={theme.colors.primary} style={styles.state} />
       ) : null}
       {bookings.isError ? (
-        <Text style={styles.state}>{t('bookings.loadError')}</Text>
+        <Text style={styles.state}>{getApiErrorMessage(bookings.error, t('bookings.loadError'))}</Text>
       ) : null}
       {bookings.data?.length === 0 ? <EmptyBookings /> : null}
       {bookings.data?.length ? (

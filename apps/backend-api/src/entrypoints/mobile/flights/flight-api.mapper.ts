@@ -1,21 +1,34 @@
-import type { FlightHighlightType, FlightOffer, FlightSearchFilters } from '@modules/flights';
-import type { SupportedLocale } from '@shared/domain/enums';
+import { flightHighlightLabel, flightBaggageLabel, flightBaggageSummary, flightStopsLabel, type FlightHighlightType, type FlightOffer, type FlightSearchFilters } from '@modules/flights';
+import type { CurrencyCode, SupportedLocale } from '@shared/domain/enums';
+import { MoneyValueObject } from '@shared/domain/value-objects';
 import { FlightOfferResponseDto } from './dto/response/flight-offer.response.dto';
 import { FlightSearchFiltersResponseDto } from './dto/response/flight-search-filters.response.dto';
 import { FlightHighlightResponseDto } from './dto/response/flight-search-filters.response.dto';
-import { flightHighlightLabel } from './flight-highlight-label.catalog';
-import { flightBaggageLabel, flightBaggageSummary } from './flight-baggage-label.catalog';
-import { flightStopsLabel } from './flight-stops-label.catalog';
 
 export class FlightApiMapper {
   static toFiltersResponse(filters: FlightSearchFilters, locale: SupportedLocale): FlightSearchFiltersResponseDto {
     return {
       ...filters,
+      price: {
+        ...filters.price,
+        minFormatted: this.formatFilterPrice(filters.price.min, filters.price.currency, locale),
+        maxFormatted: this.formatFilterPrice(filters.price.max, filters.price.currency, locale),
+      },
       stops: filters.stops.map(option => ({
         ...option,
         label: flightStopsLabel(option.value, locale),
       })),
     };
+  }
+
+  private static formatFilterPrice(
+    amount: string | null,
+    currency: CurrencyCode | null,
+    locale: SupportedLocale,
+  ): string | null {
+    return amount !== null && currency
+      ? MoneyValueObject.create(amount, currency).formatWhole(locale)
+      : null;
   }
 
   static toHighlightResponse(
@@ -48,6 +61,7 @@ export class FlightApiMapper {
       })),
       totalAmount: data.totalAmount,
       currency: data.currency,
+      formatted: MoneyValueObject.create(data.totalAmount, data.currency).formatWhole(locale),
       electronicTicket: data.electronicTicket,
       requiresLatinNames: data.requiresLatinNames,
       expiresAt: data.expiresAt,

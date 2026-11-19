@@ -1,13 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
-  ArrayMinSize,
   ArrayUnique,
   IsArray,
   IsOptional,
+  IsInt,
   IsString,
   IsUUID,
   MaxLength,
+  Max,
+  Min,
 } from 'class-validator';
 import { IsLocalDate } from '@entrypoints/common/validation/is-local-date.decorator';
 
@@ -16,13 +18,20 @@ export class CreateCustomerTourBookingRequestDto {
   @IsUUID()
   tourId!: string;
 
-  @ApiProperty({ type: String, isArray: true, format: 'uuid' })
+  @ApiPropertyOptional({ type: String, isArray: true, format: 'uuid' })
+  @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
   @ArrayMaxSize(100)
   @ArrayUnique()
   @IsUUID('4', { each: true })
-  travelerIds!: string[];
+  travelerIds?: string[];
+
+  @ApiPropertyOptional({ minimum: 1, maximum: 100, description: 'Required when no travelers are selected' })
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  travelersCount?: number;
 
   @ApiPropertyOptional({ type: String, format: 'date', nullable: true })
   @IsOptional()

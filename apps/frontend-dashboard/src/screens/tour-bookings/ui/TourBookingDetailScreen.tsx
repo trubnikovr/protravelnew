@@ -18,6 +18,8 @@ import {
   uploadTourBookingDocument,
 } from "@/features/tour-bookings/api/tour-bookings.api";
 import { TourBookingStatusBadge } from "@/features/tour-bookings/ui/TourBookingStatusBadge";
+import { BookingTravelerDialog } from "@/features/tour-bookings/ui/BookingTravelerDialog";
+import type { TourBookingTravelerResponseDto } from "@/shared/api/generated/v1/models";
 import type { TourBookingResponseDtoStatusEnum } from "@/shared/api/generated/v1/models";
 import { Button } from "@/shared/ui/Button";
 import { Select } from "@/shared/ui/Select";
@@ -44,6 +46,7 @@ export function TourBookingDetailScreen() {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const [file, setFile] = useState<File | null>(null);
+  const [editingTraveler, setEditingTraveler] = useState<TourBookingTravelerResponseDto | null | undefined>(undefined);
   const booking = useQuery(tourBookingQueryOptions(bookingId));
   const invalidate = () =>
     queryClient.invalidateQueries({ queryKey: ["admin", "tour-bookings"] });
@@ -202,6 +205,11 @@ export function TourBookingDetailScreen() {
               </dd>
             </div>
           </dl>
+          {item.travelers.length < item.travelersCount && (
+            <p className="mt-5 rounded-lg bg-muted p-3 text-sm text-muted-foreground">
+              {t("bookingTravelerDetailsMissing", { count: item.travelersCount - item.travelers.length })}
+            </p>
+          )}
           {item.travelers.length > 0 && (
             <div className="mt-5 border-t pt-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -210,7 +218,7 @@ export function TourBookingDetailScreen() {
               <div className="mt-3 space-y-2">
                 {item.travelers.map((traveler) => (
                   <div key={traveler.id} className="rounded-lg bg-muted p-3">
-                    <p className="font-medium">
+                    <div className="flex items-start justify-between gap-2"><p className="font-medium">
                       {[
                         traveler.lastName,
                         traveler.firstName,
@@ -218,7 +226,7 @@ export function TourBookingDetailScreen() {
                       ]
                         .filter(Boolean)
                         .join(" ")}
-                    </p>
+                    </p><Button type="button" variant="outline" onClick={() => setEditingTraveler(traveler)}>{t("edit")}</Button></div>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {traveler.birthDate?.toLocaleDateString(i18n.language) ??
                         "—"}
@@ -231,6 +239,7 @@ export function TourBookingDetailScreen() {
               </div>
             </div>
           )}
+          {item.travelers.length < item.travelersCount && <Button className="mt-4" variant="outline" onClick={() => setEditingTraveler(null)}>{t("addBookingTraveler")}</Button>}
           {item.notes && (
             <div className="mt-5 border-t pt-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -318,6 +327,7 @@ export function TourBookingDetailScreen() {
           </div>
         </section>
       </div>
+      {editingTraveler !== undefined && <BookingTravelerDialog bookingId={item.id} traveler={editingTraveler} onClose={() => setEditingTraveler(undefined)} />}
     </main>
   );
 }

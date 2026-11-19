@@ -14,6 +14,10 @@ traveler count, total, payment timestamp, notes, and the current status.
 Customer-created bookings additionally show immutable traveler snapshots with
 name, birth date and citizenship. Only valid next statuses are offered by the
 interface; the backend remains the authoritative validator.
+When fewer traveler snapshots are supplied than the booked count, the detail
+page shows how many travelers still need details and prompts manager follow-up.
+Managers can add missing travelers and edit names, gender, birth date and
+citizenship directly in the booking. Edits affect the booking snapshot only.
 
 The documents panel uploads PDF, image, Word, and Excel files up to 25 MB.
 Downloads use the generated authenticated API client rather than public file

@@ -7,6 +7,7 @@ All URIs are relative to *http://localhost*
 | [**customerTourBookingsCreate**](MeTourBookingsApi.md#customertourbookingscreate) | **POST** /api/v1/me/tour-bookings | Create a tour booking request |
 | [**customerTourBookingsGet**](MeTourBookingsApi.md#customertourbookingsget) | **GET** /api/v1/me/tour-bookings/{id} | Get own tour booking |
 | [**customerTourBookingsList**](MeTourBookingsApi.md#customertourbookingslist) | **GET** /api/v1/me/tour-bookings | List current customer tour bookings |
+| [**customerTourBookingsPriceQuote**](MeTourBookingsApi.md#customertourbookingspricequote) | **POST** /api/v1/me/tour-bookings/price-quote | Calculate current tour booking total |
 
 
 
@@ -14,7 +15,7 @@ All URIs are relative to *http://localhost*
 
 > CustomerTourBookingsCreate201Response customerTourBookingsCreate(createCustomerTourBookingRequestDto, acceptLanguage)
 
-Create a tour booking reques
+Create a tour booking request
 
 ### Example
 
@@ -27,7 +28,7 @@ import type { CustomerTourBookingsCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -48,7 +49,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -82,7 +83,7 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTourBookingsGe
+## customerTourBookingsGet
 
 > CustomerTourBookingsCreate201Response customerTourBookingsGet(id, acceptLanguage)
 
@@ -99,7 +100,7 @@ import type { CustomerTourBookingsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -120,7 +121,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -154,7 +155,7 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## customerTourBookingsLis
+## customerTourBookingsList
 
 > CustomerTourBookingsList200Response customerTourBookingsList(page, limit, sortBy, sortDirection, acceptLanguage)
 
@@ -171,7 +172,7 @@ import type { CustomerTourBookingsListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -198,7 +199,7 @@ async function example() {
   }
 }
 
-// Run the tes
+// Run the test
 example().catch(console.error);
 ```
 
@@ -224,6 +225,78 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## customerTourBookingsPriceQuote
+
+> CustomerTourBookingsPriceQuote200Response customerTourBookingsPriceQuote(tourBookingPriceQuoteRequestDto, acceptLanguage)
+
+Calculate current tour booking total
+
+### Example
+
+```ts
+import {
+  Configuration,
+  MeTourBookingsApi,
+} from '';
+import type { CustomerTourBookingsPriceQuoteRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MeTourBookingsApi(config);
+
+  const body = {
+    // TourBookingPriceQuoteRequestDto
+    tourBookingPriceQuoteRequestDto: ...,
+    // 'ru' | 'uz' | 'en' | Response language. Defaults to ru. (optional)
+    acceptLanguage: acceptLanguage_example,
+  } satisfies CustomerTourBookingsPriceQuoteRequest;
+
+  try {
+    const data = await api.customerTourBookingsPriceQuote(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tourBookingPriceQuoteRequestDto** | [TourBookingPriceQuoteRequestDto](TourBookingPriceQuoteRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+### Return type
+
+[**CustomerTourBookingsPriceQuote200Response**](CustomerTourBookingsPriceQuote200Response.md)
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
 

@@ -1,3 +1,5 @@
+import { ApiRequestError, getApiErrorMessage } from './api-errors';
+export { ApiRequestError } from './api-errors';
 import { Platform } from 'react-native';
 import { setConnectionUnavailable } from './connection-state';
 import {
@@ -34,24 +36,10 @@ type ApiErrorEnvelope = {
   message?: string | string[];
 };
 
-export class ApiRequestError extends Error {
-  constructor(
-    message: string,
-    readonly status: number,
-    readonly code?: string,
-  ) {
-    super(message);
-  }
-}
-
-function resolveErrorMessage(body: ApiErrorEnvelope): string {
-  if (body.error?.message) {
-    return body.error.message;
-  }
-  if (Array.isArray(body.message)) {
-    return body.message.join(', ');
-  }
-  return body.message ?? 'Не удалось выполнить запрос';
+function responseError(body: ApiErrorEnvelope | null, status: number) {
+  const error = new ApiRequestError('', status, body?.error?.code);
+  error.message = getApiErrorMessage(error);
+  return error;
 }
 
 export async function apiRequest<T>(
@@ -91,15 +79,11 @@ async function connectionFetch(url: string, options: RequestInit): Promise<Respo
   const timeout = setTimeout(abort, REQUEST_TIMEOUT_MS);
   try {
     const response = await fetch(url, { ...options, signal: controller.signal });
-    if ([502, 503, 504].includes(response.status)) {
-      setConnectionUnavailable(true);
-      throw new ApiRequestError(i18n.t('common.connectionUnavailable'), response.status, 'CONNECTION_UNAVAILABLE');
-    }
-    setConnectionUnavailable(false);
+    setConnectionUnavailable(response.status >= 500 && response.status < 600);
     return response;
   } catch (error) {
     if (options.signal?.aborted || error instanceof ApiRequestError) throw error;
-    setConnectionUnavailable(true);
+    setConnectionUnavailable(false);
     throw new ApiRequestError(i18n.t('common.connectionUnavailable'), 0, 'CONNECTION_UNAVAILABLE');
   } finally {
     clearTimeout(timeout);
@@ -130,14 +114,11 @@ async function readResponse<T>(response: Response): Promise<T> {
 async function readEnvelope<T, TMeta extends object = object>(
   response: Response,
 ): Promise<ApiEnvelope<T, TMeta>> {
-  const body = (await response.json()) as ApiEnvelope<T, TMeta> &
-    ApiErrorEnvelope;
-  if (!response.ok) {
-    throw new ApiRequestError(
-      resolveErrorMessage(body),
-      response.status,
-      body.error?.code,
-    );
+  const body = await response.json().catch(() => null) as
+    (ApiEnvelope<T, TMeta> & ApiErrorEnvelope) | null;
+  if (!response.ok) throw responseError(body, response.status);
+  if (!body || typeof body !== 'object' || !('data' in body)) {
+    throw responseError(null, response.status);
   }
   return body;
 }
@@ -161,7 +142,7 @@ async function performRefresh(): Promise<boolean> {
   });
   if (!response.ok) {
     if (response.status !== 401 && response.status !== 403) {
-      throw new ApiRequestError(resolveErrorMessage(await response.json()), response.status);
+      throw responseError(await response.json().catch(() => null), response.status);
     }
     await clearAuthSession();
     return false;

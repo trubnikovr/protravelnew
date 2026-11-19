@@ -1,12 +1,14 @@
+
 # MoneyResponseDto
+
 
 ## Properties
 
-| Name        | Type   |
-| ----------- | ------ |
-| `amount`    | string |
-| `currency`  | string |
-| `formatted` | string |
+Name | Type
+------------ | -------------
+`amount` | string
+`currency` | string
+`formatted` | string
 
 ## Example
 
@@ -17,7 +19,7 @@ import type { MoneyResponseDto } from ''
 const example = {
   "amount": 12500000,
   "currency": null,
-  "formatted": 125 000,00 RUB,
+  "formatted": 125 000 руб.,
 } satisfies MoneyResponseDto
 
 console.log(example)
@@ -32,3 +34,5 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

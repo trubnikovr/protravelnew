@@ -1,6 +1,7 @@
 import type { TourBooking } from '../domain/tour-booking';
 import type {
   TourBookingDocument,
+  TourBookingTraveler,
   TourBookingStatus,
 } from '../domain/tour-booking.types';
 import type { CurrencyCode } from '@shared/domain/enums';
@@ -49,7 +50,10 @@ export interface AddTourBookingDocumentData {
   uploadedByAdminId: string;
 }
 
+export type BookingTravelerData = Omit<TourBookingTraveler, 'id' | 'travelerId'>;
+
 export interface TourBookingsRepository {
+  saveTraveler(bookingId: string, travelerId: string | null, data: BookingTravelerData): Promise<'saved' | 'full' | 'not_found'>;
   create(data: PersistTourBookingData): Promise<TourBooking>;
   findById(id: string): Promise<TourBooking | null>;
   list(filter: TourBookingListFilter): Promise<TourBookingListResult>;

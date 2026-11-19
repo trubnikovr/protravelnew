@@ -18,10 +18,7 @@ import {
   FLIGHT_OFFER_REPOSITORY,
   type FlightOfferRepository,
 } from '../ports/flight-offer.repository';
-import {
-  FLIGHT_SEARCH_CACHE,
-  type FlightSearchCachePort,
-} from '../ports/flight-search-cache.port';
+import { CacheManager } from '@core/cache/cache-manager';
 import {
   EntityIdValueObject,
   LocalDateValueObject,
@@ -36,8 +33,7 @@ export class SearchFlightsUseCase {
     @Inject(FLIGHT_OFFER_REPOSITORY)
     private readonly offers: FlightOfferRepository,
     private readonly searchAggregator: FlightSearchAggregator,
-    @Inject(FLIGHT_SEARCH_CACHE)
-    private readonly cache: FlightSearchCachePort,
+    private readonly cache: CacheManager,
     @Inject(APPLICATION_CLOCK) private readonly clock: ApplicationClock,
     private readonly logger: AppLogger,
   ) {
@@ -48,19 +44,17 @@ export class SearchFlightsUseCase {
     this.validate(criteria);
 
     const cacheKey = this.cacheKey(criteria);
-    const cachedOffers = await this.cache.get(cacheKey);
-    if (cachedOffers?.length) return this.createResult(cachedOffers, criteria);
-
-    const providerOffers = await this.searchAggregator.search(
-      this.withoutResultFilters(criteria),
-    );
-    if (!providerOffers.length) return this.emptyResult();
-
-    await this.cache.set(
+    const providerOffers = await this.cache.getOrLoad(
       cacheKey,
-      providerOffers,
-      SearchFlightsUseCase.CACHE_TTL_SECONDS,
+      () => this.searchAggregator.search(this.withoutResultFilters(criteria)),
+      (offers) => offers.length ? SearchFlightsUseCase.CACHE_TTL_SECONDS * 1_000 : 0,
+
     );
+
+    // const providerOffers = await this.searchAggregator.search(
+    //   this.withoutResultFilters(criteria)
+    // );
+    if (!providerOffers.length) return this.emptyResult();
     return this.createResult(providerOffers, criteria);
   }
 
@@ -193,7 +187,7 @@ export class SearchFlightsUseCase {
       offer.itineraries.map((item) => item.segments[0]?.departureLocal),
     );
     return {
-      price: this.amountRange(amounts),
+      price: { ...this.amountRange(amounts), currency: offers[0]?.currency ?? null },
       stops: this.stopOptions(offers),
       airlines: this.airlineOptions(offers),
       baggage: this.baggageOptions(offers),

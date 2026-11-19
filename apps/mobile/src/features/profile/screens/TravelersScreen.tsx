@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -16,7 +17,6 @@ import {theme, typography} from '../../../shared/theme/theme';
 import {TravelerCard} from '../components/TravelerCard';
 import {
   useCustomerTravelers,
-  useDeleteCustomerTraveler,
 } from '../model/useCustomerTravelers';
 
 type Props = NativeStackScreenProps<ProfileStackParamList, 'Travelers'>;
@@ -24,8 +24,6 @@ type Props = NativeStackScreenProps<ProfileStackParamList, 'Travelers'>;
 export function TravelersScreen({navigation}: Props) {
   const {t} = useTranslation();
   const travelers = useCustomerTravelers();
-  const deleteTraveler = useDeleteCustomerTraveler();
-
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <ScreenHeader
@@ -39,7 +37,7 @@ export function TravelersScreen({navigation}: Props) {
           <ActivityIndicator color={theme.colors.primary} />
         ) : null}
         {travelers.isError ? (
-          <Text style={styles.state}>{t('profile.travelersError')}</Text>
+          <Text style={styles.state}>{getApiErrorMessage(travelers.error, t('profile.travelersError'))}</Text>
         ) : null}
         {travelers.data?.length === 0 ? (
           <Text style={styles.state}>{t('profile.travelersEmpty')}</Text>
@@ -47,7 +45,7 @@ export function TravelersScreen({navigation}: Props) {
         {travelers.data?.map(traveler => (
           <TravelerCard
             key={traveler.id}
-            onDelete={() => deleteTraveler.mutate(traveler.id)}
+            onEdit={() => navigation.navigate('TravelerDetails', { travelerId: traveler.id })}
             traveler={traveler}
           />
         ))}

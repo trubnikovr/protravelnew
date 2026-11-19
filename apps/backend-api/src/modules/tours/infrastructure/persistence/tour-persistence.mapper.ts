@@ -43,6 +43,8 @@ export class TourPersistenceMapper {
       slug: tour.slug,
       status: tour.status as TourStatus,
       type: tour.type as TourType,
+      minTravelers: tour.minTravelers,
+      maxTravelers: tour.maxTravelers,
       durationDays: tour.durationDays,
       durationNights: tour.durationNights,
       price: MoneyValueObject.create(tour.basePriceAmount, tour.currency),

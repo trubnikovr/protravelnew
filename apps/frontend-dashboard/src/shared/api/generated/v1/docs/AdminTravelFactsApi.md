@@ -1,13 +1,15 @@
 # AdminTravelFactsApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://localhost*
 
-| Method                                                                      | HTTP request                               | Description           |
-| --------------------------------------------------------------------------- | ------------------------------------------ | --------------------- |
-| [**adminTravelFactsCreate**](AdminTravelFactsApi.md#admintravelfactscreate) | **POST** /api/v1/admin/travel-facts        | Create a travel fact  |
-| [**adminTravelFactsDelete**](AdminTravelFactsApi.md#admintravelfactsdelete) | **DELETE** /api/v1/admin/travel-facts/{id} | Delete a travel fact  |
-| [**adminTravelFactsList**](AdminTravelFactsApi.md#admintravelfactslist)     | **GET** /api/v1/admin/travel-facts         | List all travel facts |
-| [**adminTravelFactsUpdate**](AdminTravelFactsApi.md#admintravelfactsupdate) | **PATCH** /api/v1/admin/travel-facts/{id}  | Update a travel fact  |
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**adminTravelFactsCreate**](AdminTravelFactsApi.md#admintravelfactscreate) | **POST** /api/v1/admin/travel-facts | Create a travel fact |
+| [**adminTravelFactsDelete**](AdminTravelFactsApi.md#admintravelfactsdelete) | **DELETE** /api/v1/admin/travel-facts/{id} | Delete a travel fact |
+| [**adminTravelFactsList**](AdminTravelFactsApi.md#admintravelfactslist) | **GET** /api/v1/admin/travel-facts | List all travel facts |
+| [**adminTravelFactsUpdate**](AdminTravelFactsApi.md#admintravelfactsupdate) | **PATCH** /api/v1/admin/travel-facts/{id} | Update a travel fact |
+
+
 
 ## adminTravelFactsCreate
 
@@ -26,7 +28,7 @@ import type { AdminTravelFactsCreateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -53,10 +55,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                           | Type                                                        | Description                        | Notes                                                      |
-| ------------------------------ | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **createTravelFactRequestDto** | [CreateTravelFactRequestDto](CreateTravelFactRequestDto.md) |                                    |                                                            |
-| **acceptLanguage**             | `ru`, `uz`, `en`                                            | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **createTravelFactRequestDto** | [CreateTravelFactRequestDto](CreateTravelFactRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -71,13 +74,14 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **201**     |             | -                |
+|-------------|-------------|------------------|
+| **201** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTravelFactsDelete
 
@@ -88,12 +92,15 @@ Delete a travel fact
 ### Example
 
 ```ts
-import { Configuration, AdminTravelFactsApi } from "";
-import type { AdminTravelFactsDeleteRequest } from "";
+import {
+  Configuration,
+  AdminTravelFactsApi,
+} from '';
+import type { AdminTravelFactsDeleteRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -120,9 +127,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**             | `string`         |                                    | [Defaults to `undefined`]                                  |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -138,13 +146,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **204**     |             | -                |
+|-------------|-------------|------------------|
+| **204** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTravelFactsList
 
@@ -155,12 +164,15 @@ List all travel facts
 ### Example
 
 ```ts
-import { Configuration, AdminTravelFactsApi } from "";
-import type { AdminTravelFactsListRequest } from "";
+import {
+  Configuration,
+  AdminTravelFactsApi,
+} from '';
+import type { AdminTravelFactsListRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -185,8 +197,9 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name               | Type             | Description                        | Notes                                                      |
-| ------------------ | ---------------- | ---------------------------------- | ---------------------------------------------------------- |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
 | **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
@@ -202,13 +215,14 @@ example().catch(console.error);
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 
 ## adminTravelFactsUpdate
 
@@ -227,7 +241,7 @@ import type { AdminTravelFactsUpdateRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearer
     accessToken: "YOUR BEARER TOKEN",
   });
@@ -256,11 +270,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                           | Type                                                        | Description                        | Notes                                                      |
-| ------------------------------ | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| **id**                         | `string`                                                    |                                    | [Defaults to `undefined`]                                  |
-| **updateTravelFactRequestDto** | [UpdateTravelFactRequestDto](UpdateTravelFactRequestDto.md) |                                    |                                                            |
-| **acceptLanguage**             | `ru`, `uz`, `en`                                            | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **updateTravelFactRequestDto** | [UpdateTravelFactRequestDto](UpdateTravelFactRequestDto.md) |  | |
+| **acceptLanguage** | `ru`, `uz`, `en` | Response language. Defaults to ru. | [Optional] [Defaults to `&#39;ru&#39;`] [Enum: ru, uz, en] |
 
 ### Return type
 
@@ -275,10 +290,11 @@ example().catch(console.error);
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
-| ----------- | ----------- | ---------------- |
-| **200**     |             | -                |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+

@@ -23,6 +23,8 @@ export interface TourProperties extends DomainEntityProperties {
   slug: string;
   status: TourStatus;
   type: TourType;
+  minTravelers: number | null;
+  maxTravelers: number | null;
   durationDays: number;
   durationNights: number;
   price: MoneyValueObject;
@@ -102,6 +104,12 @@ export class Tour extends DomainEntity<TourProperties> {
   }
   get type() {
     return this.properties.type;
+  }
+  get minTravelers() {
+    return this.properties.minTravelers;
+  }
+  get maxTravelers() {
+    return this.properties.maxTravelers;
   }
   get durationDays() {
     return this.properties.durationDays;

@@ -30,7 +30,10 @@ featured, country, city and airport result sets run concurrently.
 configuration when it is needed independently. Administrators with content
 permissions manage the complete list through
 `GET|PUT /api/v1/admin/featured-flight-locations`. The replacement operation
-supports up to 30 IATA or metropolitan location codes.
+supports up to 30 city IDs selected from the reference autocomplete. The
+database stores a foreign key to each city; the backend derives its country
+name and all linked airport codes. The mobile selector displays the city name
+and submits the complete airport-code list for that city.
 
 The backend owns the source files under
 `apps/backend-api/seeds/reference`:

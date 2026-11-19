@@ -56,6 +56,8 @@ export class PublicTourListItemResponseDto {
   @ApiProperty({ format: 'uuid' }) id!: string;
   @ApiProperty() slug!: string;
   @ApiProperty({ enum: TourType }) type!: TourType;
+  @ApiPropertyOptional({ type: Number, nullable: true }) minTravelers!: number | null;
+  @ApiPropertyOptional({ type: Number, nullable: true }) maxTravelers!: number | null;
   @ApiProperty() durationDays!: number;
   @ApiProperty() durationNights!: number;
   @ApiProperty({ type: MoneyResponseDto }) price!: MoneyResponseDto;

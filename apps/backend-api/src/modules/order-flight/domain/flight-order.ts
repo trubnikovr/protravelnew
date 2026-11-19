@@ -129,6 +129,9 @@ export class FlightOrder extends DomainEntity<FlightOrderProperties> {
   }
 
   confirm(result: FlightBookingResult): void {
+    if (result.totalAmount !== undefined) {
+      this.entityProperties.offerSnapshot = { ...this.offerSnapshot, totalAmount: result.totalAmount };
+    }
     this.entityProperties.status = FlightOrderStatus.BOOKED;
     this.entityProperties.providerBookingToken = result.providerBookingToken;
     this.entityProperties.recordLocator = result.recordLocator;

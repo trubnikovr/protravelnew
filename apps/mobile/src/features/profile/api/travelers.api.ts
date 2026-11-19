@@ -3,12 +3,14 @@ import type {
   CreateTravelerRequestDto,
   CreateTravelerDocumentRequestDto,
   UpdateTravelerRequestDto,
+  UpdateTravelerDocumentRequestDto,
   TravelerDocumentResponseDto,
   TravelerResponseDto,
 } from '../../../shared/api/generated/v1/models';
 import {
   CreateTravelerRequestDtoToJSON,
   CreateTravelerDocumentRequestDtoToJSON,
+  UpdateTravelerDocumentRequestDtoToJSON,
   UpdateTravelerRequestDtoToJSON,
   TravelerResponseDtoFromJSON,
 } from '../../../shared/api/generated/v1/models';
@@ -41,6 +43,26 @@ export function createCustomerTravelerDocument(
     method: 'POST',
     body: JSON.stringify(CreateTravelerDocumentRequestDtoToJSON(input)),
   }).then(TravelerResponseDtoFromJSON);
+}
+
+export function updateCustomerTravelerDocument(
+  travelerId: string,
+  documentId: string,
+  input: UpdateTravelerDocumentRequestDto,
+): Promise<CustomerTraveler> {
+  return apiRequest<unknown>(`/me/travelers/${travelerId}/documents/${documentId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(UpdateTravelerDocumentRequestDtoToJSON(input)),
+  }).then(TravelerResponseDtoFromJSON);
+}
+
+export function deleteCustomerTravelerDocument(
+  travelerId: string,
+  documentId: string,
+): Promise<void> {
+  return apiRequest(`/me/travelers/${travelerId}/documents/${documentId}`, {
+    method: 'DELETE',
+  });
 }
 
 export function updateCustomerTraveler(

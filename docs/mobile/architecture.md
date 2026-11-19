@@ -12,13 +12,13 @@ apps/mobile/src/
 │       ├── AuthNavigator.tsx
 │       ├── MainTabNavigator.tsx
 │       ├── HomeNavigator.tsx
-│       ├── SearchNavigator.tsx
+│       ├── AviaNavigator.tsx
 │       ├── ProfileNavigator.tsx
 │       └── types.ts
 ├── features/
 │   ├── auth/
 │   ├── home/
-│   ├── search/
+│   ├── avia/
 │   ├── bookings/
 │   ├── news/
 │   └── profile/

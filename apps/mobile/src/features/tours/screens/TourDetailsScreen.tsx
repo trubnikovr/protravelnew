@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -44,7 +45,7 @@ export function TourDetailsScreen() {
 
   if (tour.isPending) return <TourState loading onBack={navigation.goBack} />;
   if (tour.isError || !tour.data)
-    return <TourState onBack={navigation.goBack} />;
+    return <TourState error={tour.error} onBack={navigation.goBack} />;
   const data = tour.data;
   const images = [data.coverImage, ...data.galleryImages].filter(
     (image): image is { url: string } => Boolean(image?.url),
@@ -105,6 +106,8 @@ export function TourDetailsScreen() {
               label={t('tourDetails.duration')}
               value={`${data.durationDays} дн. / ${data.durationNights} ноч.`}
             />
+            {data.minTravelers != null && <InfoRow label={t('tourDetails.minTravelers')} value={String(data.minTravelers)} />}
+            {data.maxTravelers != null && <InfoRow label={t('tourDetails.maxTravelers')} value={String(data.maxTravelers)} />}
             <InfoRow
               label={t('hotel.price')}
               value={data.price?.formatted ?? ''}
@@ -212,7 +215,18 @@ export function TourDetailsScreen() {
               ))}
             </InfoSection>
           )}
+        </View>
+      </ScrollView>
+      <View style={styles.bookingBar}>
+        <View style={styles.bookingPrice}>
+          <Text style={styles.bookingPriceValue}>
+            {data.price?.formatted ?? ''}
+          </Text>
+          <Text style={styles.bookingPriceLabel}>{t('hotel.price')}</Text>
+        </View>
+        <View style={styles.bookingButton}>
           <PrimaryButton
+            variant="booking"
             onPress={() => {
               if (session)
                 navigation.navigate('TourBooking', { tourId: data.id });
@@ -221,7 +235,7 @@ export function TourDetailsScreen() {
             title={t('hotel.book')}
           />
         </View>
-      </ScrollView>
+      </View>
       <BookingAuthModal
         onAuthenticated={() => {
           setAuthVisible(false);
@@ -235,9 +249,11 @@ export function TourDetailsScreen() {
 }
 
 function TourState({
+  error,
   loading,
   onBack,
 }: {
+  error?: unknown;
   loading?: boolean;
   onBack: () => void;
 }) {
@@ -248,7 +264,7 @@ function TourState({
       {loading ? (
         <ActivityIndicator color={theme.colors.primary} style={styles.state} />
       ) : (
-        <Text style={styles.state}>{t('tourDetails.loadError')}</Text>
+        <Text style={styles.state}>{getApiErrorMessage(error, t('tourDetails.loadError'))}</Text>
       )}
     </SafeAreaView>
   );
@@ -358,4 +374,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
+  bookingBar: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.surface,
+    borderTopColor: theme.colors.divider,
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    padding: theme.spacing.md,
+    gap: theme.spacing.sm,
+    borderTopLeftRadius: theme.spacing.sm,
+    borderTopRightRadius: theme.spacing.sm,
+  },
+  bookingPrice: { flex: 1 },
+  bookingPriceValue: { ...typography.titleSmall },
+  bookingPriceLabel: {
+    ...typography.bodySmall,
+    color: theme.colors.textSecondary,
+  },
+  bookingButton: { flexShrink: 0 },
 });

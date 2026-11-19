@@ -9,11 +9,11 @@ import {
   View,
 } from 'react-native';
 import {
-  CalendarCheck,
   ChevronRight,
   CircleUserRound,
   LogOut,
-  Settings,
+  Plane,
+  Ticket,
   UserRoundPen,
 } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -28,8 +28,8 @@ import { useCustomerProfile } from '../model/useCustomerProfile';
 const menu = [
   { id: 'edit', titleKey: 'profile.edit', icon: UserRoundPen },
   { id: 'travelers', titleKey: 'profile.personal', icon: CircleUserRound },
-  { id: 'settings', titleKey: 'profile.settings', icon: Settings },
-  { id: 'bookings', titleKey: 'profile.bookings', icon: CalendarCheck },
+  { id: 'flightBookings', titleKey: 'profile.flightBookings', icon: Plane },
+  { id: 'tourBookings', titleKey: 'profile.tourBookings', icon: Ticket },
 ] as const;
 
 type ProfileNavigation = NativeStackNavigationProp<
@@ -48,8 +48,8 @@ export function ProfileScreen() {
       navigation.navigate('EditProfile');
     } else if (id === 'travelers') {
       navigation.navigate('Travelers');
-    } else if (id === 'settings') {
-      navigation.navigate('Settings');
+    } else if (id === 'flightBookings') {
+      navigation.navigate('FlightBookings');
     } else {
       navigation.navigate('Bookings');
     }

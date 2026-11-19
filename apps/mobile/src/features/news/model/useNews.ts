@@ -12,6 +12,7 @@ type NewsState = {
   articles: NewsArticle[];
   loading: boolean;
   error: boolean;
+  errorCause: unknown;
   unreadCount: number;
   refresh: () => Promise<void>;
   markRead: (newsId: string) => Promise<void>;
@@ -31,11 +32,11 @@ export function useNewsUnreadStatus(): NewsUnreadStatus {
 
 export function useNews(): NewsState {
   const queryClient = useQueryClient();
-  const { data, isError, isPending, isRefetching, refetch } = useQuery({
+  const { data, error, isError, isPending, isRefetching, refetch } = useQuery({
     queryKey: newsQueryKey,
     queryFn: listNews,
   });
-  const { isError: mutationError, mutateAsync } = useMutation({
+  const { isError: mutationError, error: mutationErrorCause, mutateAsync } = useMutation({
     mutationFn: markNewsRead,
     onMutate: async newsId => {
       await queryClient.cancelQueries({ queryKey: newsQueryKey });
@@ -95,12 +96,15 @@ export function useNews(): NewsState {
       articles,
       loading: isPending || isRefetching,
       error: isError || mutationError,
+      errorCause: error ?? mutationErrorCause,
       unreadCount: articles.filter(article => !article.isRead).length,
       refresh,
       markRead,
     }),
     [
       articles,
+      error,
+      mutationErrorCause,
       isError,
       isPending,
       isRefetching,

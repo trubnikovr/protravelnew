@@ -1,5 +1,5 @@
 ### Search flights and return offers from the configured provider
-POST {{baseUrl}}/flights/searches
+POST {{baseUrl}}/flights/search
 Content-Type: application/json
 Accept: application/json
 

@@ -8,6 +8,8 @@ export class TourApiMapper {
       slug: tour.slug,
       status: tour.status,
       type: tour.type,
+      minTravelers: tour.minTravelers,
+      maxTravelers: tour.maxTravelers,
       durationDays: tour.durationDays,
       durationNights: tour.durationNights,
       price: this.money(tour.price),
@@ -60,7 +62,7 @@ export class TourApiMapper {
     return {
       amount: value.amount,
       currency: value.currency,
-      formatted: value.format(),
+      formatted: value.formatWhole(),
     };
   }
 }

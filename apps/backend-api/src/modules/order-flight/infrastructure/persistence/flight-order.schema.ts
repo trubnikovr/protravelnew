@@ -74,3 +74,10 @@ export const flightOrders = pgTable(
 );
 
 export type FlightOrderRecord = typeof flightOrders.$inferSelect;
+
+export const flightBookingAttempts = pgTable('flight_booking_attempts', {
+  customerId: uuid('customer_id').notNull().references(() => customers.id, { onDelete: 'restrict' }),
+  idempotencyKey: varchar('idempotency_key', { length: 128 }).notNull(),
+  requestHash: varchar('request_hash', { length: 64 }).notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex('flight_booking_attempts_customer_key_unique').on(table.customerId, table.idempotencyKey)]);

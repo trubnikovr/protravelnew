@@ -2,7 +2,7 @@ export interface FlightOrderNotificationContextContract {
   orderId: string;
   customerId: string;
   contact: {
-    email: string;
+    email?: string;
     name: string;
   };
 }

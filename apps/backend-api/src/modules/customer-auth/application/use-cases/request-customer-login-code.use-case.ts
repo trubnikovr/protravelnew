@@ -1,5 +1,6 @@
-import { randomUUID } from 'node:crypto';
+import { randomInt, randomUUID } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   CUSTOMER_LOGIN_CHALLENGE_REPOSITORY,
   type CustomerLoginChallengeRepository,
@@ -19,13 +20,16 @@ export class RequestCustomerLoginCodeUseCase {
     private readonly challenges: CustomerLoginChallengeRepository,
     @Inject(CUSTOMER_SMS_SENDER)
     private readonly sms: CustomerSmsSenderPort,
+    private readonly config: ConfigService,
   ) {}
 
   async execute(phone: string) {
     const challenge = {
       id: randomUUID(),
       phone: phone.trim(),
-      code: DEVELOPMENT_LOGIN_CODE,
+      code: this.config.get<string>('SMS_PROVIDER') === 'smspilot'
+        ? randomInt(0, 10_000).toString().padStart(4, '0')
+        : DEVELOPMENT_LOGIN_CODE,
       expiresAt: new Date(Date.now() + CHALLENGE_TTL_SECONDS * 1_000),
     };
     await this.challenges.save(challenge);

@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React from 'react';
 import {
   ImageBackground,
@@ -24,14 +25,14 @@ type Props = NativeStackScreenProps<NewsStackParamList, 'NewsFeed'>;
 
 export function NewsScreen({ navigation }: Props) {
   const { t } = useTranslation();
-  const { articles, error, loading, markRead, refresh } = useNews();
+  const { articles, error, errorCause, loading, markRead, refresh } = useNews();
   useRefreshOnFocus(refresh);
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <ImageBackground
         imageStyle={styles.backgroundImage}
-        source={require('../../../shared/assets/images/news-background.png')}
+        source={require('../../../shared/assets/images/news-background-v2.png')}
         style={styles.background}
       />
       <ScreenHeader title={t('news.title')} />
@@ -45,7 +46,7 @@ export function NewsScreen({ navigation }: Props) {
         {error ? (
           <TravelStateCard
             title={t('news.loadError')}
-            message={t('common.connectionUnavailable')}
+            message={getApiErrorMessage(errorCause, t('common.connectionUnavailable'))}
             actionLabel={t('common.retry')}
             onAction={refresh}
           />
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     resizeMode: 'cover',
+    opacity: 0.72,
   },
   content: {
     padding: theme.sizes.contentPadding,

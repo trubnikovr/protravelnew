@@ -46,8 +46,8 @@ files must not be bundled or redistributed there.
 Location: `apps/mobile/src/shared/ui/PrimaryButton.tsx`
 
 Use for the main action on forms and sheets. Supports disabled and loading
-states. The `flightBooking` variant matches the flight-detail Figma action:
-44dp height, 4dp corners and the dedicated flight primary color.
+states. The `booking` variant matches the pinned booking action used on flight
+and tour details: 44dp height, 4dp corners and the booking primary color.
 
 ### `AppTextField`
 

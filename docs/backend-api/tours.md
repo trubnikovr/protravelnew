@@ -1,5 +1,11 @@
 # Public tours
 
+Tours may define `minTravelers` and `maxTravelers` (1–100) per booking.
+Either can be null; the minimum cannot exceed the maximum. Quotes and booking
+creation enforce these bounds independently of departure seat availability.
+The data migration sets the limits to one and two for existing tours. New tours
+default to one and two; either bound can be changed or left empty.
+
 The mobile catalog uses backend-owned published tour data.
 
 ## Endpoints

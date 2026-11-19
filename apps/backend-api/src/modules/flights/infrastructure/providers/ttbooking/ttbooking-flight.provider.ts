@@ -54,6 +54,7 @@ export class TtbookingFlightProvider implements FlightProviderPort {
     criteria: FlightSearchCriteria,
   ): Promise<FlightSearchProviderResult> {
 
+
     const response = await this.request<TtbookingFlightResponse>(
       TtbookingCommand.SEARCH_FLIGHTS_RELEASE,
       {
@@ -76,25 +77,7 @@ export class TtbookingFlightProvider implements FlightProviderPort {
         })),
       },
     );
-    console.log(JSON.stringify( {
-      route: criteria.routes.map((route) => ({
-        date: `${route.departureDate}T00:00:00`,
-        locationBegin: { code: route.origin, name: '' },
-        locationEnd: { code: route.destination, name: '' },
-      })),
-      seats: criteria.passengers.map((passenger) => ({
-        count: passenger.count,
-        passengerType: TTBOOKING_PASSENGER_TYPE_BY_DOMAIN[passenger.type],
-      })),
-      serviceClass: this.toTtbookingCabin(criteria.cabinClass),
-      skipConnected: criteria.directOnly,
-      eticketsOnly: true,
-      mixedVendors: true,
-      preferredAirlines: criteria.preferredAirlines.map((code) => ({
-        code,
-        name: '',
-      })),
-    }, null, 2));
+    //console.log(JSON.stringify( response  , null, 2));
     const offers = this.mapOffers(response, criteria.passengers);
 
     this.logSearchShape(response, offers.length);

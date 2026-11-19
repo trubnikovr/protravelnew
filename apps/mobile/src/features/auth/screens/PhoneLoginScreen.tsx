@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import { useState } from 'react';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
@@ -41,8 +42,8 @@ export function PhoneLoginScreen({ navigation }: Props) {
         phone: normalizedPhone,
         ...challenge,
       });
-    } catch {
-      setError(t('auth.sendError'));
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('auth.sendError')));
     }
   };
 

@@ -55,8 +55,8 @@ export class FlightsController {
     private readonly config: ConfigService,
   ) {}
 
-  /** @see POST /api/v1/flights/searches */
-  @Post('searches')
+  /** @see POST /api/v1/flights/search */
+  @Post('search')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Search flights and return normalized offers' })
   @ApiPaginatedEnvelope(FlightOfferResponseDto, FlightSearchMetaResponseDto)
@@ -82,6 +82,18 @@ export class FlightsController {
         ),
       },
     );
+  }
+
+  /** @see POST /api/v1/flights/searches */
+  @Post('searches')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Search flights (legacy route)', deprecated: true })
+  @ApiPaginatedEnvelope(FlightOfferResponseDto, FlightSearchMetaResponseDto)
+  searchLegacy(
+    @CurrentLocale() locale: SupportedLocale,
+    @Body() dto: CreateFlightSearchRequestDto,
+  ): Promise<PaginatedResult<FlightOfferResponseDto>> {
+    return this.search(locale, dto);
   }
 
   /** @see GET /api/v1/flights/offers/:offerId */

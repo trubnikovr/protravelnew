@@ -10,6 +10,7 @@ import {
 } from "@/shared/api/generated/v1/apis";
 import type {
   CreateTourBookingRequestDto,
+  BookingTravelerRequestDto,
   TourBookingDocumentResponseDto,
   TourBookingResponseDto,
   TourBookingResponseDtoStatusEnum,
@@ -18,6 +19,15 @@ import type {
 const api = new AdminTourBookingsApi(
   createApiConfiguration(() => authSession.getToken())
 );
+
+export async function saveBookingTraveler(id: string, travelerId: string | null, payload: BookingTravelerRequestDto): Promise<TourBookingResponseDto> {
+  try {
+    const request = { id, bookingTravelerRequestDto: payload };
+    return (travelerId ? await api.adminTourBookingsUpdateTraveler({ ...request, travelerId }) : await api.adminTourBookingsAddTraveler(request)).data;
+  } catch (error) {
+    throw await normalizeApiError(error);
+  }
+}
 
 export interface TourBookingsListFilters {
   page: number;

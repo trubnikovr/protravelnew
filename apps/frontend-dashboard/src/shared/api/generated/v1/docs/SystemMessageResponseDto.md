@@ -1,15 +1,17 @@
+
 # SystemMessageResponseDto
+
 
 ## Properties
 
-| Name        | Type    |
-| ----------- | ------- |
-| `id`        | string  |
-| `createdAt` | Date    |
-| `updatedAt` | Date    |
-| `text`      | string  |
-| `type`      | string  |
-| `isActive`  | boolean |
+Name | Type
+------------ | -------------
+`id` | string
+`createdAt` | Date
+`updatedAt` | Date
+`text` | string
+`type` | string
+`isActive` | boolean
 
 ## Example
 
@@ -38,3 +40,5 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

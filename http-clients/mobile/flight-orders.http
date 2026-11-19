@@ -3,7 +3,7 @@
 # flights.http and traveler/document ids owned by the same customer.
 
 ### Create an idempotent draft flight order
-POST {{baseUrl}}/flight-orders
+POST {{baseUrl}}/flight-orders/create-flight-order
 Authorization: Bearer {{customerAccessToken}}
 Idempotency-Key: {{$uuid}}
 Content-Type: application/json

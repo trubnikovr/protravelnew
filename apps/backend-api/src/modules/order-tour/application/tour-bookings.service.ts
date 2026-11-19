@@ -14,6 +14,7 @@ import {
   type TourForBookingReaderPort,
 } from './tour-for-booking-reader.port';
 import { TourBookingStatus } from '../domain/tour-booking.types';
+import { MoneyValueObject } from '@shared/domain/value-objects';
 import {
   TRAVELERS_FOR_TOUR_BOOKING_READER,
   type TravelersForTourBookingReaderPort,
@@ -21,6 +22,7 @@ import {
 import {
   TOUR_BOOKINGS_REPOSITORY,
   type AddTourBookingDocumentData,
+  type BookingTravelerData,
   type CreateTourBookingData,
   type TourBookingListFilter,
   type TourBookingsRepository,
@@ -53,7 +55,10 @@ export class TourBookingsService {
     const travelers = data.travelerIds?.length
       ? await this.travelers.get(data.customerId, data.travelerIds)
       : [];
-    const travelersCount = travelers.length || data.travelersCount;
+    if (travelers.length !== (data.travelerIds?.length ?? 0) || travelers.length > data.travelersCount) {
+      throw new BadRequestException({ code: 'TOUR_BOOKING_TRAVELERS_INVALID', message: 'Invalid travelers' });
+    }
+    const travelersCount = data.travelersCount;
     const [customer, tour] = await Promise.all([
       this.customers.get(data.customerId),
       this.tours.get(data.tourId, data.departureDate, travelersCount),
@@ -78,6 +83,22 @@ export class TourBookingsService {
       customerEmail: customer.email,
       tourTitle: tour.title,
     });
+  }
+
+  async quote(
+    tourId: string,
+    departureDate: string | null,
+    travelersCount: number,
+  ): Promise<MoneyValueObject> {
+    const tour = await this.tours.get(tourId, departureDate, travelersCount);
+    if (!tour) {
+      throw new BadRequestException({
+        code: 'TOUR_BOOKING_REFERENCES_INVALID',
+        message: 'Tour or departure is not available',
+      });
+    }
+    const total = BigInt(tour.price.amount) * BigInt(travelersCount);
+    return MoneyValueObject.create(total, tour.price.currency);
   }
 
   async listForCustomer(customerId: string, page: number, limit: number) {
@@ -111,6 +132,13 @@ export class TourBookingsService {
         ? new Date()
         : (booking.paidAt?.toDate() ?? null);
     return (await this.repository.updateStatus(id, status, paidAt))!;
+  }
+
+  async saveTraveler(bookingId: string, travelerId: string | null, data: BookingTravelerData) {
+    const result = await this.repository.saveTraveler(bookingId, travelerId, data);
+    if (result === 'not_found') throw new NotFoundException({ code: 'TOUR_BOOKING_TRAVELER_NOT_FOUND', message: 'Booking or traveler not found' });
+    if (result === 'full') throw new BadRequestException({ code: 'TOUR_BOOKING_TRAVELERS_INVALID', message: 'Booking traveler limit reached' });
+    return this.get(bookingId);
   }
 
   async addDocument(bookingId: string, data: AddTourBookingDocumentData) {

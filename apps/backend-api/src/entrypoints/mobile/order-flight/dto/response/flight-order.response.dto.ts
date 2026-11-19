@@ -13,6 +13,7 @@ export class FlightOrderOfferSnapshotResponseDto {
   itineraries!: unknown[];
   @ApiProperty() totalAmount!: string;
   @ApiProperty({ enum: CurrencyCode }) currency!: CurrencyCode;
+  @ApiProperty({ example: '25 000 руб.' }) formatted!: string;
   @ApiProperty({ format: 'date-time' }) offerExpiresAt!: string;
 }
 export class FlightOrderResponseDto extends EntityResponseDto {

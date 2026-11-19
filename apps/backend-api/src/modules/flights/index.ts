@@ -1,4 +1,5 @@
 export { FlightsModule } from './flights.module';
+export { flightBaggageLabel, flightBaggageSummary, flightHighlightLabel, flightStopsLabel } from './application/services/flight-labels';
 export * from './domain';
 export { SearchFlightsUseCase } from './application/use-cases/search-flights.use-case';
 export { GetFlightOfferUseCase } from './application/use-cases/get-flight-offer.use-case';

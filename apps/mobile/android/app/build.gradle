@@ -79,7 +79,7 @@ android {
 
     namespace "com.protravelnew"
     defaultConfig {
-        applicationId "com.protravelnew"
+        applicationId "com.caravantur"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

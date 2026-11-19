@@ -48,6 +48,7 @@ import { UpdateTourBookingStatusRequestDto } from './dto/request/update-tour-boo
 import { TourBookingDocumentResponseDto } from './dto/response/tour-booking-document.response.dto';
 import { TourBookingResponseDto } from './dto/response/tour-booking.response.dto';
 import { TourBookingApiMapper } from './tour-booking-api.mapper';
+import { BookingTravelerRequestDto } from './dto/request/booking-traveler.request.dto';
 
 const documentFileType =
   /^(application\/(pdf|msword|vnd\.ms-excel|vnd\.openxmlformats-officedocument\.(wordprocessingml\.document|spreadsheetml\.sheet))|image\/(jpeg|png|webp))$/;
@@ -124,6 +125,28 @@ export class AdminTourBookingsController {
     return TourBookingApiMapper.toResponse(
       await this.bookings.changeStatus(id, dto.status),
     );
+  }
+
+  /** @see POST /api/v1/admin/tour-bookings/:id/travelers */
+  @Post(':id/travelers')
+  @RequirePermissions(AdminPermission.ORDERS_WRITE)
+  @ApiOperation({ summary: 'Add traveler details to a booking' })
+  @ApiEnvelope(TourBookingResponseDto, HttpStatus.CREATED)
+  async addTraveler(@Param('id', ParseUUIDPipe) id: string, @Body() dto: BookingTravelerRequestDto): Promise<TourBookingResponseDto> {
+    return TourBookingApiMapper.toResponse(await this.bookings.saveTraveler(id, null, this.travelerData(dto)));
+  }
+
+  /** @see PATCH /api/v1/admin/tour-bookings/:id/travelers/:travelerId */
+  @Patch(':id/travelers/:travelerId')
+  @RequirePermissions(AdminPermission.ORDERS_WRITE)
+  @ApiOperation({ summary: 'Edit traveler details in a booking' })
+  @ApiOkEnvelope(TourBookingResponseDto)
+  async updateTraveler(@Param('id', ParseUUIDPipe) id: string, @Param('travelerId', ParseUUIDPipe) travelerId: string, @Body() dto: BookingTravelerRequestDto): Promise<TourBookingResponseDto> {
+    return TourBookingApiMapper.toResponse(await this.bookings.saveTraveler(id, travelerId, this.travelerData(dto)));
+  }
+
+  private travelerData(dto: BookingTravelerRequestDto) {
+    return { firstName: dto.firstName.trim(), lastName: dto.lastName.trim(), middleName: dto.middleName?.trim() || null, gender: dto.gender, birthDate: dto.birthDate ?? null, citizenshipCountryCode: dto.citizenshipCountryCode ?? null };
   }
 
   /** @see POST /api/v1/admin/tour-bookings/:id/documents */

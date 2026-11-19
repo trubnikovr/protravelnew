@@ -9,6 +9,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -20,7 +21,10 @@ import {
 import {
   ApiEnvelope,
   ApiOkEnvelope,
+  ApiPaginatedEnvelope,
 } from '@core/http/swagger/api-envelope.decorator';
+import { PaginatedResult } from '@core/http/contracts/api-response.contract';
+import { BaseListRequestDto } from '@entrypoints/common/dto/request/base-list.request.dto';
 import { CurrentCustomer } from '@entrypoints/common/decorators/current-customer.decorator';
 import {
   CustomerJwtAuthGuard,
@@ -30,7 +34,9 @@ import {
   BookFlightOrderUseCase,
   CancelFlightOrderUseCase,
   CreateFlightOrderUseCase,
+  type FlightOrder,
   GetFlightOrderUseCase,
+  ListFlightOrdersUseCase,
   RefreshFlightOrderUseCase,
 } from '@modules/order-flight';
 import { CreateFlightOrderRequestDto } from './dto/request/create-flight-order.request.dto';
@@ -48,12 +54,42 @@ export class FlightOrdersController {
     private readonly bookOrder: BookFlightOrderUseCase,
     private readonly refreshOrder: RefreshFlightOrderUseCase,
     private readonly cancelOrder: CancelFlightOrderUseCase,
+    private readonly listOrders: ListFlightOrdersUseCase,
   ) {}
 
-  /** @see POST /api/v1/flight-orders */
-  @Post()
+  /** @see GET /api/v1/flight-orders */
+  @Get()
+  @ApiOperation({ summary: 'List current customer flight orders' })
+  @ApiPaginatedEnvelope(FlightOrderResponseDto)
+  list(
+    @CurrentCustomer() customer: AuthenticatedCustomer,
+    @Query() query: BaseListRequestDto,
+  ): Promise<PaginatedResult<FlightOrderResponseDto>> {
+    return this.listOrders
+      .execute(customer.id, query.page, query.limit)
+      .then((result) => this.toPaginatedResult(result.items, result.total, query));
+  }
+
+  private toPaginatedResult(
+    items: FlightOrder[],
+    total: number,
+    query: BaseListRequestDto,
+  ): PaginatedResult<FlightOrderResponseDto> {
+    return new PaginatedResult(
+      items.map((item) => FlightOrderApiMapper.toResponse(item)),
+      {
+        page: query.page,
+        limit: query.limit,
+        total,
+        totalPages: Math.ceil(total / query.limit),
+      },
+    );
+  }
+
+  /** @see POST /api/v1/flight-orders/create-flight-order */
+  @Post('create-flight-order')
   @ApiHeader({ name: 'Idempotency-Key', required: true })
-  @ApiOperation({ summary: 'Create draft flight order from validated offer' })
+  @ApiOperation({ summary: 'Book a flight and create the flight order' })
   @ApiEnvelope(FlightOrderResponseDto, HttpStatus.CREATED)
   async create(
     @CurrentCustomer() customer: AuthenticatedCustomer,
@@ -61,9 +97,22 @@ export class FlightOrdersController {
     @Body() dto: CreateFlightOrderRequestDto,
   ): Promise<FlightOrderResponseDto> {
     const idempotencyKey = this.validateIdempotencyKey(key);
-    const input = { customerId: customer.id, idempotencyKey, ...dto };
+    const input = { customerId: customer.id, idempotencyKey, offerId: dto.offerId, travelers: dto.travelers };
     const order = await this.createOrder.execute(input);
     return FlightOrderApiMapper.toResponse(order);
+  }
+
+  /** @see POST /api/v1/flight-orders */
+  @Post()
+  @ApiHeader({ name: 'Idempotency-Key', required: true })
+  @ApiOperation({ summary: 'Book a flight and create the flight order (legacy route)', deprecated: true })
+  @ApiEnvelope(FlightOrderResponseDto, HttpStatus.CREATED)
+  createLegacy(
+    @CurrentCustomer() customer: AuthenticatedCustomer,
+    @Headers('idempotency-key') key: string | undefined,
+    @Body() dto: CreateFlightOrderRequestDto,
+  ): Promise<FlightOrderResponseDto> {
+    return this.create(customer, key, dto);
   }
 
   /** @see GET /api/v1/flight-orders/:id */

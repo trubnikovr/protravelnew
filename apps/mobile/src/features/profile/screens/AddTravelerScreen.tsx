@@ -1,3 +1,4 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronDown } from 'lucide-react-native';
@@ -30,6 +31,7 @@ import type {
 import { AppTextField, PrimaryButton, ScreenHeader } from '../../../shared/ui';
 import { theme, typography } from '../../../shared/theme/theme';
 import { useCreateCustomerTraveler } from '../model/useCustomerTravelers';
+import travelerMock from '../data/traveler.mock.json';
 
 type Navigation =
   | NativeStackNavigationProp<ProfileStackParamList, 'AddTraveler'>
@@ -55,16 +57,18 @@ export function AddTravelerScreen() {
   const [isCustomer, setIsCustomer] = useState(
     route.params?.isCustomerDefault ?? false,
   );
-  const [form, setForm] = useState({
-    lastName: '',
-    firstName: '',
-    middleName: '',
-    birthDate: '',
-    citizenshipCountryCode: 'UZ',
-    phone: '',
-    email: '',
-  });
-  const [error, setError] = useState(false);
+  const [form, setForm] = useState(() =>
+    __DEV__ ? { ...travelerMock } : {
+      lastName: '',
+      firstName: '',
+      middleName: '',
+      birthDate: '',
+      citizenshipCountryCode: 'UZ',
+      phone: '',
+      email: '',
+    },
+  );
+  const [error, setError] = useState<string | null>(null);
   const [countryMenuOpen, setCountryMenuOpen] = useState(false);
   const [countrySearch, setCountrySearch] = useState('');
   const countries = useQuery({ queryKey: ['reference', 'countries'], queryFn: listCountries });
@@ -77,7 +81,7 @@ export function AddTravelerScreen() {
   };
 
   const save = async () => {
-    setError(false);
+    setError(null);
     try {
       await createTraveler.mutateAsync({
         relationship: isCustomer ? 'self' : 'other',
@@ -94,8 +98,8 @@ export function AddTravelerScreen() {
         email: form.email.trim() || null,
       });
       navigation.goBack();
-    } catch {
-      setError(true);
+    } catch (caughtError) {
+      setError(getApiErrorMessage(caughtError, t('profile.travelerSaveError')));
     }
   };
 
@@ -140,19 +144,16 @@ export function AddTravelerScreen() {
             <AppTextField
               label={t('common.lastName')}
               onChangeText={value => update('lastName', value)}
-              placeholder={t('common.lastName')}
               value={form.lastName}
             />
             <AppTextField
               label={t('common.firstName')}
               onChangeText={value => update('firstName', value)}
-              placeholder={t('common.firstName')}
               value={form.firstName}
             />
             <AppTextField
               label={t('common.middleName')}
               onChangeText={value => update('middleName', value)}
-              placeholder={t('common.middleName')}
               value={form.middleName}
             />
             <AppTextField
@@ -186,7 +187,6 @@ export function AddTravelerScreen() {
               keyboardType="phone-pad"
               label={t('common.phone')}
               onChangeText={value => update('phone', value)}
-              placeholder={t('common.phone')}
               value={form.phone}
             />
             <AppTextField
@@ -194,7 +194,6 @@ export function AddTravelerScreen() {
               keyboardType="email-address"
               label={t('common.email')}
               onChangeText={value => update('email', value)}
-              placeholder={t('common.email')}
               value={form.email}
             />
             <Pressable
@@ -214,7 +213,7 @@ export function AddTravelerScreen() {
             </Pressable>
           </View>
           {error ? (
-            <Text style={styles.error}>{t('profile.travelerSaveError')}</Text>
+            <Text style={styles.error}>{error}</Text>
           ) : null}
           <PrimaryButton
             disabled={!form.firstName.trim() || !form.lastName.trim()}

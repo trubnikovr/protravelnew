@@ -39,6 +39,7 @@ export class FlightOfferResponseDto extends EntityResponseDto {
   itineraries!: FlightItineraryResponseDto[];
   @ApiProperty({ example: '2500000' }) totalAmount!: string;
   @ApiProperty({ enum: CurrencyCode }) currency!: CurrencyCode;
+  @ApiProperty({ example: '25 000 руб.' }) formatted!: string;
   @ApiProperty() electronicTicket!: boolean;
   @ApiProperty() requiresLatinNames!: boolean;
   @ApiProperty({ format: 'date-time' }) expiresAt!: string;

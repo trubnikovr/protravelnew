@@ -29,6 +29,12 @@ Operational mobile banners use the shared OpenAPI contract:
 `GET /api/v1/system-messages` returns active `info`/`error` records, while the
 admin API owns creation and activation. Mobile never hardcodes outage text.
 
+Flight search uses `POST /api/v1/flights/search`; flight booking and order
+creation use `POST /api/v1/flight-orders/create-flight-order`. The previous v1
+paths remain available for existing clients.
+Booking uses the authenticated customer's profile for phone and email; mobile
+can update a missing email through the profile API before submitting the order.
+
 Destination-aware travel facts use the same content boundary. Admin CRUD lives
 under `/api/v1/admin/travel-facts`; mobile independently requests a bounded set
 of published facts from `/api/v1/travel-facts` and rotates them locally while
@@ -52,9 +58,13 @@ the mobile detail screen. Dashboard publishing uses the shared admin v1
 contract under `/api/v1/admin/news`.
 
 Authenticated tour checkout uses `/api/v1/me/tour-bookings`. Mobile supplies
-the tour, departure and customer-owned traveler IDs; backend resolves the JWT
+the tour, departure, traveler count and optionally customer-owned traveler IDs; backend resolves the JWT
 customer, revalidates availability and price, and stores immutable contact and
-traveler snapshots before returning the `pending` booking.
+traveler snapshots before returning the `pending` booking. Managers can later
+add or edit booking-specific traveler details without changing customer profiles.
+Tour contracts expose optional minimum and maximum travelers per booking. The
+backend enforces them for quotes and booking creation; null means no additional
+bound. Departure seat availability is a separate constraint.
 
 Hosted payments use the shared v1 `/api/v1/me/payments` contract. A payment
 points to either a tour booking or flight order, while an integration bridge

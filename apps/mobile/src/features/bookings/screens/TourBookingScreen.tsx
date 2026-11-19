@@ -1,6 +1,8 @@
+import { getApiErrorMessage } from '../../../shared/api/api-errors';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -21,7 +23,10 @@ import {
   type CustomerTraveler,
 } from '../../profile';
 import { useAuthSession } from '../../auth';
-import { useCreateCustomerTourBooking } from '../model/useTourBookings';
+import {
+  useCreateCustomerTourBooking,
+  useTourBookingPriceQuote,
+} from '../model/useTourBookings';
 
 type Props = NativeStackScreenProps<ToursStackParamList, 'TourBooking'>;
 
@@ -32,24 +37,35 @@ export function TourBookingScreen({ navigation, route }: Props) {
   const travelers = useCustomerTravelers();
   const profile = useCustomerProfile();
   const createBooking = useCreateCustomerTourBooking();
-  const initializedTravelers = useRef(false);
+  const initializedCount = useRef(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTravelerIds, setSelectedTravelerIds] = useState<string[]>([]);
+  const [travelersCount, setTravelersCount] = useState(1);
+  const countValid = (!tour.data?.minTravelers || travelersCount >= tour.data.minTravelers) &&
+    (!tour.data?.maxTravelers || travelersCount <= tour.data.maxTravelers);
+  const quoteEnabled = Boolean(tour.data) && countValid &&
+    (!tour.data?.departures.length || selectedDate !== null);
+  const priceQuote = useTourBookingPriceQuote(
+    route.params.tourId,
+    selectedDate,
+    travelersCount,
+    quoteEnabled,
+  );
   const [notes, setNotes] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
 
   useEffect(() => {
-    if (initializedTravelers.current || !travelers.data) return;
-    const owner = travelers.data.find(item => item.relationship === 'self');
-    if (owner) setSelectedTravelerIds([owner.id]);
-    initializedTravelers.current = true;
-  }, [travelers.data]);
+    if (initializedCount.current || !tour.data) return;
+    setTravelersCount(tour.data.minTravelers ?? 1);
+    initializedCount.current = true;
+  }, [tour.data]);
 
   if (tour.isPending || travelers.isPending || profile.isPending) {
     return <BookingState loading onBack={navigation.goBack} />;
   }
   if (tour.isError || !tour.data || travelers.isError || profile.isError) {
-    return <BookingState onBack={navigation.goBack} />;
+    return <BookingState error={tour.error ?? travelers.error ?? profile.error} onBack={navigation.goBack} />;
   }
 
   if (createBooking.data) {
@@ -70,23 +86,33 @@ export function TourBookingScreen({ navigation, route }: Props) {
   const unitPrice = selectedDeparture?.price ?? data.price;
   const canSubmit =
     termsAccepted &&
-    selectedTravelerIds.length > 0 &&
+    countValid &&
+    Boolean(priceQuote.data) &&
+    !priceQuote.isFetching &&
+    !priceQuote.isError &&
     (!requiresDate || selectedDate !== null);
 
   const toggleTraveler = (travelerId: string) => {
     setSelectedTravelerIds(current =>
       current.includes(travelerId)
         ? current.filter(id => id !== travelerId)
+        : current.length >= travelersCount
+        ? current
         : [...current, travelerId],
     );
   };
 
   const submit = async () => {
-    if (!canSubmit) return;
+    setShowValidation(true);
+    if (!canSubmit) {
+      if (priceQuote.isError && quoteEnabled) await priceQuote.refetch();
+      return;
+    }
     try {
       await createBooking.mutateAsync({
         tourId: data.id,
         travelerIds: selectedTravelerIds,
+        travelersCount,
         departureDate: selectedDate,
         notes: notes.trim() || null,
       });
@@ -94,6 +120,7 @@ export function TourBookingScreen({ navigation, route }: Props) {
       // The mutation state renders a localized recoverable error.
     }
   };
+
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
@@ -104,9 +131,64 @@ export function TourBookingScreen({ navigation, route }: Props) {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.summaryCard}>
-          <Text style={styles.tourTitle}>{data.content.title}</Text>
-          <Text style={styles.muted}>{data.price?.formatted ?? ''}</Text>
+          <View style={styles.reviewTour}>
+            {data.coverImage?.url ? <Image source={{ uri: data.coverImage.url }} style={styles.tourImage} /> : null}
+            <View style={styles.reviewTourText}>
+              <Text style={styles.tourTitle}>{data.content.title}</Text>
+              <Text style={styles.muted}>{data.destinations.map(item => [item.countryName, item.cityName].filter(Boolean).join(', ')).join(' · ')}</Text>
+            </View>
+          </View>
+          <View style={styles.divider} />
+          <Text style={styles.reviewPrice}>{priceQuote.data?.formatted ?? data.price?.formatted ?? ''}</Text>
         </View>
+
+        <Section title={t('tourBooking.travelers')}>
+          <Text style={styles.muted}>{t('tourBooking.optionalTravelerDetails')}</Text>
+          <View style={styles.countRow}>
+            <Text style={styles.optionTitle}>{t('tourBooking.people')}</Text>
+            <View style={styles.countControls}>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('tourBooking.decreaseCount')} disabled={travelersCount <= (data.minTravelers ?? 1)} onPress={() => {
+                const next = travelersCount - 1;
+                setTravelersCount(next);
+                setSelectedTravelerIds(current => current.slice(0, next));
+              }} style={styles.countButton}><Text style={styles.countText}>−</Text></Pressable>
+              <Text style={styles.optionTitle}>{travelersCount}</Text>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('tourBooking.increaseCount')} disabled={travelersCount >= (data.maxTravelers ?? 100)} onPress={() => setTravelersCount(value => value + 1)} style={styles.countButton}><Text style={styles.countText}>+</Text></Pressable>
+            </View>
+          </View>
+          {data.minTravelers != null && <Text style={styles.muted}>{t('tourBooking.minTravelers', { count: data.minTravelers })}</Text>}
+          {data.maxTravelers != null && <Text style={styles.muted}>{t('tourBooking.maxTravelers', { count: data.maxTravelers })}</Text>}
+          {selectedTravelerIds.length >= travelersCount && (
+            <Text style={styles.muted}>{t('tourBooking.maximumSelected')}</Text>
+          )}
+          {travelers.data.length ? (
+            travelers.data.map(traveler => (
+              <TravelerOption
+                key={traveler.id}
+                disabled={!selectedTravelerIds.includes(traveler.id) && selectedTravelerIds.length >= travelersCount}
+                onPress={() => toggleTraveler(traveler.id)}
+                selected={selectedTravelerIds.includes(traveler.id)}
+                traveler={traveler}
+              />
+            ))
+          ) : (
+            <Text style={styles.emptyText}>{t('tourBooking.noTravelers')}</Text>
+          )}
+          <Pressable
+            onPress={() =>
+              navigation.navigate('AddBookingTraveler', {
+                isCustomerDefault: travelers.data.length === 0,
+              })
+            }
+            style={styles.addTraveler}
+          >
+            <Plus color={theme.colors.primary} size={19} />
+            <Text style={styles.addTravelerText}>
+              {t('tourBooking.addTraveler')}
+            </Text>
+          </Pressable>
+        </Section>
+
 
         {requiresDate ? (
           <Section title={t('tourBooking.chooseDate')}>
@@ -149,33 +231,6 @@ export function TourBookingScreen({ navigation, route }: Props) {
           </Section>
         ) : null}
 
-        <Section title={t('tourBooking.travelers')}>
-          {travelers.data.length ? (
-            travelers.data.map(traveler => (
-              <TravelerOption
-                key={traveler.id}
-                onPress={() => toggleTraveler(traveler.id)}
-                selected={selectedTravelerIds.includes(traveler.id)}
-                traveler={traveler}
-              />
-            ))
-          ) : (
-            <Text style={styles.emptyText}>{t('tourBooking.noTravelers')}</Text>
-          )}
-          <Pressable
-            onPress={() =>
-              navigation.navigate('AddBookingTraveler', {
-                isCustomerDefault: travelers.data.length === 0,
-              })
-            }
-            style={styles.addTraveler}
-          >
-            <Plus color={theme.colors.primary} size={19} />
-            <Text style={styles.addTravelerText}>
-              {t('tourBooking.addTraveler')}
-            </Text>
-          </Pressable>
-        </Section>
 
         <Section title={t('tourBooking.contacts')}>
           <InfoRow
@@ -201,7 +256,7 @@ export function TourBookingScreen({ navigation, route }: Props) {
         <View style={styles.totalCard}>
           <InfoRow
             label={t('tourBooking.people')}
-            value={String(selectedTravelerIds.length)}
+            value={String(travelersCount)}
           />
           <InfoRow
             label={t('tourBooking.pricePerPerson')}
@@ -210,17 +265,14 @@ export function TourBookingScreen({ navigation, route }: Props) {
           <View style={styles.divider} />
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>{t('tourBooking.total')}</Text>
-            <Text style={styles.totalValue}>
-              {formatTotal(
-                unitPrice.amount,
-                unitPrice.currency,
-                selectedTravelerIds.length,
-              )}
-            </Text>
+            <Text style={styles.totalValue}>{priceQuote.data?.formatted ?? ''}</Text>
           </View>
         </View>
         {createBooking.isError ? (
-          <Text style={styles.error}>{t('tourBooking.createError')}</Text>
+          <Text style={styles.error}>{getApiErrorMessage(createBooking.error, t('tourBooking.createError'))}</Text>
+        ) : null}
+        {priceQuote.isError ? (
+          <Text style={styles.error}>{getApiErrorMessage(priceQuote.error, t('tourBooking.createError'))}{'\n'}{t('tourBooking.retryQuote')}</Text>
         ) : null}
         <Pressable
           accessibilityRole="checkbox"
@@ -237,8 +289,18 @@ export function TourBookingScreen({ navigation, route }: Props) {
           </View>
           <Text style={styles.terms}>{t('tourBooking.terms')}</Text>
         </Pressable>
+        {showValidation && !canSubmit && !priceQuote.isError ? (
+          <Text style={styles.submitHint}>
+            {!countValid
+              ? t('tourBooking.countInvalid')
+              : requiresDate && !selectedDate
+              ? t('tourBooking.selectDateHint')
+              : !termsAccepted
+              ? t('tourBooking.acceptTermsHint')
+              : t('tourBooking.calculatingPrice')}
+          </Text>
+        ) : null}
         <PrimaryButton
-          disabled={!canSubmit}
           loading={createBooking.isPending}
           onPress={submit}
           title={t('tourBooking.confirm')}
@@ -251,16 +313,21 @@ export function TourBookingScreen({ navigation, route }: Props) {
 function TravelerOption({
   traveler,
   selected,
+  disabled,
   onPress,
 }: {
   traveler: CustomerTraveler;
   selected: boolean;
+  disabled: boolean;
   onPress: () => void;
 }) {
   return (
     <Pressable
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: selected, disabled }}
+      disabled={disabled}
       onPress={onPress}
-      style={[styles.option, selected && styles.optionSelected]}
+      style={[styles.option, selected && styles.optionSelected, disabled && styles.optionDisabled]}
     >
       <View style={styles.travelerIdentity}>
         <View style={styles.avatar}>
@@ -306,9 +373,11 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 }
 
 function BookingState({
+  error,
   loading,
   onBack,
 }: {
+  error?: unknown;
   loading?: boolean;
   onBack: () => void;
 }) {
@@ -319,7 +388,7 @@ function BookingState({
       {loading ? (
         <ActivityIndicator color={theme.colors.primary} style={styles.state} />
       ) : (
-        <Text style={styles.state}>{t('tourBooking.loadError')}</Text>
+        <Text style={styles.state}>{getApiErrorMessage(error, t('tourBooking.loadError'))}</Text>
       )}
     </SafeAreaView>
   );
@@ -360,20 +429,21 @@ function formatDate(value: Date): string {
   return value.toLocaleDateString('ru-RU');
 }
 
-function formatTotal(amount: string, currency: string, count: number): string {
-  const total = BigInt(amount) * BigInt(count);
-  return `${total.toLocaleString('ru-RU')} ${currency}`;
-}
-
 const styles = StyleSheet.create({
+  reviewTour: { flexDirection: 'row', gap: theme.spacing.xs },
+  tourImage: { width: 61, height: 61, borderRadius: theme.radii.md },
+  reviewTourText: { flex: 1, gap: theme.spacing.xs },
+  reviewPrice: { ...typography.titleSmall },
   safeArea: { backgroundColor: theme.colors.background, flex: 1 },
   content: {
     padding: theme.sizes.contentPadding,
     paddingBottom: theme.spacing.xxxl,
   },
   summaryCard: {
-    backgroundColor: theme.colors.primarySoft,
+    ...theme.shadows.card,
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.radii.md,
+    gap: theme.spacing.md,
     marginBottom: theme.spacing.md,
     padding: theme.spacing.md,
   },
@@ -401,6 +471,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primarySoft,
     borderColor: theme.colors.primary,
   },
+  optionDisabled: { opacity: 0.5 },
+  countRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  countControls: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md },
+  countButton: { padding: theme.spacing.sm },
+  countText: { ...typography.title, color: theme.colors.primary },
   optionTitle: { ...typography.bodySemibold },
   travelerIdentity: { alignItems: 'center', flexDirection: 'row', flex: 1 },
   avatar: {
@@ -453,6 +528,12 @@ const styles = StyleSheet.create({
   error: {
     ...typography.bodySmall,
     color: theme.colors.danger,
+    marginBottom: theme.spacing.sm,
+    textAlign: 'center',
+  },
+  submitHint: {
+    ...typography.bodySmall,
+    color: theme.colors.textSecondary,
     marginBottom: theme.spacing.sm,
     textAlign: 'center',
   },

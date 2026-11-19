@@ -8,6 +8,7 @@ import { HttpModule } from './http/http.module';
 import { ObservabilityModule } from './observability/observability.module';
 import { DomainEventsModule } from './events/domain-events.module';
 import { TimeModule } from './time/time.module';
+import { CacheModule } from './cache/cache.module';
 
 const CORE_MODULES = [
   AppConfigModule,
@@ -19,6 +20,7 @@ const CORE_MODULES = [
   ObservabilityModule,
   DomainEventsModule,
   TimeModule,
+  CacheModule,
 ];
 
 @Global()

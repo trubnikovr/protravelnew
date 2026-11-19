@@ -16,12 +16,20 @@ switching to Profile.
 Checkout loads the current tour again. The customer:
 
 - selects a published departure when departures exist;
-- selects one or more saved travelers;
+- chooses a traveler count and optionally selects saved travelers;
 - can open `AddBookingTraveler` and return to the unchanged checkout;
-- reviews profile phone/email, per-person price and calculated total;
+- reviews profile phone/email, per-person price and the backend-quoted total;
 - may add notes and submits a `pending` booking request.
 
-The backend revalidates publication, departure, seats and price at submission.
+The checkout starts with the tour summary, a traveler counter and a selectable
+list of saved travelers, followed by an action to add a traveler. Details may
+be supplied to the manager later. Adding a traveler returns
+to the checkout without discarding its current selections.
+
+The price quote is refreshed when the departure or traveler count changes. The
+backend revalidates publication, departure, seats and price at submission.
+The submit action explains missing selections or consent; if the quote fails,
+another press retries it. A successful retry still requires a separate submit.
 It stores immutable traveler name, gender, birth-date and citizenship
 snapshots, so profile edits do not rewrite an existing booking.
 
@@ -56,3 +64,6 @@ event-updated `paid` status is displayed.
 ## UI
 
 Shared: `ScreenHeader`, `AppTextField`, `PrimaryButton`.
+
+API failures use the shared [error-message catalog](../api-errors.md) in the
+existing error UI, preserving backend machine codes for specific guidance.
